@@ -13,6 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'v1'],function (){
+    Route::get('ping',function (){
+        return response()->json('pong');
+    });
+    Route::group(['namespace' => 'Api\V1\Auth'],function (){
+        Route::post('login',['as'=>'v1.login','uses'=>'AuthController@login']);
+        Route::post('register',['as'=>'v1.register','uses'=>'AuthController@register']);
+    });
+
+    Route::group(['namespace' => 'Api\V1\Auth','middleware' => 'jwt-auth'],function (){
+        Route::post('refresh-token', ['as' => 'v1.refresh', 'uses' => 'AuthController@refreshToken']);
+    });
+
+
 });
