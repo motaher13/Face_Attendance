@@ -11,5 +11,8 @@ npm-debug.log
 yarn-error.log
 .env
 
-yarn.lock
 public/mix-manifest.json
+
+#Minfied File
+public/js/app.js
+public/css/app.css
