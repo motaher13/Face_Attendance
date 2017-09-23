@@ -74,11 +74,11 @@
         {!! Form::submit('Login', ['class' => 'btn green uppercase']) !!}
         {{--<a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>--}}
     </div>
-    {{--<div class="create-account">
+    <div class="create-account">
         <p>
             <a href="{!! route('web.register') !!}" id="register-btn" class="uppercase">Create an account</a>
         </p>
-    </div>--}}
+    </div>
 {!! Form::close() !!}
 <!-- END LOGIN FORM -->
 </div>

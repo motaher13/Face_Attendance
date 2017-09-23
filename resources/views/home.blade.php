@@ -33,7 +33,14 @@
 <div class="container-fluid" id="main_body">
     <div class="row" id="body_content">
         <p>Home Page</p>
-        <a href="{!! route('web.login') !!}">Login</a>
+        <div>
+            <a href="{!! route('web.login') !!}">Login</a>
+
+        </div>
+        <div>
+
+            <a href="{!! route('web.register') !!}">Register</a>
+        </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>

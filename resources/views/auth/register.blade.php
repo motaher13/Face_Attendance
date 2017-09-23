@@ -11,7 +11,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Login</title>
+    <title>Register</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta content="" name="description"/>
@@ -52,8 +52,8 @@
 <div id="particle"></div>
 <!-- BEGIN LOGO -->
 <div class="logo overlay">
-    <a href="index.html">
-        <img src="../assets/pages/img/logo-big.png" alt=""/> </a>
+    {{--<a href="index.html">
+        <img src="../assets/pages/img/logo-big.png" alt=""/> </a>--}}
 </div>
 <!-- END LOGO -->
 <!-- BEGIN LOGIN -->

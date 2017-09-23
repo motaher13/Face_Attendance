@@ -22,7 +22,6 @@ Route::group(['namespace' => 'Auth','middleware' => ['guest']],function (){
 Route::group(['middleware' => ['auth']],function (){
     Route::get('logout',['as' => 'logout','uses' => 'Auth\AuthController@logout']);
     Route::get('dashboard',['as'=>'dashboard.main','uses'=>'Dashboard\MainDashboardController@dashboard']);
-    Route::resource('users','User\UserController');
     Route::get('password-reset',['as' => 'password.reset','uses' => 'Auth\AuthController@reset']);
     Route::post('password-reset',['as' => 'password.doReset','uses' => 'Auth\AuthController@doReset']);
 });
