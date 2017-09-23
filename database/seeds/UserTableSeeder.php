@@ -14,13 +14,13 @@ class UserTableSeeder extends Seeder
     {
         User::create([
            'name' => 'admin',
-            'email' => 'admin@test.com',
+            'email' => 'admin@infancyit.com',
             'password' => bcrypt('a')
         ]);
 
         User::create([
             'name' => 'user',
-            'email' => 'user@test.com',
+            'email' => 'user@infancyit.com',
             'password' => bcrypt('a')
         ]);
     }
