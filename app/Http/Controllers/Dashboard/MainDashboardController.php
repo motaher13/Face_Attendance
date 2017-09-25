@@ -11,7 +11,7 @@ class MainDashboardController extends Controller
 {
     public function home()
     {
-        return view('home');
+        return view('front.home');
         //return redirect()->route('dashboard.main');
     }
 
