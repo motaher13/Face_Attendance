@@ -10,6 +10,12 @@ namespace App\Repositories;
 
 
 use App\User;
+use App\UserInfo;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\BaseSettings\Settings;
+
+
 
 class UserRepository extends Repository
 {
@@ -33,5 +39,33 @@ class UserRepository extends Repository
     public function filterData(array $filter, $query)
     {
         // TODO: Implement filterData() method.
+    }
+
+    public function updateUserInfo(array $data)
+    {
+        $user=Auth::user();
+        $userInfo=UserInfo::where('user_id',$user->id)->first();
+        if (is_null($userInfo)) {
+            $userInfo=new UserInfo;
+            $userInfo->user_id=$user->id;
+        }
+        $user->email=$data['email'];
+        $user->name=$data['name'];
+        $user->save();
+        $userInfo->name=$user->name;
+        $userInfo->phone=$data['phone'];
+        $userInfo->occupation=$data['occupation'];
+        $userInfo->about=$data['about'];
+        $userInfo->save();
+        return $user;
+    }
+
+    public function updateProfileName($fileName)
+    {
+        $user=Auth::user();
+        $user->userInfo->photo = Settings::$upload_path . $fileName;
+        $user->userInfo->save();
+        return $user;
+         
     }
 }

@@ -1,4 +1,4 @@
-<!-- BEGIN HEADER -->
+BEGIN HEADER -->
 <div class="page-header navbar navbar-fixed-top">
     <!-- BEGIN HEADER INNER -->
     <div class="page-header-inner ">
@@ -57,11 +57,15 @@
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">
-
                         <li>
+                            <a href="{!! route('profile') !!}">
+                                <i class="icon-user"></i>My Profile </a>
+                        </li>
+
+                        <!-- <li>
                             <a href="{!! route('password.reset') !!}">
                                 <i class="icon-key"></i> Password Reset </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </li>
                 <!-- BEGIN QUICK SIDEBAR TOGGLER -->
@@ -78,4 +82,4 @@
     </div>
     <!-- END HEADER INNER -->
 </div>
-<!-- END HEADER -->
+<!-- END HEADER

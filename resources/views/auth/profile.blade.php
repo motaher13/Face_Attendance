@@ -84,13 +84,13 @@
                                     <span class="caption-subject font-blue-madison bold uppercase">Profile Account</span>
                                 </div>
                                 <ul class="nav nav-tabs">
-                                    <li>
+                                    <li class="active">
                                         <a href="{!! route('profile') !!}">Personal Info</a>
                                     </li>
                                     <li>
                                         <a href="{!! route('profile.pic.change') !!}">Change Avatar</a>
                                     </li>
-                                    <li class="active">
+                                    <li>
                                         <a href="{!! route('password.reset') !!}">Change Password</a>
                                     </li>
                                     
@@ -100,35 +100,49 @@
                                 <div class="tab-content">
                                     <!-- PERSONAL INFO TAB -->
                                     <div class="tab-pane active">
-                                        <form action="{!! route('password.doReset') !!}" method="POST" class="horizontal-form" role="form">
-                                            {!! csrf_field() !!}
-                                            <div class="form-body">
-                                                <div class="row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="password" class="control-label">Password</label>
-                                                        <input type="password" name="password"
-                                                               class="form-control form-control-solid placeholder-no-fix"
-                                                               placeholder="Password" autocomplete="off" required/>
-                                                    </div>
-                                                </div>
+                                        <form action="{!! route('profile.update') !!}" method="POST" class="horizontal-form" role="form">
+                                        {!! csrf_field() !!}
 
-                                                <div class="row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="password_confirmation" class="control-label">Re-type Your
-                                                            Password</label>
-                                                        <input type="password" name="password_confirmation"
-                                                               class="form-control form-control-solid placeholder-no-fix"
-                                                               placeholder="Re-type Your Password" autocomplete="off" required/>
-                                                    </div>
-                                                </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Name</label>
+                                                <input type="text" value="{{$user->name}}" name="name" class="form-control" /> </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input type="email" value="{{$user->email}}" name="email" class="form-control" /> </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Mobile Number</label>
+                                                @if(isset($user->userInfo->phone))
+                                                    <input type="text" value="{{$user->userInfo->phone}}" name="phone" placeholder="+1 646 580 DEMO (6284)" class="form-control" />
+                                                @else
+                                                    <input type="text" placeholder="+1 646 580 DEMO (6284)" name="phone" class="form-control" />
+                                                @endif
                                             </div>
-                                        <div class="form-body">
-                                            <input type="submit" name="submit" class="btn btn-primary control-label" value="Submit"/>
-                                        </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label">Occupation</label>
+                                                @if(isset($user->userInfo->occupation))
+                                                    <input type="text" value="{{$user->userInfo->occupation}}" placeholder="Web Developer" name="occupation" class="form-control" /> 
+
+                                                @else
+                                                    <input type="text" placeholder="Web Developer" name="occupation"  class="form-control" /> 
+                                                @endif
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label">About</label>
+                                                @if(isset($user->userInfo->about))
+                                                    <textarea class="form-control" rows="3" name="about" placeholder="We are KeenThemes!!!">{{$user->userInfo->about}}</textarea>
+                                                @else
+                                                    <textarea class="form-control" rows="3" name="about" placeholder="We are KeenThemes!!!"></textarea>
+                                                @endif
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <input type="submit" name="submit" class="btn btn-primary control-label" value="Save Changes"/>
+                                            </div>
                                         </form>
                                     </div>
                                     <!-- END PERSONAL INFO TAB -->
-                                    
                                     
                                 </div>
                             </div>

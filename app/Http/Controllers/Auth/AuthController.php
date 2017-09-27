@@ -72,8 +72,9 @@ class AuthController extends Controller
 
     public function reset()
     {
-        return view('auth.password-reset');
+        return view('auth.password-reset')->with('user',Auth::user());
     }
+    
 
     public function doReset(Request $request)
     {
@@ -83,8 +84,10 @@ class AuthController extends Controller
         $this->validate($request,$rules);
         $user = $this->webAuthService->resetPassword($request);
         if($user){
-            return redirect()->route('dashboard.main')->with('success','Password Updated Successfully');
+            return redirect()->back()->with('success','Password Updated Successfully');
         }
-        return redirect()->route('dashboard.main')->with('error','Something went wrong. Try again.');
+        return redirect()->back()->with('error','Something went wrong. Try again.');
     }
+
+    
 }

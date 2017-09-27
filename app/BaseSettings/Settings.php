@@ -11,6 +11,7 @@ class Settings
 
     public static $admin_role = 'admin';
     public static $client_role = 'user';
+    public static $upload_path = 'uploads/';
 
 
 
