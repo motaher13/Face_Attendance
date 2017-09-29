@@ -43,6 +43,6 @@ mix.styles([
     'public/assets/pages/css/profile.min.css',
     'public/assets/layouts/layout/css/layout.min.css',
     'public/assets/layouts/layout/css/themes/darkblue.min.css',
-    'public/assets/layouts/layout/css/custom.min.css',
+    'public/assets/layouts/layout/css/custom.min.css'
 ], 'public/css/app.css')
     .copy('public/assets/global/plugins/font-awesome/fonts', 'public/fonts');

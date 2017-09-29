@@ -2220,7 +2220,11 @@ fill-range@^2.1.0:
     repeat-element "^1.1.2"
     repeat-string "^1.5.2"
 
+<<<<<<< HEAD
+finalhandler@~1.0.4:
+=======
 finalhandler@~1.0.6:
+>>>>>>> release/style-fix
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/finalhandler/-/finalhandler-1.0.6.tgz#007aea33d1a4d3e42017f624848ad58d212f814f"
   dependencies:
