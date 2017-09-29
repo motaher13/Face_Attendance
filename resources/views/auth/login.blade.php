@@ -81,6 +81,10 @@
 <div class="copyright"> {!! date('Y') !!} © {!! \App\BaseSettings\Settings::$company_name !!} </div>
 
 <script src="{!! asset('assets/global/plugins/jquery.min.js') !!}" type="text/javascript"></script>
+<<<<<<< HEAD
+=======
+<script src="{!! asset('assets/global/plugins/toastr/toastr.min.js') !!}" type="text/javascript"></script>
+>>>>>>> release/style-fix
 <script src="{!! asset('assets/particles/particles.min.js') !!}"></script>
 <script>
     particlesJS.load('particle', '../assets/particles.json', function() {

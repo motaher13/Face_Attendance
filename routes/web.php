@@ -24,4 +24,10 @@ Route::group(['middleware' => ['auth']],function (){
     Route::get('dashboard',['as'=>'dashboard.main','uses'=>'Dashboard\MainDashboardController@dashboard']);
     Route::get('password-reset',['as' => 'password.reset','uses' => 'Auth\AuthController@reset']);
     Route::post('password-reset',['as' => 'password.doReset','uses' => 'Auth\AuthController@doReset']);
+    Route::get('profile',['as' => 'profile','uses' => 'UserController@profile']);
+    Route::post('profile',['as' => 'profile.update','uses' => 'UserController@profileUpdate']);
+    Route::get('profile-pic-change',['as' => 'profile.pic.change','uses' => 'UserController@profilePicChange']);
+    Route::post('profile-pic-change',['as' => 'profile.pic.update','uses' => 'UserController@doProfilePicChange']);
+
+
 });
