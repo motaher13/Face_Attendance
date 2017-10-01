@@ -13,6 +13,9 @@ yarn-error.log
 
 public/mix-manifest.json
 
+composer.lock
+yarn.lock
+
 #Minfied File
 public/js/app.js
 public/css/app.css

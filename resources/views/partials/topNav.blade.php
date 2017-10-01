@@ -1,4 +1,4 @@
-BEGIN HEADER -->
+<!-- BEGIN HEADER -->
 <div class="page-header navbar navbar-fixed-top">
     <!-- BEGIN HEADER INNER -->
     <div class="page-header-inner ">
@@ -82,4 +82,4 @@ BEGIN HEADER -->
     </div>
     <!-- END HEADER INNER -->
 </div>
-<!-- END HEADER
+<!-- END HEADER -->
