@@ -20,7 +20,11 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{!! route('web.login') !!}">Sign In</a></li>
+                @if(\Illuminate\Support\Facades\Auth::check())
+                    <li><a href="{!! route('logout') !!}">Sign Out</a></li>
+                @else
+                    <li><a href="{!! route('web.login') !!}">Sign In</a></li>
+                @endif
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
