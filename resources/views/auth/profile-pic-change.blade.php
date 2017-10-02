@@ -115,10 +115,10 @@
                                                         <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput"> Remove </a>
                                                     </div>
                                                 </div>
-                                                <div class="clearfix margin-top-10">
+                                                <!-- <div class="clearfix margin-top-10">
                                                     <span class="label label-danger">NOTE! </span>
                                                     <span> Attached image thumbnail is supported in Latest Firefox, Chrome, Opera, Safari and Internet Explorer 10 only </span>
-                                                </div>
+                                                </div> -->
                                             </div>
                                             <div class="margin-top-10">
                                                 <input type="submit" name="submit" class="btn btn-primary control-label" value="Submit"/>
