@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\User;
-use App\UserInfo;
+
 use Illuminate\Support\Facades\Auth;
 use App\Services\UserService;
 
@@ -14,19 +14,26 @@ class UserController extends Controller
     private $userService;
 
     /**
-     * AuthController constructor.
-     * @param WebAuthService $webAuthService
+     * UserController constructor.
+     * @param UserService $userService
      */
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
     }
 
+    /**
+     * @return $this
+     */
     public function profile()
     {
         return view('auth.profile')->with('user',Auth::user());
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function profileUpdate(Request $request)
     {
     	
