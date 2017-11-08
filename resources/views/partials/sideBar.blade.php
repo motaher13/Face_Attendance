@@ -21,7 +21,7 @@
             </li>
             <!-- END SIDEBAR TOGGLER BUTTON -->
 
-            <li class="nav-item @if (Route::is('dashboard.main'))start active open @endif">
+            <li class="nav-item {!! Menu::isActiveRoute('dashboard.main') !!}">
                 <a href="{!! route('dashboard.main') !!}" class="nav-link ">
                     <i class="icon-home"></i>
                     <span class="title">Dashboard</span>
