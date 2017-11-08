@@ -13,7 +13,7 @@
 
 Route::get('/',['as'=>'home','uses'=>'Dashboard\MainDashboardController@home']);
 Route::group(['namespace' => 'Auth','middleware' => ['guest']],function (){
-    Route::get('login',['as'=>'web.login','uses'=>'AuthController@login']);
+    Route::get('login',['as'=>'login','uses'=>'AuthController@login']);
     Route::post('login',['as'=>'web.do.login','uses'=>'AuthController@doLogin']);
     Route::get('register',['as'=>'web.register','uses'=>'AuthController@register']);
     Route::post('register',['as'=>'web.do.register','uses'=>'AuthController@doRegister']);
@@ -28,6 +28,9 @@ Route::group(['middleware' => ['auth']],function (){
     Route::post('profile',['as' => 'profile.update','uses' => 'UserController@profileUpdate']);
     Route::get('profile-pic-change',['as' => 'profile.pic.change','uses' => 'UserController@profilePicChange']);
     Route::post('profile-pic-change',['as' => 'profile.pic.update','uses' => 'UserController@doProfilePicChange']);
+
+    // laravel logs viewer
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 
 });
