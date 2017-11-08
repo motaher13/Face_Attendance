@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -50,6 +50,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function userInfo(){
-        return $this->hasOne('App\UserInfo');
+        return $this->hasOne('App\Models\UserInfo');
     }
 }

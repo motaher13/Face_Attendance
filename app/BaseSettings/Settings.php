@@ -2,8 +2,8 @@
 namespace App\BaseSettings;
 class Settings
 {
-    public static $company_name = 'Infancy';
-    public static $footer_text = 'Infancy';
+    public static $company_name = 'InfancyIT';
+    public static $footer_text = 'InfancyIT';
     public static $roles = [
         'admin' => 'admin',
         'user' => 'user'

@@ -9,8 +9,9 @@
 namespace App\Repositories;
 
 
-use App\User;
-use App\UserInfo;
+
+use App\Models\User;
+use App\Models\UserInfo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\BaseSettings\Settings;
