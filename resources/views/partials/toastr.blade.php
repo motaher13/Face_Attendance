@@ -74,6 +74,24 @@
     </script>
 @endif
 
+@if($status = Session::get('status'))
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: false,
+                    positionClass: "toast-bottom-right",
+                    showMethod: 'slideDown',
+                    timeOut: 3000
+                };
+                toastr.info('', "<?php echo $status ?>");
+
+            }, 100);
+
+        });
+    </script>
+@endif
 
 @if (!$errors->isEmpty())
     @foreach($errors->all() as $error)

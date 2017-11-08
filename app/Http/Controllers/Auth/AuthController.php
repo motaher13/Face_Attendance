@@ -47,9 +47,9 @@ class AuthController extends Controller
     {
         if(Auth::check()){
             Auth::logout();
-            return redirect()->route('web.login')->with('success','You have now been signed out.');
+            return redirect()->route('login')->with('success','You have now been signed out.');
         }
-        return redirect()->route('web.login')->with('error','You need to login first.');
+        return redirect()->route('login')->with('error','You need to login first.');
     }
 
     public function register()

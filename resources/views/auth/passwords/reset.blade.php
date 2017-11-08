@@ -56,7 +56,7 @@
 
     <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
         {{ csrf_field() }}
-
+        <h3 class="form-title font-green">Password Reset || {!! \App\BaseSettings\Settings::$company_name !!}</h3>
         <input type="hidden" name="token" value="{{ $token }}">
 
         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">

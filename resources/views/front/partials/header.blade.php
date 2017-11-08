@@ -17,13 +17,16 @@
                 <li class="active"><a href="{!! route('home') !!}">Home <span class="sr-only"></span></a></li>
                 <li class=""><a href="#">Contact Us <span class="sr-only"></span></a></li>
                 <li class=""><a href="#">About <span class="sr-only"></span></a></li>
+                @role('admin')
+                <li class=""><a href="{{ route('dashboard.main') }}">Dashboard <span class="sr-only"></span></a></li>
+                @endrole
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 @if(\Illuminate\Support\Facades\Auth::check())
                     <li><a href="{!! route('logout') !!}">Sign Out</a></li>
                 @else
-                    <li><a href="{!! route('web.login') !!}">Sign In</a></li>
+                    <li><a href="{!! route('login') !!}">Sign In</a></li>
                 @endif
             </ul>
         </div><!-- /.navbar-collapse -->

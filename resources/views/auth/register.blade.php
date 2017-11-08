@@ -66,13 +66,13 @@
 
         <div class="form-group">
             <label for="name" class="control-label visible-ie8 visible-ie9">Name</label>
-            <input type="text" name="name" class="form-control form-control-solid placeholder-no-fix" value="{!! old('name') !!}" placeholder="Username" autocomplete="off"  required/>
+            <input type="text" name="name" class="form-control form-control-solid placeholder-no-fix" value="{!! old('name') !!}" placeholder="Username"  required/>
         </div>
 
 
         <div class="form-group">
             <label for="email" class="control-label visible-ie8 visible-ie9">E-Mail</label>
-            <input type="text" name="email" class="form-control form-control-solid placeholder-no-fix" value="{!! old('email') !!}" placeholder="Email-Address" autocomplete="off"  required/>
+            <input type="text" name="email" class="form-control form-control-solid placeholder-no-fix" value="{!! old('email') !!}" placeholder="Email-Address"   required/>
         </div>
 
 
@@ -97,7 +97,7 @@
             <div id="register_tnc_error"></div>
         </div>--}}
         <div class="form-actions">
-            <a href="{!! route('web.login') !!}" class="btn green btn-outline">Back</a>
+            <a href="{!! route('login') !!}" class="btn green btn-outline">Back</a>
             {{--<button type="button" id="register-back-btn" class="btn green btn-outline">Back</button>--}}
             <input type="submit" name="submit" class="btn btn-success uppercase pull-right" value="Register"/>
             {{--<button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">Submit</button>--}}
