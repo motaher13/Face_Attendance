@@ -6,11 +6,17 @@ use App\Http\Requests\Auth\UserLogin;
 use App\Http\Requests\Auth\UserRegistration;
 use App\Services\Auth\WebAuthService;
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    public $maxAttempts = 5; // number of attempts
+    public $decayMinutes = 1; // total lock time in minute
+    public $redirectTo = '/'; // redirect path
+    use AuthenticatesUsers;
+
     /**
      * @var WebAuthService
      */
@@ -33,11 +39,31 @@ class AuthController extends Controller
 
     public function doLogin(UserLogin $request)
     {
-        $isSignedIn = $this->webAuthService->signIn($request);
-        if($isSignedIn){
+        $this->validateLogin($request);
+
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        if ($this->webAuthService->signIn($request)) {
+            $request->session()->regenerate();
+            $this->clearLoginAttempts($request);
+
             return redirect()->route('dashboard.main')->with('success','Welcome back!');
         }
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        $this->incrementLoginAttempts($request);
+
         return redirect()->back()->withInput($request->all())->with('error','Invalid Email/Password.');
+
     }
 
     /**
