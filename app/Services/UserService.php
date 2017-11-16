@@ -37,8 +37,8 @@ class UserService extends BaseService
     {
         DB::beginTransaction();
         try{
-            DB::table('model_has_roles')->where('model_id',$id)->delete();
-            DB::table('model_has_permissions')->where('model_id',$id)->delete();
+            //DB::table('model_has_roles')->where('model_id',$id)->delete();
+            //DB::table('model_has_permissions')->where('model_id',$id)->delete();
             $status =  $this->userRepository->delete($id);
             DB::commit();
             return $status;
@@ -69,6 +69,49 @@ class UserService extends BaseService
     {
         $fileName=$this->fileUploadService->saveFile($request->file('photo'),Settings::$upload_path);
         $user =  $this->userRepository->updateProfileName($fileName);
+        return $user;
+    }
+
+    public function storeUserWithRole ( $request )
+    {
+        $password=bcrypt($request->get('password'));
+        $request->merge(['password'=>$password]);
+        $userData=$request->only(['name', 'email', 'password']);
+        $user=$this->userRepository->create($userData);
+        //$user->assignRole($request->role);
+//        $userInfoData = [
+//            'user_id' => $user->id,
+//            'name' => $request->name,
+//            'phone' => $request->phone,
+//            'occupation' => $request->occupation,
+//            'about' => $request->about,
+//        ];
+//        $userInfo=$this->userInfoRepository->create($userInfoData);
+        return $user;
+//            [
+//            'user'=> ,
+//            //'userInfo'=> $userInfo
+//        ];
+    }
+
+    /**
+     * @param $request
+     * @param $id
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    public function updateUser ( $request, $id )
+    {
+        if ($request->has('password')) {
+            $password=bcrypt($request->get('password'));
+            $request->merge(['password'=>$password]);
+            $userData = $request->only( 'name', 'email', 'password' );
+        }else
+            $userData = $request->only( 'name', 'email' );
+
+        $user = $this->userRepository->update( $userData, $id );
+        // $userInfoData = $request->only( 'name', 'phone', 'occupation', 'about' );
+        //$userInfoData = $request->only( 'name', 'about' );
+        //$userInfo = $this->userInfoRepository->updateUserInfoByUserId( $userInfoData, $id );
         return $user;
     }
 }

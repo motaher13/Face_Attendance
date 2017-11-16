@@ -26,6 +26,14 @@ Route::group(['namespace' => 'Auth','middleware' => ['guest']],function (){
 });
 // Auth Routes
 Route::group(['middleware' => ['auth']],function (){
+    Route::get('user/{id}/edit',['as' => 'user.edit', 'uses' => 'User\UserController@edit']);
+    Route::put('user/{id}',['as' => 'user.update', 'uses' => 'User\UserController@update']);
+    Route::get('user/{id}/show',['as'=>'user.show','uses'=>'User\UserController@show']);
+    Route::post('user/store',['as'=>'user.store','uses'=>'User\UserController@store']);
+    Route::get('user/{id}/edit',['as'=>'user.edit','uses'=>'User\UserController@edit']);
+    Route::delete('user/{id}',['as'=>'user.delete','uses'=>'User\UserController@delete']);
+    Route::get('user/create',['as'=>'user.create','uses'=>'User\UserController@create']);
+    Route::get('users',['as'=>'user.index','uses'=>'User\UserController@index']);
     Route::get('logout',['as' => 'logout','uses' => 'Auth\AuthController@logout']);
     Route::get('dashboard',['as'=>'dashboard.main','uses'=>'Dashboard\MainDashboardController@dashboard']);
     Route::get('password-reset',['as' => 'profile.password.reset','uses' => 'Auth\AuthController@reset']);

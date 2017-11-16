@@ -31,6 +31,34 @@
                 </a>
             </li>
 
+            <!-- User Management start-->
+
+            {{--{!! Menu::areActiveRoutes(['role.index', 'role.create', 'user.index', 'user.create', 'user.show', 'user.edit', 'role.edit']) !!}--}}
+            {{--{!! Menu::isActiveRoute('role.index') !!}--}}
+            {{--{!! Menu::isActiveRoute('user.index') !!}--}}
+
+            <li class="nav-item {!! Menu::areActiveRoutes(['user.index']) !!}">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="icon-shield"></i>
+                    {{--<span class="title">{!! $permissions['user_management']!!}</span>--}}
+                    <span class="title">User Management</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    {{--<li class="nav-item ">--}}
+                        {{--<a href="{!! route('role.index') !!}" class="nav-link ">--}}
+                            {{--<span class="title">Roles</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                    <li class="nav-item {!! Menu::isActiveRoute('user.index') !!}">
+                        <a href="{!! route('user.index') !!}" class="nav-link ">
+                            <span class="title">Users</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- User Management end-->
+
         </ul>
         <!-- END SIDEBAR MENU -->
         <!-- END SIDEBAR MENU -->
