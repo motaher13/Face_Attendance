@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
-    {{--{{ Breadcrumbs::render(Route::currentRouteName()) }}--}}
-    <!-- END PAGE HEADER-->
+    {{ Breadcrumbs::render(Route::currentRouteName()) }}
+    <!-- END PAGE HEADER -->
     <div class="row">
         <div class="col-md-12 ">
             <!-- BEGIN SAMPLE FORM PORTLET-->

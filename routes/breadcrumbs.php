@@ -25,3 +25,23 @@ Breadcrumbs::register('profile.password.reset', function ($breadcrumbs) {
     $breadcrumbs->parent('profile');
     $breadcrumbs->push('Change Password', route('profile.password.reset'));
 });
+
+Breadcrumbs::register('user', function ($breadcrumbs) {
+    $breadcrumbs->parent('dashboard.main');
+    $breadcrumbs->push('User', route('user.index'));
+});
+
+Breadcrumbs::register('user.create', function ($breadcrumbs) {
+    $breadcrumbs->parent('user');
+    $breadcrumbs->push('Create', route('user.create'));
+});
+
+Breadcrumbs::register('user.edit', function ($breadcrumbs) {
+    $breadcrumbs->parent('user');
+    $breadcrumbs->push('Edit', route('user.create',1));
+});
+
+Breadcrumbs::register('user.show', function ($breadcrumbs) {
+    $breadcrumbs->parent('user');
+    $breadcrumbs->push('Show', route('user.show',1));
+});

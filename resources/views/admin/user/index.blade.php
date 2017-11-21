@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
-    {{--{{ Breadcrumbs::render(Route::currentRouteName()) }}--}}
+    {{ Breadcrumbs::render('user') }}
+    {{--Route::currentRouteName()--}}
     <div class="row">
         <div class="col-md-12">
             <div class="portlet light bordered">
