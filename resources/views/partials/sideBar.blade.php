@@ -59,6 +59,15 @@
             </li>
             <!-- User Management end-->
 
+            {{--file manager start--}}
+            <li class="nav-item {!! Menu::isActiveRoute('filemanager') !!}">
+                <a href="{!! route('filemanager') !!}" class="nav-link ">
+                    <i class="icon-folder"></i>
+                    <span class="title">File Manager</span>
+
+                </a>
+            </li>
+
         </ul>
         <!-- END SIDEBAR MENU -->
         <!-- END SIDEBAR MENU -->

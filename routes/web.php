@@ -44,5 +44,6 @@ Route::group(['middleware' => ['auth']],function (){
     Route::post('profile-pic-change',['as' => 'profile.pic.update','uses' => 'User\UserController@doProfilePicChange']);
     // laravel logs viewer
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+    Route::get('filemanager',['as'=>'filemanager','uses'=>'FileController@index']);
 
 });
