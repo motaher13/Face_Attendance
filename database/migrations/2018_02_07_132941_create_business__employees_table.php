@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserInfosTable extends Migration
+class CreateBusinessEmployeesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateUserInfosTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_infos', function (Blueprint $table) {
+        Schema::create('business__employees', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('business_id')->unsigned()->nullable();
+            $table->foreign('business_id')->references('id')->on('businesses')
+                ->onUpdate('cascade')->onDelete('cascade');
+
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
-
-            $table->string('name')->nullable();
-            $table->text('address')->nullable();
-            $table->string('phone')->nullable();
 
             $table->timestamps();
         });
@@ -34,6 +34,6 @@ class CreateUserInfosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_infos');
+        Schema::dropIfExists('business__employees');
     }
 }

@@ -50,6 +50,26 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function userInfo(){
-        return $this->hasOne('App\Models\UserInfo');
+        return $this->hasOne('App\Models\UserInfo', 'user_id', 'id');
+    }
+
+    public function business(){
+        return $this->hasMany(Business::class,'owner_id','id');
+    }
+
+    public function business_employee(){
+        return $this->hasOne(Business_Employee::class,'user_id','id');
+    }
+
+    public function education(){
+        return $this->hasMany(Education::class,'user_id','id');
+    }
+
+    public function enrolled_student(){
+        return $this->hasOne(Enrolled_Student::class,'student_id','id');
+    }
+
+    public function course(){
+        return $this->hasMany(Course::class,'tutor_id','id');
     }
 }
