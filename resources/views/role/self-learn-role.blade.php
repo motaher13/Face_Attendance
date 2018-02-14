@@ -60,7 +60,7 @@
 <!-- BEGIN LOGIN -->
 <div class="content overlay">
     <!-- END LOGIN FORM -->
-    <form action="{!! route('web.do.register') !!}" method="POST">
+    <form action="{!! route('selfteach.role') !!}" method="POST">
         {!! csrf_field() !!}
         <h3 class="font-green">Sign Up</h3>
         <p class="hint"> Enter your account details below: </p>
@@ -91,16 +91,6 @@
             <input type="text" name="phone" class="form-control form-control-solid placeholder-no-fix" value="{!! old('phone') !!}" placeholder="Phone"  required/>
         </div>
 
-        <div class="form-group">
-            <label for="role" class="control-label visible-ie8 visible-ie9">Choose Account Type</label>
-            <select name="role" id="role">
-                <option value="1" selected>Business</option>
-                <option value="2">Employee</option>
-                <option value="3">Self-Training</option>
-                <option value="4">Tutor</option>
-            </select>
-        </div>
-
 
         <div class="form-group">
             <label for="password" class="control-label visible-ie8 visible-ie9">Password</label>
@@ -127,7 +117,6 @@
             {{--<button type="button" id="register-back-btn" class="btn green btn-outline">Back</button>--}}
             <input type="submit" name="submit" class="btn btn-success uppercase pull-right" value="Register"/>
             {{--<button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">Submit</button>--}}
-            <p style="margin-bottom: 0px;">Already have an account? <a href="{{route('login')}}">Login</a></p>
 
         </div>
     </form>

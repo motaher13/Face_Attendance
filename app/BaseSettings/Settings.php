@@ -6,11 +6,15 @@ class Settings
     public static $footer_text = 'InfancyIT';
     public static $roles = [
         'admin' => 'admin',
-        'user' => 'user'
+        'business' => 'business',
+        'employee' => 'employee',
+        'selfteach' =>'selfteach',
+        'tutor' => 'tutor',
+
+
     ];
 
     public static $admin_role = 'admin';
-    public static $client_role = 'user';
     public static $upload_path = 'uploads/';
 
 

@@ -19,10 +19,13 @@ Route::post('password/reset', ['as' => '', 'uses' => 'Auth\ResetPasswordControll
 Route::get('password/reset/{token}', ['as' => 'password.reset', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
 // Guest Routes
 Route::group(['namespace' => 'Auth','middleware' => ['guest']],function (){
+    //login
     Route::get('login',['as'=>'login','uses'=>'AuthController@login']);
     Route::post('login',['as'=>'web.do.login','uses'=>'AuthController@doLogin']);
     Route::get('register',['as'=>'web.register','uses'=>'AuthController@register']);
     Route::post('register',['as'=>'web.do.register','uses'=>'AuthController@doRegister']);
+
+
 });
 // Auth Routes
 Route::group(['middleware' => ['auth']],function (){
@@ -46,4 +49,18 @@ Route::group(['middleware' => ['auth']],function (){
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     Route::get('filemanager',['as'=>'filemanager','uses'=>'FileController@index']);
 
+    //Role
+    Route::get('chooseRole',['as'=>'chooseRole','uses'=>'RoleController@chooseRole']);
+    Route::get('{category}/set',['as'=>'set.role','uses'=>'RoleController@setRole']);
+
+    Route::post('business/set',['as'=>'business.role','uses'=>'RoleController@businessRole']);
+    Route::post('employee/set',['as'=>'employee.role','uses'=>'RoleController@employeeRole']);
+
+
+
 });
+
+Route::group(['middleware' => ['role:tutor']],function (){
+    Route::get('course/create',['as'=>'course.create','uses'=>'CourseController@create']);
+});
+

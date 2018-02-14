@@ -14,15 +14,17 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         User::create([
-           'name' => 'admin',
+           'username' => 'admin',
             'email' => 'admin@infancyit.com',
-            'password' => bcrypt('a')
+            'password' => bcrypt('a'),
+            'flag' => 0
         ]);
 
         User::create([
-            'name' => 'user',
+            'username' => 'user',
             'email' => 'user@infancyit.com',
-            'password' => bcrypt('a')
+            'password' => bcrypt('a'),
+            'flag' => 0
         ]);
     }
 }

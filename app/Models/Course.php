@@ -24,4 +24,8 @@ class Course extends Model
         return $this->hasMany(Running_Course::class,'course_id','id');
     }
 
+    public function course_material(){
+        return $this->hasMany(Course_Material::class,'course_id','id');
+    }
+
 }

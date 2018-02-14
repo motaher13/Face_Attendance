@@ -60,26 +60,15 @@
 <!-- BEGIN LOGIN -->
 <div class="content overlay">
     <!-- END LOGIN FORM -->
-    <form action="{!! route('web.do.register') !!}" method="POST">
+    <form action="{!! route('business.role') !!}" method="POST">
         {!! csrf_field() !!}
-        <h3 class="font-green">Sign Up</h3>
-        <p class="hint"> Enter your account details below: </p>
+        <p class="hint"> Enter Business Details below: </p>
 
         <div class="form-group">
-            <label for="username" class="control-label visible-ie8 visible-ie9">UserName</label>
-            <input type="text" name="username" class="form-control form-control-solid placeholder-no-fix" value="{!! old('username') !!}" placeholder="Username"  required/>
+            <label for="title" class="control-label visible-ie8 visible-ie9">Title</label>
+            <input type="text" name="title" class="form-control form-control-solid placeholder-no-fix" value="{!! old('title') !!}" placeholder="Title"  required/>
         </div>
 
-        <div class="form-group">
-            <label for="name" class="control-label visible-ie8 visible-ie9">Name</label>
-            <input type="text" name="name" class="form-control form-control-solid placeholder-no-fix" value="{!! old('name') !!}" placeholder="Name"  required/>
-        </div>
-
-
-        <div class="form-group">
-            <label for="email" class="control-label visible-ie8 visible-ie9">E-Mail</label>
-            <input type="text" name="email" class="form-control form-control-solid placeholder-no-fix" value="{!! old('email') !!}" placeholder="Email-Address"   required/>
-        </div>
 
         <div class="form-group">
             <label for="address" class="control-label visible-ie8 visible-ie9">Address</label>
@@ -91,43 +80,12 @@
             <input type="text" name="phone" class="form-control form-control-solid placeholder-no-fix" value="{!! old('phone') !!}" placeholder="Phone"  required/>
         </div>
 
-        <div class="form-group">
-            <label for="role" class="control-label visible-ie8 visible-ie9">Choose Account Type</label>
-            <select name="role" id="role">
-                <option value="1" selected>Business</option>
-                <option value="2">Employee</option>
-                <option value="3">Self-Training</option>
-                <option value="4">Tutor</option>
-            </select>
-        </div>
 
-
-        <div class="form-group">
-            <label for="password" class="control-label visible-ie8 visible-ie9">Password</label>
-            <input type="password" name="password" class="form-control form-control-solid placeholder-no-fix" placeholder="Password" autocomplete="off"  required/>
-        </div>
-
-
-        <div class="form-group">
-            <label for="password_confirmation" class="control-label visible-ie8 visible-ie9">Re-type Your Password</label>
-            <input type="password" name="password_confirmation" class="form-control form-control-solid placeholder-no-fix" placeholder="Re-type Your Password" autocomplete="off"  required/>
-        </div>
-
-        {{--<div class="form-group margin-top-20 margin-bottom-20">
-            <label class="mt-checkbox mt-checkbox-outline">
-                <input type="checkbox" name="tnc"/> I agree to the
-                <a href="javascript:;">Terms of Service </a> &
-                <a href="javascript:;">Privacy Policy </a>
-                <span></span>
-            </label>
-            <div id="register_tnc_error"></div>
-        </div>--}}
         <div class="form-actions">
             <a href="{!! route('login') !!}" class="btn green btn-outline">Back</a>
             {{--<button type="button" id="register-back-btn" class="btn green btn-outline">Back</button>--}}
             <input type="submit" name="submit" class="btn btn-success uppercase pull-right" value="Register"/>
             {{--<button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">Submit</button>--}}
-            <p style="margin-bottom: 0px;">Already have an account? <a href="{{route('login')}}">Login</a></p>
 
         </div>
     </form>

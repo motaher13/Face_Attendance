@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\Auth\UserLogin;
 use App\Http\Requests\Auth\UserRegistration;
+use App\Models\User;
 use App\Services\Auth\WebAuthService;
+use App\Services\userInfoService;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class AuthController extends Controller
 {
@@ -21,25 +24,30 @@ class AuthController extends Controller
      * @var WebAuthService
      */
     private $webAuthService;
+    private $userInfoService;
 
     /**
      * AuthController constructor.
      * @param WebAuthService $webAuthService
      */
-    public function __construct(WebAuthService $webAuthService)
+    public function __construct(WebAuthService $webAuthService,userInfoService $userInfoService)
     {
         $this->webAuthService = $webAuthService;
+        $this->userInfoService=$userInfoService;
     }
 
 
     public function login()
     {
+
         return view('auth.login');
     }
 
     public function doLogin(UserLogin $request)
     {
         $this->validateLogin($request);
+
+
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
@@ -53,6 +61,12 @@ class AuthController extends Controller
         if ($this->webAuthService->signIn($request)) {
             $request->session()->regenerate();
             $this->clearLoginAttempts($request);
+
+            //return redirect()->route('chooseRole');
+            $user=\auth()->user();
+            if($user->flag!=0){
+                return redirect()->route('set.role',$user->flag);
+            }
 
             return redirect()->route('dashboard.main')->with('success','Welcome back!');
         }
@@ -88,13 +102,19 @@ class AuthController extends Controller
         try{
             $user = $this->webAuthService->register($request);
             if($user){
-                Auth::login($user);
-                return redirect()->route('dashboard.main')->with('success','Welcome, Your account created successfully.');
+                $userInfo=$this->userInfoService->storeInfo($user->id,$request);
+
+                if ($userInfo){
+                    Auth::login($user);
+                    return redirect()->route('set.role',(int)$request->role);
+                }
             }
         }catch (\Exception $exception){
+            //return $exception;
             return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
         }
     }
+
 
     public function reset()
     {
