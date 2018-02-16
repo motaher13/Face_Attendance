@@ -62,5 +62,18 @@ Route::group(['middleware' => ['auth']],function (){
 
 Route::group(['middleware' => ['role:tutor']],function (){
     Route::get('course/create',['as'=>'course.create','uses'=>'CourseController@create']);
+    Route::post('course/create',['as'=>'course.create','uses'=>'CourseController@store']);
+
+
+    Route::get('course/{id}/material_add',['as'=>'material.add','uses'=>'CourseController@addMaterial']);
+    Route::post('course/{id}/material_add',['as'=>'material.add','uses'=>'CourseController@doAddMaterial']);
+
+    Route::get('course/category_create',['as'=>'course.category_create','uses'=>'CourseController@categoryCreate']);
+    Route::post('course/category_create',['as'=>'course.category_create','uses'=>'CourseController@doCategoryCreate']);
+
+
+
+
+
 });
 
