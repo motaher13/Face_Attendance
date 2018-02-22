@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('content')
     {{ Breadcrumbs::render(Route::currentRouteName()) }}
     <div class="row">
@@ -12,16 +13,12 @@
                     </div>
                     <div class="actions">
                         <div class="btn-group">
-                            <a class="btn btn-sm green" href="{{ route('user.index') }}"> All Users
-
-                            </a>
-
+                            <a class="btn btn-sm green" href="{{ route('user.index') }}"> All Users</a>
                         </div>
                     </div>
                 </div>
+
                 <div class="portlet-body">
-
-
                     <div class="row">
                         <div class="col-md-4" >
                             {{--$user->userInfo ? asset($user->userInfo->photo) :--}}
@@ -40,6 +37,12 @@
                                 <tr>
                                     <td> Email </td>
                                     <td>{{ $user->email }} </td>
+                                </tr>
+                                <tr class="odd gradeX">
+                                    <td> Name </td>
+                                    <td>
+                                        {{ $user->name }}
+                                    </td>
                                 </tr>
 
 

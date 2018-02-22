@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 
 
+use App\Models\Education;
 use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Support\Facades\Auth;
@@ -51,13 +52,22 @@ class UserRepository extends Repository
             $userInfo->user_id=$user->id;
         }
         $user->email=$data['email'];
-        $user->name=$data['name'];
         $user->save();
-        $userInfo->name=$user->name;
+        $userInfo->name=$data['name'];
         $userInfo->phone=$data['phone'];
-        $userInfo->occupation=$data['occupation'];
-        $userInfo->about=$data['about'];
         $userInfo->save();
+
+        $education=Education::where('user_id',$user->id)->first();
+        if (is_null($education)) {
+            $education=new Education;
+            $education->user_id=$user->id;
+        }
+
+        $education->degree_name=$data['degree_name'];
+        $education->institution=$data['institution'];
+        $education->session=$data['session'];
+        $education->save();
+
         return $user;
     }
 

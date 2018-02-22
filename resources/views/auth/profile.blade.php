@@ -76,6 +76,16 @@
                                     <li class="active">
                                         <a href="{!! route('profile') !!}">Personal Info</a>
                                     </li>
+                                    @if($user->hasRole('selfteach') || $user->hasRole('employee'))
+                                        <li >
+                                            <a href="{!! route('course.enrolled') !!}">Enrolled Courses</a>
+                                        </li>
+                                    @endif
+                                    @if($user->hasRole('tutor'))
+                                        <li >
+                                            <a href="{!! route('course.made') !!}">Courses</a>
+                                        </li>
+                                    @endif
                                     <li>
                                         <a href="{!! route('profile.pic.change') !!}">Change Avatar</a>
                                     </li>
@@ -94,37 +104,72 @@
 
                                             <div class="form-group">
                                                 <label class="control-label">Name</label>
-                                                <input type="text" value="{{$user->name}}" name="name" class="form-control" /> </div>
+                                                <input type="text" value="{{$user->userInfo->name}}" name="name" class="form-control" />
+                                            </div>
+
                                             <div class="form-group">
                                                 <label class="control-label">Email</label>
-                                                <input type="email" value="{{$user->email}}" name="email" class="form-control" /> </div>
+                                                <input type="email" value="{{$user->email}}" name="email" class="form-control" />
+                                            </div>
+
                                             <div class="form-group">
                                                 <label class="control-label">Mobile Number</label>
                                                 @if(isset($user->userInfo->phone))
                                                     <input type="text" value="{{$user->userInfo->phone}}" name="phone" placeholder="+1 646 580 DEMO (6284)" class="form-control" />
                                                 @else
-                                                    <input type="text" placeholder="+1 646 580 DEMO (6284)" name="phone" class="form-control" />
+                                                    <input type="text" placeholder="" name="phone" class="form-control" />
+                                                @endif
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label class="control-label">degree</label>
+                                                @if(isset($user->education->degree_name))
+                                                    <input type="text" value="{{$user->education->degree_name}}" name="degree_name" placeholder="+1 646 580 DEMO (6284)" class="form-control" />
+                                                @else
+                                                    <input type="text" placeholder="" name="degree_name" class="form-control" />
                                                 @endif
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label">Occupation</label>
-                                                @if(isset($user->userInfo->occupation))
-                                                    <input type="text" value="{{$user->userInfo->occupation}}" placeholder="Web Developer" name="occupation" class="form-control" /> 
-
+                                                <label class="control-label">Institution</label>
+                                                @if(isset($user->education->institution))
+                                                    <input type="text" value="{{$user->education->institution}}" name="institution" placeholder="+1 646 580 DEMO (6284)" class="form-control" />
                                                 @else
-                                                    <input type="text" placeholder="Web Developer" name="occupation"  class="form-control" /> 
+                                                    <input type="text" placeholder="" name="institution" class="form-control" />
                                                 @endif
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label">About</label>
-                                                @if(isset($user->userInfo->about))
-                                                    <textarea class="form-control" rows="3" name="about" placeholder="We are KeenThemes!!!">{{$user->userInfo->about}}</textarea>
+                                                <label class="control-label">Session</label>
+                                                @if(isset($user->education->session))
+                                                    <input type="text" value="{{$user->education->session}}" name="session" placeholder="+1 646 580 DEMO (6284)" class="form-control" />
                                                 @else
-                                                    <textarea class="form-control" rows="3" name="about" placeholder="We are KeenThemes!!!"></textarea>
+                                                    <input type="text" placeholder="" name="session" class="form-control" />
                                                 @endif
                                             </div>
+
+
+
+
+                                            {{--<div class="form-group">--}}
+                                                {{--<label class="control-label">Occupation</label>--}}
+                                                {{--@if(isset($user->userInfo->occupation))--}}
+                                                    {{--<input type="text" value="{{$user->userInfo->occupation}}" placeholder="Web Developer" name="occupation" class="form-control" /> --}}
+
+                                                {{--@else--}}
+                                                    {{--<input type="text" placeholder="Web Developer" name="occupation"  class="form-control" /> --}}
+                                                {{--@endif--}}
+                                            {{--</div>--}}
+
+                                            {{--<div class="form-group">--}}
+                                                {{--<label class="control-label">About</label>--}}
+                                                {{--@if(isset($user->userInfo->about))--}}
+                                                    {{--<textarea class="form-control" rows="3" name="about" placeholder="We are KeenThemes!!!">{{$user->userInfo->about}}</textarea>--}}
+                                                {{--@else--}}
+                                                    {{--<textarea class="form-control" rows="3" name="about" placeholder="We are KeenThemes!!!"></textarea>--}}
+                                                {{--@endif--}}
+                                            {{--</div>--}}
                                             
                                             <div class="form-group">
                                                 <input type="submit" name="submit" class="btn btn-primary control-label" value="Save Changes"/>

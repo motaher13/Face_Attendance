@@ -13,10 +13,10 @@
                 <div class="form-group">
                     <label for="type" class="control-label col-sm-2">type</label>
                     <div class="col-sm-8">
-                        <select name="type" id="type">
+                        <select name="type" id="type" class="form-control">
+                            <option selected disabled hidden>Choose here</option>
                             <option value="1" >Url</option>
-                            <option value="2">Video/Audio</option>
-                            <option value="3" selected></option>
+                            <option value="2">Video</option>
                         </select>
                     </div>
                 </div>
@@ -33,14 +33,14 @@
                 <div class="form-group hidden" id="url">
                     <label for="title" class="control-label col-sm-2 " >URL</label>
                     <div class="col-sm-8">
-                        <input class="form-control" placeholder="Enter title" name="url" type="text"  id="link">
+                        <input class="form-control" placeholder="Enter title" name="url" type="date"  id="link">
                     </div>
                 </div>
 
                 <div class="form-group hidden" id="file">
                     <label for="title" class="control-label col-sm-2 " >File</label>
                     <div class="col-sm-8">
-                        <input class="form-control" placeholder="Enter title" name="file" type="file"  id="file">
+                        <input class="form-control" placeholder="Enter title" name="file" type="date"  id="file">
                     </div>
                 </div>
 

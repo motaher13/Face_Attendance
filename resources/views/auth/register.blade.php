@@ -93,7 +93,8 @@
 
         <div class="form-group">
             <label for="role" class="control-label visible-ie8 visible-ie9">Choose Account Type</label>
-            <select name="role" id="role">
+            <select name="role" id="role" class="form-control ">
+                <option selected disabled hidden>Choose here</option>
                 <option value="1" selected>Business</option>
                 <option value="2">Employee</option>
                 <option value="3">Self-Training</option>

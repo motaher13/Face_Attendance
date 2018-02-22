@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth']],function (){
     Route::post('profile',['as' => 'profile.update','uses' => 'User\UserController@profileUpdate']);
     Route::get('profile-pic-change',['as' => 'profile.pic.change','uses' => 'User\UserController@profilePicChange']);
     Route::post('profile-pic-change',['as' => 'profile.pic.update','uses' => 'User\UserController@doProfilePicChange']);
+
     // laravel logs viewer
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     Route::get('filemanager',['as'=>'filemanager','uses'=>'FileController@index']);
@@ -55,6 +56,17 @@ Route::group(['middleware' => ['auth']],function (){
 
     Route::post('business/set',['as'=>'business.role','uses'=>'RoleController@businessRole']);
     Route::post('employee/set',['as'=>'employee.role','uses'=>'RoleController@employeeRole']);
+
+    //courses
+    Route::get('course/index',['as'=>'course.index','uses'=>'CourseController@index']);
+    Route::get('course/details/{id}',['as'=>'course.details','uses'=>'CourseController@details']);
+
+    //Route::get('{id}/courseEnrol',['as'=>'course.enrol','uses'=>'CourseController@enrol']);
+    //Route::get('{courseEnrolled',['as'=>'course.enrolled','uses'=>'CourseController@enrol']);
+
+    //profile
+   // Route::get('profile',['as'=>'profile.show','uses'=>'ProfileController@index']);
+
 
 
 
@@ -71,9 +83,27 @@ Route::group(['middleware' => ['role:tutor']],function (){
     Route::get('course/category_create',['as'=>'course.category_create','uses'=>'CourseController@categoryCreate']);
     Route::post('course/category_create',['as'=>'course.category_create','uses'=>'CourseController@doCategoryCreate']);
 
+    Route::get('course/created',['as'=>'course.made','uses'=>'CourseController@showCreated']);
 
 
 
 
 });
+
+Route::group(['middleware' => ['role:selfteach']],function (){
+    Route::get('course/enrolled',['as'=>'course.enrolled','uses'=>'CourseController@showEnrolled']);
+    Route::delete('course/enrolled_remove/{id}',['as'=>'course.enrolled_remove','uses'=>'CourseController@removeEnrolled']);
+    Route::get('course/enrol/{id}',['as'=>'course.enrol','uses'=>'CourseController@enrol']);
+
+
+
+});
+
+Route::group(['middleware'=>['role:admin']],function (){
+    Route::delete('course/delete/{id}',['as'=>'course.delete','uses'=>'CourseController@delete']);
+});
+
+
+
+
 

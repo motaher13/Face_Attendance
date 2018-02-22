@@ -68,6 +68,34 @@
                 </a>
             </li>
 
+            <li class="nav-item {!! Menu::isActiveRoute('course.index') !!}">
+                <a href="{!! route('course.index') !!}" class="nav-link ">
+                    <i class="icon-folder"></i>
+                    <span class="title">Course List</span>
+
+                </a>
+            </li>
+
+            @if(auth()->user()->hasRole('tutor'))
+            <li class="nav-item {!! Menu::isActiveRoute('course.create') !!}">
+                <a href="{!! route('course.create') !!}" class="nav-link ">
+                    <i class="icon-folder"></i>
+                    <span class="title">Create Course</span>
+
+                </a>
+            </li>
+            @endif
+
+            {{--@if(auth()->user()->hasRole('selfteach'))--}}
+            {{--<li class="nav-item {!! Menu::isActiveRoute('course.enrolled') !!}">--}}
+                {{--<a href="{!! route('course.enrolled') !!}" class="nav-link ">--}}
+                    {{--<i class="icon-book"></i>--}}
+                    {{--<span class="title">Enrolled Courses</span>--}}
+
+                {{--</a>--}}
+            {{--</li>--}}
+            {{--@endif--}}
+
         </ul>
         <!-- END SIDEBAR MENU -->
         <!-- END SIDEBAR MENU -->
