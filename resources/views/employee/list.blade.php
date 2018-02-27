@@ -52,7 +52,7 @@
             <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
-                    <div class="profile-usertitle-name"> {{$user->name}} </div>
+                    <div class="profile-usertitle-name"> {{$user->username}} </div>
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
 
@@ -77,13 +77,18 @@
                                     <a href="{!! route('profile') !!}">Personal Info</a>
                                 </li>
                                 @if($user->hasRole('selfteach') || $user->hasRole('employee'))
-                                    <li class="active">
+                                    <li >
                                         <a href="{!! route('course.enrolled') !!}">Enrolled Courses</a>
                                     </li>
                                 @endif
                                 @if($user->hasRole('tutor'))
                                     <li >
-                                        <a href="{!! route('course.made') !!}">Courses</a>
+                                        <a href="{!! route('course.created') !!}">Courses</a>
+                                    </li>
+                                @endif
+                                @if($user->hasRole('business'))
+                                    <li class="active">
+                                        <a href="{!! route('employee.list') !!}">Employees</a>
                                     </li>
                                 @endif
                                 <li>
@@ -103,19 +108,23 @@
                                     <table class="table table-striped table-bordered table-hover table-checkable order-column" id="dataTable">
                                         <thead>
                                         <tr>
-                                            <th> Course </th>
-                                            <th> Result </th>
-                                            <th> Actions </th>
+                                            <th> Id </th>
+                                            <th> Name </th>
+                                            <th> email </th>
+                                            <th> Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($courses as $course)
+                                        @foreach($users as $user)
                                             <tr class="odd gradeX">
                                                 <td>
-                                                    {{ $course->title }}
+                                                    {{ $user->id }}
                                                 </td>
                                                 <td>
-                                                    {{ $course->result }}
+                                                    {{ $user->userInfo->name }}
+                                                </td>
+                                                <td>
+                                                    {{ $user->email }}
                                                 </td>
                                                 {{--<td> <a href="{{ route('course.enrolled_remove',$course->id) }}" class="btn btn-xs btn-success">Remove</a> </td>--}}
                                                 <td>
@@ -125,14 +134,14 @@
                                                         </button>
 
                                                         <ul class="dropdown-menu pull-left" role="menu">
-                                                                <li>
-                                                                    <a href="{!! route('course.details', $course->id) !!}">
-                                                                        <i class="icon-docs"></i> Details </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route('course.enrolled_remove',$course->id) }}">
-                                                                        <i class="icon-tag"></i> Remove </a>
-                                                                </li>
+                                                            <li>
+                                                                <a href="{!! route('employee.details', $user->id) !!}">
+                                                                    <i class="icon-docs"></i> Details </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route('employee.remove',$user->id) }}">
+                                                                    <i class="icon-tag"></i> Remove </a>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </td>

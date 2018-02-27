@@ -103,11 +103,10 @@ class RoleController extends Controller
             if($businessId){
                 $data['business_id']=$businessId;
                 $data['user_id']=Auth::id();
-                //return $data;
                 $business_employee=$this->employeeService->store($data);
-                //return $business_employee->id;
                 $user=auth()->user();
-                //$user->assignRole('employee');
+                $user->flag=0;
+                $user->save();
                 return redirect()->route('dashboard.main');
             }
         }catch (\Exception $e){

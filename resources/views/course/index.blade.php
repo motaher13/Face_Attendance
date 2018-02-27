@@ -83,7 +83,10 @@
                                             <i class="fa fa-angle-down"></i>
                                         </button>
                                         <ul class="dropdown-menu pull-left" role="menu">
-
+                                            <li>
+                                                <a href="{!! route('course.details', $course->id) !!}">
+                                                    <i class="icon-docs"></i> Details </a>
+                                            </li>
                                             @if($user->hasRole('selfteach'))
                                             <li>
                                                 <a href="{!! route('course.enrol', $course->id) !!}">
@@ -96,6 +99,12 @@
                                                 <a class="deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route('course.delete', $course->id) }}">
                                                     <i class="icon-tag"></i> Delete </a>
                                             </li>
+                                            @endif
+                                            @if($user->hasRole('business'))
+                                                <li>
+                                                    <a href="{!! route('course.enrol_employee', [$course->id] )!!}">
+                                                        <i class="icon-docs"></i> Enrol Employees</a>
+                                                </li>
                                             @endif
 
                                         </ul>

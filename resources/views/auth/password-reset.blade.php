@@ -49,7 +49,7 @@
                     <!-- END SIDEBAR USERPIC -->
                     <!-- SIDEBAR USER TITLE -->
                     <div class="profile-usertitle">
-                        <div class="profile-usertitle-name"> {{$user->name}} </div>
+                        <div class="profile-usertitle-name"> {{$user->username}} </div>
                     </div>
                     <!-- END SIDEBAR USER TITLE -->
                    
@@ -80,7 +80,12 @@
                                     @endif
                                     @if($user->hasRole('tutor'))
                                         <li >
-                                            <a href="{!! route('course.made') !!}">Courses</a>
+                                            <a href="{!! route('course.created') !!}">Courses</a>
+                                        </li>
+                                    @endif
+                                    @if($user->hasRole('business'))
+                                        <li >
+                                            <a href="{!! route('employee.list') !!}">Employees</a>
                                         </li>
                                     @endif
                                     <li>

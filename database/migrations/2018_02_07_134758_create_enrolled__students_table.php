@@ -31,6 +31,7 @@ class CreateEnrolledStudentsTable extends Migration
             $table->foreign('running_courses')->references('id')->on('running__courses')
                 ->onUpdate('cascade')->onDelete('cascade');
 
+            $table->boolean('status')->nullable();
             $table->timestamps();
         });
     }

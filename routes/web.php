@@ -83,14 +83,14 @@ Route::group(['middleware' => ['role:tutor']],function (){
     Route::get('course/category_create',['as'=>'course.category_create','uses'=>'CourseController@categoryCreate']);
     Route::post('course/category_create',['as'=>'course.category_create','uses'=>'CourseController@doCategoryCreate']);
 
-    Route::get('course/created',['as'=>'course.made','uses'=>'CourseController@showCreated']);
+    Route::get('course/created',['as'=>'course.created','uses'=>'CourseController@showCreated']);
 
 
 
 
 });
 
-Route::group(['middleware' => ['role:selfteach']],function (){
+Route::group(['middleware' => ['role:selfteach|business']],function (){
     Route::get('course/enrolled',['as'=>'course.enrolled','uses'=>'CourseController@showEnrolled']);
     Route::delete('course/enrolled_remove/{id}',['as'=>'course.enrolled_remove','uses'=>'CourseController@removeEnrolled']);
     Route::get('course/enrol/{id}',['as'=>'course.enrol','uses'=>'CourseController@enrol']);
@@ -101,6 +101,17 @@ Route::group(['middleware' => ['role:selfteach']],function (){
 
 Route::group(['middleware'=>['role:admin']],function (){
     Route::delete('course/delete/{id}',['as'=>'course.delete','uses'=>'CourseController@delete']);
+});
+
+
+Route::group(['middleware'=>['role:business']],function (){
+    Route::get('course/enrol_employee/{id}',['as'=>'course.enrol_employee','uses'=>'CourseController@enrolEmployee']);
+    Route::post('course/enrol_employee',['as'=>'course.do_enrol_employee','uses'=>'CourseController@doEnrolEmployee']);
+    Route::get('employee/list',['as'=>'employee.list','uses'=>'EmployeeController@index']);
+    Route::delete('employee/remove/{id}',['as'=>'employee.remove','uses'=>'EmployeeController@remove']);
+    Route::get('employee/details/{id}',['as'=>'employee.details','uses'=>'EmployeeController@details']);
+
+
 });
 
 

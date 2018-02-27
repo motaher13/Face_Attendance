@@ -84,17 +84,36 @@
 
                 </a>
             </li>
+
+                <li class="nav-item {!! Menu::isActiveRoute('course.created') !!}">
+                    <a href="{!! route('course.created') !!}" class="nav-link ">
+                        <i class="icon-folder"></i>
+                        <span class="title">Created Courses</span>
+
+                    </a>
+                </li>
+
             @endif
 
-            {{--@if(auth()->user()->hasRole('selfteach'))--}}
-            {{--<li class="nav-item {!! Menu::isActiveRoute('course.enrolled') !!}">--}}
-                {{--<a href="{!! route('course.enrolled') !!}" class="nav-link ">--}}
-                    {{--<i class="icon-book"></i>--}}
-                    {{--<span class="title">Enrolled Courses</span>--}}
+            @if(auth()->user()->hasRole('selfteach'))
+            <li class="nav-item {!! Menu::isActiveRoute('course.enrolled') !!}">
+                <a href="{!! route('course.enrolled') !!}" class="nav-link ">
+                    <i class="icon-folder"></i>
+                    <span class="title">Enrolled Courses</span>
 
-                {{--</a>--}}
-            {{--</li>--}}
-            {{--@endif--}}
+                </a>
+            </li>
+            @endif
+
+            @if(auth()->user()->hasRole('business'))
+                <li class="nav-item {!! Menu::isActiveRoute('course.employee') !!}">
+                    <a href="{!! route('employee.list') !!}" class="nav-link ">
+                        <i class="icon-folder"></i>
+                        <span class="title">Employees</span>
+
+                    </a>
+                </li>
+            @endif
 
         </ul>
         <!-- END SIDEBAR MENU -->

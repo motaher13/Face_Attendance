@@ -52,7 +52,7 @@
             <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
-                    <div class="profile-usertitle-name"> {{$user->name}} </div>
+                    <div class="profile-usertitle-name"> {{$user->username}} </div>
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
 
@@ -77,13 +77,18 @@
                                     <a href="{!! route('profile') !!}">Personal Info</a>
                                 </li>
                                 @if($user->hasRole('selfteach') || $user->hasRole('employee'))
-                                    <li >
+                                    <li class="active">
                                         <a href="{!! route('course.enrolled') !!}">Enrolled Courses</a>
                                     </li>
                                 @endif
                                 @if($user->hasRole('tutor'))
-                                    <li class="active">
-                                        <a href="{!! route('course.made') !!}">Courses</a>
+                                    <li >
+                                        <a href="{!! route('course.created') !!}">Courses</a>
+                                    </li>
+                                @endif
+                                @if($user->hasRole('business'))
+                                    <li >
+                                        <a href="{!! route('employee.list') !!}">Employees</a>
                                     </li>
                                 @endif
                                 <li>
@@ -104,6 +109,8 @@
                                         <thead>
                                         <tr>
                                             <th> Course </th>
+                                            <th> Result </th>
+                                            <th> Actions </th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -112,11 +119,28 @@
                                                 <td>
                                                     {{ $course->title }}
                                                 </td>
-                                                {{--<td>--}}
-                                                    {{--{{ $course->result }}--}}
-                                                {{--</td>--}}
+                                                <td>
+                                                    {{ $course->result }}
+                                                </td>
                                                 {{--<td> <a href="{{ route('course.enrolled_remove',$course->id) }}" class="btn btn-xs btn-success">Remove</a> </td>--}}
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Actions
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </button>
 
+                                                        <ul class="dropdown-menu pull-left" role="menu">
+                                                                <li>
+                                                                    <a href="{!! route('course.details', $course->id) !!}">
+                                                                        <i class="icon-docs"></i> Details </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route('course.enrolled_remove',$course->id) }}">
+                                                                        <i class="icon-tag"></i> Remove </a>
+                                                                </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
                                         @endforeach
 
 
@@ -133,6 +157,29 @@
             </div>
         </div>
         <!-- END PROFILE CONTENT -->
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure to delete?
+                </div>
+                <div class="modal-footer">
+                    <form class="deleteForm" method="POST" action="/" accept-charset="UTF-8">
+                        <input name="_method" type="hidden" value="DELETE">
+                        {{ csrf_field() }}
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                        <input class="btn btn-primary" type="submit" value="Yes, Delete">
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection
