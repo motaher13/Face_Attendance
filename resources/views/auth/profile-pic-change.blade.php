@@ -73,21 +73,7 @@
                                     <li>
                                         <a href="{!! route('profile') !!}">Personal Info</a>
                                     </li>
-                                    @if($user->hasRole('selfteach') || $user->hasRole('employee'))
-                                        <li >
-                                            <a href="{!! route('course.enrolled') !!}">Enrolled Courses</a>
-                                        </li>
-                                    @endif
-                                    @if($user->hasRole('tutor'))
-                                        <li >
-                                            <a href="{!! route('course.created') !!}">Courses</a>
-                                        </li>
-                                    @endif
-                                    @if($user->hasRole('business'))
-                                        <li >
-                                            <a href="{!! route('employee.list') !!}">Employees</a>
-                                        </li>
-                                    @endif
+
                                     <li class="active">
                                         <a href="{!! route('profile.pic.change') !!}">Change Avatar</a>
                                     </li>

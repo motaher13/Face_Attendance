@@ -14,8 +14,8 @@
                     <label for="type" class="control-label col-sm-2">type</label>
                     <div class="col-sm-8">
                         <select name="type" id="type" class="form-control">
-                            <option selected disabled hidden>Choose here</option>
-                            <option value="1" >Url</option>
+                            {{--<option selected disabled hidden>Choose here</option>--}}
+                            <option value="1" selected>Url</option>
                             <option value="2">Video</option>
                         </select>
                     </div>
@@ -40,7 +40,7 @@
                 <div class="form-group hidden" id="file">
                     <label for="title" class="control-label col-sm-2 " >File</label>
                     <div class="col-sm-8">
-                        <input class="form-control" placeholder="Enter title" name="file" type="date"  id="file">
+                        <input class="form-control" placeholder="Enter title" name="file" type="file"  id="file">
                     </div>
                 </div>
 
@@ -75,32 +75,31 @@
 @section('scripts')
     <script>
         $(document).ready(function(){
+
+            var ab=$("#type").val();
+            if(ab == 1){
+                $("#url").removeClass("hidden");
+                $("#file").addClass("hidden");
+                $("#file").val(null);
+
+            }else if(ab == 2){
+                $("#file").removeClass("hidden");
+                $("#url").addClass("hidden");
+                $("#url").val(null);
+
+            }
             $("#type").on('change', function() {
 
-//                if($(this).val() == 1){
-//                    $("#link").attr('type','text');
-//                }else if($(this).val()==2){
-//                    $("#link").attr('type','file');
-//                }
-
                 if($(this).val() == 1){
-                    console.log('1');
                     $("#url").removeClass("hidden");
                     $("#file").addClass("hidden");
                     $("#file").val(null);
 
                 }else if($(this).val() == 2){
-                    console.log('2');
                     $("#file").removeClass("hidden");
                     $("#url").addClass("hidden");
                     $("#url").val(null);
-
-                }else {
-                    console.log('3');
-                    $("#file").addClass("hidden");
-                    $("#url").addClass("hidden");
                 }
-
 
             });
         });

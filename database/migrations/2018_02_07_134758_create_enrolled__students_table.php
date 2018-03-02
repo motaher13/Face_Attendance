@@ -32,6 +32,7 @@ class CreateEnrolledStudentsTable extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
 
             $table->boolean('status')->nullable();
+            $table->boolean('seen')->default(false);
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@
         "spatie/laravel-permission": "^2.6",
         "symfony/psr-http-message-bridge": "0.2",
         "tymon/jwt-auth": "dev-develop",
+        "unisharp/laravel-ckeditor": "^4.7",
         "webup/laravel-sendinblue": "^1.1"
     },
     "require-dev": {

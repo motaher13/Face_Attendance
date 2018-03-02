@@ -116,9 +116,17 @@ class CourseController extends Controller
     public function showEnrolled()
     {
         $courses=Course::join('enrolled__students', 'courses.id', '=', 'enrolled__students.course_id')
-            ->select('courses.title', 'enrolled__students.result','enrolled__students.id')
+            ->select('courses.title', 'enrolled__students.result','enrolled__students.id','enrolled__students.seen')
             ->where('student_id','=',auth()->user()->id)
             ->get();
+        foreach($courses as $course){
+            $data=$course;
+            if($data->seen==false){
+               $enrolled=Enrolled_Student::find($course->id);
+               $enrolled->seen=true;
+               $enrolled->save();
+            }
+        }
 
         return view('course.show_enrolled')->with('courses',$courses)->with('user',auth()->user());
     }

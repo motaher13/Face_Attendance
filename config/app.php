@@ -183,6 +183,8 @@ return [
         Webup\LaravelSendinBlue\SendinBlueServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
+        Unisharp\Ckeditor\ServiceProvider::class,
+
     ],
 
     /*

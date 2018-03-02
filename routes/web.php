@@ -90,7 +90,7 @@ Route::group(['middleware' => ['role:tutor']],function (){
 
 });
 
-Route::group(['middleware' => ['role:selfteach|business']],function (){
+Route::group(['middleware' => ['role:selfteach|business|employee']],function (){
     Route::get('course/enrolled',['as'=>'course.enrolled','uses'=>'CourseController@showEnrolled']);
     Route::delete('course/enrolled_remove/{id}',['as'=>'course.enrolled_remove','uses'=>'CourseController@removeEnrolled']);
     Route::get('course/enrol/{id}',['as'=>'course.enrol','uses'=>'CourseController@enrol']);

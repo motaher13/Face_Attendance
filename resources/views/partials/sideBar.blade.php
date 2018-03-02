@@ -37,6 +37,7 @@
             {{--{!! Menu::isActiveRoute('role.index') !!}--}}
             {{--{!! Menu::isActiveRoute('user.index') !!}--}}
 
+            @if(auth()->user()->hasRole('admin'))
             <li class="nav-item {!! Menu::areActiveRoutes(['user.index']) !!}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-shield"></i>
@@ -67,6 +68,8 @@
 
                 </a>
             </li>
+            @endif
+
 
             <li class="nav-item {!! Menu::isActiveRoute('course.index') !!}">
                 <a href="{!! route('course.index') !!}" class="nav-link ">
