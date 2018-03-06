@@ -29,9 +29,10 @@
                                     <span class="caption-subject bold uppercase"> List of Courses </span>
                                 </div>
                             </div>
+                            @if(auth()->user()->hasRole('tutor'))
                             <div class="col-md-6">
                                 <div class="btn-group pull-right">
-                                    <a class="btn sbold green" id="sample_editable_1_new" href="{{ route('user.create') }}" >Add New <i class="fa fa-plus"></i></a>
+                                    <a class="btn sbold green" id="sample_editable_1_new" href="{{ route('course.create') }}" >Add New <i class="fa fa-plus"></i></a>
 
                                     <!-- <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
                                     <i class="fa fa-angle-down"></i>
@@ -52,6 +53,7 @@
                                     </ul> -->
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                     <table class="table table-striped table-bordered table-hover table-checkable order-column" id="dataTable">
