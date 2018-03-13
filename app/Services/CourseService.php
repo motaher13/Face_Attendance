@@ -16,6 +16,8 @@ use App\Repositories\CourseRepository;
 use Illuminate\Http\Request;
 use ValidateRequests;
 use App\Models\Business_Employee;
+use App\Models\Course_Material;
+
 
 class CourseService extends BaseService
 {
@@ -46,6 +48,29 @@ class CourseService extends BaseService
             'start_date'=>$request->start_date,
             'end_date'=>$request->end_date
         ]);
+
+        if($request->file_ids){
+            $files=Course_Material::whereIn('id', explode(",", $request->file_ids))->get();
+            foreach ($files as $file){
+                Course_Material::create([
+                    'course_id'=>$course->id,
+                    'link'=>$file->link,
+                    'type'=>'video'
+                ]);
+
+            }
+
+        }
+        else{
+            Course_Material::create([
+                'course_id'=>$course->id,
+                'link'=>$request->url,
+                'type'=>'url'
+            ]);
+        }
+
+
+
         return $course;
     }
 

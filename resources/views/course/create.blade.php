@@ -8,7 +8,7 @@
         </div>
 
         <div class="container" style="margin-top: 20px; display: inline;">
-            <form method="POST" id="updateProfile" action="{{route('course.create')}}"accept-charset="UTF-8" class="cmxform form-horizontal tasi-form">
+            <form method="POST" id="updateProfile" action="{{route('course.create')}}"accept-charset="UTF-8" class="cmxform form-horizontal tasi-form" enctype="multipart/form-data">
                 {{ csrf_field() }}
 
 
@@ -91,9 +91,15 @@
                 <div class="form-group hidden" id="file">
                     <label for="title" class="control-label col-sm-2 " >File</label>
                     <div class="col-sm-8">
-                        <input class="form-control" placeholder="Enter title" name="file" type="file"  id="file">
+                        <input class="form-control"  type="file"  id="fileupload" name="photos[]" data-url="{{route('material.add',1)}}" multiple>
                     </div>
                 </div>
+
+                <br />
+                <div id="files_list"></div>
+                <p id="loading"></p>
+                <input type="hidden" name="file_ids" id="file_ids" value="" />
+
                 {{--Material Type End--}}
 
 
@@ -136,8 +142,10 @@
 
 @section('scripts')
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-
+    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>--}}
+    <script type="text/javascript" src="{!! asset('blueimp/vendor/jquery.ui.widget.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('blueimp/jquery.iframe-transport.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('blueimp/jquery.fileupload.js') !!}"></script>
 
     <script>
         $(document).ready(function(){
@@ -178,16 +186,30 @@
 
             });
 
-            $(function(){
-                if (!Modernizr.inputtypes.date) {
-                    $('input[type=date]').datepicker({
-                            dateFormat : 'yy-mm-dd'
+            $('#fileupload').fileupload({
+                dataType: 'json',
+                add: function (e, data) {
+                    $('#loading').text('Uploading...');
+                    data.submit();
+                },
+                done: function (e, data) {
+                    $.each(data.result.files, function (index, file) {
+                        $('<p/>').html(file.name + ' (' + file.size + ' KB)').appendTo($('#files_list'));
+                        if ($('#file_ids').val() != '') {
+                            $('#file_ids').val($('#file_ids').val() + ',');
                         }
-                    );
+                        $('#file_ids').val($('#file_ids').val() + file.fileID);
+                    });
+                    $('#loading').text('');
+                },
+                error: function (e,data) {
+                    console.log(e);
                 }
             });
-        });
 
+
+
+        });
 
 
 

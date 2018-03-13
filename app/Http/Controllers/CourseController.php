@@ -10,6 +10,8 @@ use App\Models\Enrolled_Student;
 use App\Services\CourseMaterialService;
 use App\Services\CourseService;
 use Illuminate\Http\Request;
+use App\Models\Course_Material;
+use App\Models\TempFile;
 
 
 class CourseController extends Controller
@@ -39,7 +41,7 @@ class CourseController extends Controller
 
     public function create()
     {
-         $category=$this->courseService->getCategory();
+        $category=$this->courseService->getCategory();
 
         return view('course.create')->with('categories',$category);
     }
@@ -72,12 +74,32 @@ class CourseController extends Controller
 
 
 
-    public function doAddMaterial(CourseMaterialRequest $request,$id)
+    public function doAddMaterial(Request $request,$id)
     {
         try{
 
-            $material=$this->courseMaterialService->store($request,$id);
-            return redirect()->route('dashboard.main');
+           // $material=$this->courseMaterialService->store($request,$id);
+//            return redirect()->route('dashboard.main');
+
+            $photos = [];
+            foreach ($request->photos as $photo) {
+
+                $input= $photo->getClientOriginalName();
+                $destinationPath = public_path('/upload');
+                $photo->move($destinationPath, $input);
+                $product_photo = TempFile::create([
+                    'link' =>$input
+                ]);
+
+                $photo_object = new \stdClass();
+                $photo_object->name = str_replace('upload/', '',$photo->getClientOriginalName());
+                $photo_object->size = 18;//round(Storage::size($filename) / 1024, 2);
+                $photo_object->fileID = $product_photo->id;
+                $photos[] = $photo_object;
+            }
+
+            return response()->json(array('files' => $photos), 200);
+
         }catch (\Exception $e){
             return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
         }
@@ -122,9 +144,9 @@ class CourseController extends Controller
         foreach($courses as $course){
             $data=$course;
             if($data->seen==false){
-               $enrolled=Enrolled_Student::find($course->id);
-               $enrolled->seen=true;
-               $enrolled->save();
+                $enrolled=Enrolled_Student::find($course->id);
+                $enrolled->seen=true;
+                $enrolled->save();
             }
         }
 
