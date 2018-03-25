@@ -14,10 +14,10 @@ class Business extends Model
     }
 
     public function business_employee(){
-        return $this->hasMany(Business_Employee::class,'business_id','id');
+        return $this->hasMany(BusinessEmployee::class,'business_id','id');
     }
 
     public function business_verification(){
-        return $this->hasMany(Business_Verification::class,'business_id','id');
+        return $this->hasMany(BusinessVerification::class,'business_id','id');
     }
 }

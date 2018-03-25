@@ -9,7 +9,7 @@
 namespace App\Services;
 
 
-use App\Models\Business_Employee;
+use App\Models\BusinessEmployee;
 use App\Repositories\EmployeeRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -53,6 +53,6 @@ class EmployeeService Extends BaseService
     }
 
     public function count($attribute){
-        return (Business_Employee::where($attribute,Auth::id())->get())->count();
+        return (BusinessEmployee::where($attribute,Auth::id())->get())->count();
     }
 }

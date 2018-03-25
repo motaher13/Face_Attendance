@@ -2,6 +2,23 @@
 @section('content')
     {{ Breadcrumbs::render('user') }}
     {{--Route::currentRouteName()--}}
+
+
+    @if(Route::currentRouteName()=="course.scheduled")
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Calendar</div>
+                    <div class="panel-body">
+                        {!! $calendar->calendar() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <div class="row">
         <div class="col-md-12">
             <div class="portlet light bordered">
@@ -63,7 +80,6 @@
                             <th> Title </th>
                             <th> Category Name</th>
                             <th> Length </th>
-                            <th> Type </th>
                             {{--<th> Details </th>--}}
                             <th> Actions </th>
                         </tr>
@@ -73,12 +89,11 @@
                             <tr class="odd gradeX">
                                 <td> {{ $course->id }} </td>
                                 <td> {{ $course->title }} </td>
-                                <td> {{ $course->name }} </td>
+                                <td> {{ $course->course_category->name }} </td>
                                 <td> {{ $course->length }}</td>
-                                <td> {{ $course-> type}}</td>
 
-                                {{--<td class="center"> {{ $user->created_at->toFormattedDateString() }} </td>--}}
-                                {{--<td> <a href="{{ route('user.show', $user->id) }}" class="btn btn-xs btn-success">Details</a> </td>--}}
+                                {{--<td class="center"> {{ auth()->user()->created_at->toFormattedDateString() }} </td>--}}
+                                {{--<td> <a href="{{ route('user.show', auth()->user()->id) }}" class="btn btn-xs btn-success">Details</a> </td>--}}
                                 <td>
                                     <div class="btn-group">
                                         <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Actions
@@ -89,20 +104,20 @@
                                                 <a href="{!! route('course.details', $course->id) !!}">
                                                     <i class="icon-docs"></i> Details </a>
                                             </li>
-                                            @if($user->hasRole('selfteach'))
+                                            @if(auth()->user()->hasRole('selfteach'))
                                             <li>
                                                 <a href="{!! route('course.enrol', $course->id) !!}">
                                                     <i class="icon-docs"></i> Enrol </a>
                                             </li>
                                             @endif
 
-                                            @if($user->hasRole('admin'))
+                                            @if(auth()->user()->hasRole('admin'))
                                             <li>
                                                 <a class="deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route('course.delete', $course->id) }}">
                                                     <i class="icon-tag"></i> Delete </a>
                                             </li>
                                             @endif
-                                            @if($user->hasRole('business'))
+                                            @if(auth()->user()->hasRole('business'))
                                                 <li>
                                                     <a href="{!! route('course.enrol_employee', [$course->id] )!!}">
                                                         <i class="icon-docs"></i> Enrol Employees</a>
@@ -119,7 +134,7 @@
                         </tbody>
                     </table>
                 </div>
-                {{--{{ $users->render() }}--}}
+                {{--{{ auth()->user()s->render() }}--}}
             </div>
             <!-- END EXAMPLE TABLE PORTLET-->
         </div>
@@ -152,12 +167,23 @@
 @section('styles')
     <link rel="stylesheet" href="{!! asset('assets/global/plugins/datatables/datatables.min.css') !!}">
     <link rel="stylesheet" href="{!! asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
 @endsection
 
 @section('scripts')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
     <script type="text/javascript" src="{!! asset('assets/global/plugins/datatables/datatables.min.js') !!}"></script>
     <script type="text/javascript" src="{!! asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}"></script>
     <!-- for Datatable -->
+
+
+    @if(Route::currentRouteName()=="course.scheduled")
+    {!! $calendar->script() !!}
+    @endif
+
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#dataTable').dataTable({

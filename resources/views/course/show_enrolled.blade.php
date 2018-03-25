@@ -27,21 +27,23 @@
                                     <table class="table table-striped table-bordered table-hover table-checkable order-column" id="dataTable">
                                         <thead>
                                         <tr>
-                                            <th> Course </th>
-                                            <th> Result </th>
-                                            <th> Actions </th>
+                                            <th> ID</th>
+                                            <th> Title</th>
+                                            <th> Category Name</th>
+                                            <th> Length</th>
+                                            <th> Type</th>
+                                            <th> Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($courses as $course)
-                                            <tr class="odd gradeX " style="background-color: <?php if($course->seen == false){echo 'green';} ?>">
-                                                <td>
-                                                    {{ $course->title }}
-                                                </td>
-                                                <td>
-                                                    {{ $course->result }}
-                                                </td>
-                                                {{--<td> <a href="{{ route('course.enrolled_remove',$course->id) }}" class="btn btn-xs btn-success">Remove</a> </td>--}}
+                                        @foreach($enrolled_student as $student)
+                                            <tr class="odd gradeX" style="background-color: <?php if($student->seen == false){echo 'green';} ?>" >
+                                                <td> {{ $student->course->id }} </td>
+                                                <td> {{ $student->course->title }} </td>
+                                                <td> {{ $student->course->course_category->name }} </td>
+                                                <td> {{ $student->course->length }}</td>
+                                                <td> {{ $student->course-> type}}</td>
+
                                                 <td>
                                                     <div class="btn-group">
                                                         <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Actions
@@ -50,11 +52,11 @@
 
                                                         <ul class="dropdown-menu pull-left" role="menu">
                                                                 <li>
-                                                                    <a href="{!! route('course.details', $course->id) !!}">
+                                                                    <a href="{!! route('course.details', $student->course->id) !!}">
                                                                         <i class="icon-docs"></i> Details </a>
                                                                 </li>
                                                                 <li>
-                                                                    <a class="deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route('course.enrolled_remove',$course->id) }}">
+                                                                    <a class="deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route('course.enrolled_remove',$student->id) }}">
                                                                         <i class="icon-tag"></i> Remove </a>
                                                                 </li>
                                                         </ul>

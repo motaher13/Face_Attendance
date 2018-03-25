@@ -9,7 +9,7 @@ class Course extends Model
     protected $guarded = [];
 
     public function course_category(){
-        return $this->belongsTo(Course_Category::class,'category_id','id');
+        return $this->belongsTo(CourseCategory::class,'category_id','id');
     }
 
     public function user(){
@@ -17,15 +17,15 @@ class Course extends Model
     }
 
     public function enrolled_student(){
-        return $this->hasMany(Enrolled_Student::class,'course_id','id');
+        return $this->hasMany(EnrolledStudent::class,'course_id','id');
     }
 
     public function running_course(){
-        return $this->hasMany(Running_Course::class,'course_id','id');
+        return $this->hasMany(RunningCourse::class,'course_id','id');
     }
 
     public function course_material(){
-        return $this->hasMany(Course_Material::class,'course_id','id');
+        return $this->hasMany(CourseMaterial::class,'course_id','id');
     }
 
 }

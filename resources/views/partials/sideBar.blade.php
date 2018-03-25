@@ -11,7 +11,8 @@
         <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
         <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
         <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-        <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-light " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
+        <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-light " data-keep-expanded="false"
+            data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
             <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
             <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
             <li class="sidebar-toggler-wrapper hide">
@@ -38,55 +39,69 @@
             {{--{!! Menu::isActiveRoute('user.index') !!}--}}
 
             @if(auth()->user()->hasRole('admin'))
-            <li class="nav-item {!! Menu::areActiveRoutes(['user.index']) !!}">
-                <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="icon-shield"></i>
-                    {{--<span class="title">{!! $permissions['user_management']!!}</span>--}}
-                    <span class="title">User Management</span>
-                    <span class="arrow"></span>
-                </a>
-                <ul class="sub-menu">
-                    {{--<li class="nav-item ">--}}
+                <li class="nav-item {!! Menu::areActiveRoutes(['user.index']) !!}">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <i class="icon-shield"></i>
+                        {{--<span class="title">{!! $permissions['user_management']!!}</span>--}}
+                        <span class="title">User Management</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        {{--<li class="nav-item ">--}}
                         {{--<a href="{!! route('role.index') !!}" class="nav-link ">--}}
-                            {{--<span class="title">Roles</span>--}}
+                        {{--<span class="title">Roles</span>--}}
                         {{--</a>--}}
-                    {{--</li>--}}
-                    <li class="nav-item {!! Menu::isActiveRoute('user.index') !!}">
-                        <a href="{!! route('user.index') !!}" class="nav-link ">
-                            <span class="title">Users</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <!-- User Management end-->
+                        {{--</li>--}}
+                        <li class="nav-item {!! Menu::isActiveRoute('user.index') !!}">
+                            <a href="{!! route('user.index') !!}" class="nav-link ">
+                                <span class="title">Users</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- User Management end-->
 
-            {{--file manager start--}}
-            <li class="nav-item {!! Menu::isActiveRoute('filemanager') !!}">
-                <a href="{!! route('filemanager') !!}" class="nav-link ">
-                    <i class="icon-folder"></i>
-                    <span class="title">File Manager</span>
+                {{--file manager start--}}
+                <li class="nav-item {!! Menu::isActiveRoute('filemanager') !!}">
+                    <a href="{!! route('filemanager') !!}" class="nav-link ">
+                        <i class="icon-folder"></i>
+                        <span class="title">File Manager</span>
 
-                </a>
-            </li>
+                    </a>
+                </li>
             @endif
 
 
-            <li class="nav-item {!! Menu::isActiveRoute('course.index') !!}">
-                <a href="{!! route('course.index') !!}" class="nav-link ">
+            <li class="nav-item {!! Menu::isActiveRoute('course.basic') || Menu::isActiveRoute('course.scheduled')!!}">
+                <a href="#" class="nav-link nav-toggle">
                     <i class="icon-folder"></i>
                     <span class="title">Course List</span>
-
+                    <span class="arrow"></span>
                 </a>
+                <ul class="sub-menu">
+                    <li class="nav-item ">
+                        <a href="{!! route('course.basic') !!}" class="nav-link ">
+                            <span class="title">Static Course</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {!! Menu::isActiveRoute('user.index') !!}">
+                        <a href="{!! route('course.scheduled') !!}" class="nav-link ">
+                            <span class="title">Scheduled Course</span>
+                        </a>
+                    </li>
+                </ul>
+
             </li>
+
 
             @if(auth()->user()->hasRole('tutor'))
-            <li class="nav-item {!! Menu::isActiveRoute('course.create') !!}">
-                <a href="{!! route('course.create') !!}" class="nav-link ">
-                    <i class="icon-folder"></i>
-                    <span class="title">Create Course</span>
+                <li class="nav-item {!! Menu::isActiveRoute('course.create') !!}">
+                    <a href="{!! route('course.create') !!}" class="nav-link ">
+                        <i class="icon-folder"></i>
+                        <span class="title">Create Course</span>
 
-                </a>
-            </li>
+                    </a>
+                </li>
 
                 <li class="nav-item {!! Menu::isActiveRoute('course.created') !!}">
                     <a href="{!! route('course.created') !!}" class="nav-link ">
@@ -98,14 +113,14 @@
 
             @endif
 
-            @if(auth()->user()->hasRole('selfteach'))
-            <li class="nav-item {!! Menu::isActiveRoute('course.enrolled') !!}">
-                <a href="{!! route('course.enrolled') !!}" class="nav-link ">
-                    <i class="icon-folder"></i>
-                    <span class="title">Enrolled Courses</span>
+            @if(auth()->user()->hasRole('selfteach') || auth()->user()->hasRole('employee'))
+                <li class="nav-item {!! Menu::isActiveRoute('course.enrolled') !!}">
+                    <a href="{!! route('course.enrolled') !!}" class="nav-link ">
+                        <i class="icon-folder"></i>
+                        <span class="title">Enrolled Courses</span>
 
-                </a>
-            </li>
+                    </a>
+                </li>
             @endif
 
             @if(auth()->user()->hasRole('business'))

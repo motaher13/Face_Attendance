@@ -4,8 +4,6 @@
 
     {{--{{ Breadcrumbs::render(Route::currentRouteName()) }}--}}
 
-    <!-- BEGIN PAGE TITLE-->
-
     <div class="row">
 
 

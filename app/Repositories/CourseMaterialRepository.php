@@ -9,7 +9,7 @@
 namespace App\Repositories;
 
 
-use App\Models\Course_Material;
+use App\Models\CourseMaterial;
 
 class CourseMaterialRepository extends Repository
 {
@@ -21,7 +21,7 @@ class CourseMaterialRepository extends Repository
      */
     public function model()
     {
-        return Course_Material::class;
+        return CourseMaterial::class;
     }
 
     /**

@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BusinessRoleRequest;
 use App\Http\Requests\EmployeeRoleRequest;
 use App\Models\Business;
-use App\Models\Business_Employee;
-use App\Models\Business_Verification;
+use App\Models\BusinessEmployee;
+use App\Models\BusinessVerification;
 use App\Models\UserInfo;
 use App\Services\BusinessService;
 use App\Services\EmployeeService;
@@ -98,7 +98,7 @@ class RoleController extends Controller
     public function employeeRole(EmployeeRoleRequest $request){
         //return $request;
         try{
-            $businessId=Business_Verification::where('code',$request->pin)->first()->business_id;
+            $businessId=BusinessVerification::where('code',$request->pin)->first()->business_id;
             //return $businessId;
             if($businessId){
                 $data['business_id']=$businessId;

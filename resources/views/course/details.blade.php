@@ -6,37 +6,108 @@
         <div class="col-md-12">
             <div class="portlet light bordered">
 
-                 <div class="portlet-title">
-                   <div class="caption font-dark">
-                      <span class="caption-subject bold uppercase"> Course Details</span>
-                   </div>
-                   <div class="pull-right">
-                       @if(auth()->user()->hasRole('selfteach'))
-                       <a class="btn btn-success" href="{{route('course.enrol',$course->id)}}">Enrol</a>
-                       @elseif(auth()->user()->hasRole('business'))
-                       <a class="btn btn-success" href="{{route('course.enrol_employee',$course->id)}}">Enrol Employees</a>
-                       @endif
-                   </div>
+                <div class="portlet-title">
+                    {{--<div class="caption font-dark">--}}
+                    {{--<span class="caption-subject bold uppercase"> Course Details</span>--}}
+                    {{--</div>--}}
+                    {{--<div style="text-align: center; ">--}}
+                    <h1 class="fonts">{{$course->title}}</h1>
+                    {{--</div>--}}
+
+                    <div class="row">
+                        <p class="col-md-6 fonts sizes ">Category:{{$course->course_category->name}}</p>
+                        <p class="col-md-6 fonts sizes" style="text-align: right">Length:{{$course->length}}</p>
+                    </div>
 
 
                 </div>
                 <div class="portlet-body">
-                    <article>
 
-                        @if($course->description==null)
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc</p>
-                            @else
-                            <p>{{$course->description}}</p>
-                        @endif
+                    @if(!$enrolled)
+                    <h2>Short Description</h2>
+                    {!! $course->short_description !!}
+                    <br>
+                    @endif
 
-                    </article>
+                    @if(auth()->user()->id==$course->tutor_id|| $enrolled)
+                    <h2>Long Description</h2>
+                    {!! $course->long_description !!}
+                    @endif
 
                 </div>
-                {{--{{ $users->render() }}--}}
+
             </div>
-            <!-- END EXAMPLE TABLE PORTLET-->
+
+
+            <div class="pull-right" id="button_div">
+                @if(auth()->user()->hasRole('selfteach'))
+                    <a class="btn btn-success" href="{{route('course.enrol',$course->id)}}">Enrol</a>
+                @elseif(auth()->user()->hasRole('business'))
+                    {{--<a class="btn btn-success" href="{{route('course.enrol_employee',$course->id)}}">Enrol Employees</a>--}}
+                    <button class="btn btn-success" id="enrol_button">Enrol Employee</button>
+                @endif
+            </div>
+
+
+            @if(auth()->user()->hasRole('business'))
+                <div id="enrol_employee" class="hidden">
+                    @include('course.includes.enrol_employee')
+
+                </div>
+            @endif
+
+
         </div>
     </div>
 
+@endsection
+
+@section('styles')
+
+    <link href="{!! asset('assets/global/plugins/icheck-1.x/skins/square/blue.css') !!}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{!! asset('assets/global/plugins/datatables/datatables.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}">
+
+    <style>
+        .fonts {
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        h1.fonts {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .sizes {
+            font-size: 20px;
+        }
+    </style>
+@endsection
+
+@section('scripts')
+    <script src="{!! asset('assets/global/plugins/icheck-1.x/icheck.js') !!}"></script>
+
+    <script type="text/javascript" src="{!! asset('assets/global/plugins/datatables/datatables.min.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $("#enrol_button").click(function () {
+                $("#button_div").hide();
+                $("#enrol_employee").removeClass("hidden");
+            });
+
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue'
+            });
+
+            $('#dataTable').dataTable({
+                "order": [[ 1, "asc" ]]
+            });
+        });
+
+    </script>
 @endsection
 

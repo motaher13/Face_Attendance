@@ -17,7 +17,7 @@ class CreateCoursesTable extends Migration
             $table->increments('id');
 
             $table->integer('category_id')->unsigned()->nullable();
-            $table->foreign('category_id')->references('id')->on('course__categories')
+            $table->foreign('category_id')->references('id')->on('course_categories')
                 ->onUpdate('cascade')->onDelete('cascade');
 
             $table->integer('tutor_id')->unsigned()->nullable();
@@ -25,7 +25,8 @@ class CreateCoursesTable extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
 
             $table->string('title')->nullable();
-            $table->text('description')->nullable();
+            $table->text('short_description')->nullable();
+            $table->text('long_description')->nullable();
             $table->string('length')->nullable();
             $table->string('type')->nullable();
 

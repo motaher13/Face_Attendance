@@ -47,8 +47,8 @@
                     <div class="col-sm-8">
                         <select name="type" id="type"  class="form-control">
                             <option selected disabled hidden>Choose here</option>
-                            <option value="static" >static course</option>
-                            <option value="time_frame">course with time_frame</option>
+                            <option value="basic" >Basic Course</option>
+                            <option value="scheduled">Scheduled Course</option>
                         </select>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                 <div class="form-group hidden" id="url">
                     <label for="title" class="control-label col-sm-2 " >URL</label>
                     <div class="col-sm-8">
-                        <input class="form-control" placeholder="Enter title" name="url" type="date"  id="link">
+                        <input class="form-control" placeholder="Enter title" name="url" type="text"  id="link">
                     </div>
                 </div>
 
@@ -105,10 +105,18 @@
 
 
                 <div class="form-group">
-                    <label for="description" class="control-label col-sm-2">Description</label>
+                    <label for="description" class="control-label col-sm-2">Short Description</label>
                     <div class="col-sm-8">
-                        {{--<input class="form-control" placeholder="description" name="description" type="text"  id="description">--}}
-                        <textarea class="form-control" placeholder="description" name="description" id="description"></textarea>
+                        <textarea class="form-control" placeholder="description" name="short_description" id="short_description"></textarea>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <label for="description" class="control-label col-sm-2">Long Description</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" placeholder="description" name="long_description" id="long_description"></textarea>
                     </div>
                 </div>
 
@@ -143,9 +151,9 @@
 @section('scripts')
 
     {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>--}}
-    <script type="text/javascript" src="{!! asset('blueimp/vendor/jquery.ui.widget.js') !!}"></script>
-    <script type="text/javascript" src="{!! asset('blueimp/jquery.iframe-transport.js') !!}"></script>
-    <script type="text/javascript" src="{!! asset('blueimp/jquery.fileupload.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('assets/global/plugins/blueimp/vendor/jquery.ui.widget.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('assets/global/plugins/blueimp/jquery.iframe-transport.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('assets/global/plugins/blueimp/jquery.fileupload.js') !!}"></script>
 
     <script>
         $(document).ready(function(){
@@ -154,17 +162,14 @@
 
             $("#type").on('change', function() {
 
-                if($(this).val() == "static"){
-                    console.log('1');
+                if($(this).val() == "basic"){
                     $(".hid").addClass("hidden");
                     $(".hid").val(null);
 
-                }else if($(this).val() == "time_frame"){
-                    console.log('2');
+                }else if($(this).val() == "scheduled"){
                     $(".hid").removeClass("hidden");
 
                 }else {
-                    console.log('3');
                     $(".hid").addClass("hidden");
                 }
 
@@ -217,9 +222,14 @@
 
     <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
     <script>
-        CKEDITOR.replace( 'description',{
+        CKEDITOR.replace( 'short_description',{
             toolbar : 'Basic',
                 uiColor : '#9AB8F3'
+        } );
+
+        CKEDITOR.replace( 'long_description',{
+            toolbar : 'Basic',
+            uiColor : '#9AB8F3'
         } );
     </script>
 

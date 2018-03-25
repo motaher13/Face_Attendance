@@ -58,7 +58,8 @@ Route::group(['middleware' => ['auth']],function (){
     Route::post('employee/set',['as'=>'employee.role','uses'=>'RoleController@employeeRole']);
 
     //courses
-    Route::get('course/index',['as'=>'course.index','uses'=>'CourseController@index']);
+    Route::get('course/basic',['as'=>'course.basic','uses'=>'CourseController@basic']);
+    Route::get('course/scheduled',['as'=>'course.scheduled','uses'=>'CourseController@scheduled']);
     Route::get('course/details/{id}',['as'=>'course.details','uses'=>'CourseController@details']);
 
     //Route::get('{id}/courseEnrol',['as'=>'course.enrol','uses'=>'CourseController@enrol']);
@@ -99,7 +100,7 @@ Route::group(['middleware' => ['role:selfteach|business|employee']],function (){
 
 });
 
-Route::group(['middleware'=>['role:admin']],function (){
+Route::group(['middleware'=>['role:admin|tutor']],function (){
     Route::delete('course/delete/{id}',['as'=>'course.delete','uses'=>'CourseController@delete']);
 });
 
@@ -114,7 +115,14 @@ Route::group(['middleware'=>['role:business']],function (){
 
 });
 
+Route::get('/test',['as'=>'test','uses'=>'EmployeeController@test']);
 
+Route::group(function () {
+    Route::get('/create', 'UploadController@create');
+    Route::post('/images-save', 'UploadController@store');
+    Route::post('/images-delete', 'UploadController@destroy');
+    Route::get('/images-show', 'UploadController@index');
+});
 
 
 

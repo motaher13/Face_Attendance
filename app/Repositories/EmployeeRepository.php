@@ -9,7 +9,7 @@
 namespace App\Repositories;
 
 
-use App\Models\Business_Employee;
+use App\Models\BusinessEmployee;
 
 class EmployeeRepository extends Repository
 {
@@ -21,7 +21,7 @@ class EmployeeRepository extends Repository
      */
     public function model()
     {
-        return Business_Employee::class;
+        return BusinessEmployee::class;
     }
 
     /**

@@ -9,14 +9,15 @@
 namespace App\Services;
 
 
-use App\Models\Course_Category;
-use App\Models\Enrolled_Student;
-use App\Models\Running_Course;
+use App\Models\CourseCategory;
+use App\Models\EnrolledStudent;
+use App\Models\RunningCourse;
+use App\Models\User;
 use App\Repositories\CourseRepository;
 use Illuminate\Http\Request;
 use ValidateRequests;
-use App\Models\Business_Employee;
-use App\Models\Course_Material;
+use App\Models\BusinessEmployee;
+use App\Models\CourseMaterial;
 
 
 class CourseService extends BaseService
@@ -38,21 +39,30 @@ class CourseService extends BaseService
         return $this->courseRepository;
     }
 
+
+
+
+
+
+
     public function store(Request $request){
 
-        $data=$request->only(['category_id','title','description','length','type']);
+        $data=$request->only(['category_id','title','short_description','long_description','length','type']);
         $data['tutor_id']=auth()->user()->id;
         $course =  $this->create($data);
-        $running_course=Running_Course::create([
-            'course_id'=>$course->id,
-            'start_date'=>$request->start_date,
-            'end_date'=>$request->end_date
-        ]);
+        if($request->type=='scheduled'){
+            $running_course=RunningCourse::create([
+                'course_id'=>$course->id,
+                'start_date'=>$request->start_date,
+                'end_date'=>$request->end_date
+            ]);
+        }
+
 
         if($request->file_ids){
-            $files=Course_Material::whereIn('id', explode(",", $request->file_ids))->get();
+            $files=CourseMaterial::whereIn('id', explode(",", $request->file_ids))->get();
             foreach ($files as $file){
-                Course_Material::create([
+                CourseMaterial::create([
                     'course_id'=>$course->id,
                     'link'=>$file->link,
                     'type'=>'video'
@@ -62,7 +72,7 @@ class CourseService extends BaseService
 
         }
         else{
-            Course_Material::create([
+            CourseMaterial::create([
                 'course_id'=>$course->id,
                 'link'=>$request->url,
                 'type'=>'url'
@@ -74,32 +84,65 @@ class CourseService extends BaseService
         return $course;
     }
 
+
+
+
+
+
+
+
+
+
+
+
     public function categoryStore(Request $request){
-        $category=Course_Category::create([
+        $category=CourseCategory::create([
             'name'=>$request->name,
         ]);
         return $category;
     }
 
+
+
+
+
+
+
+
+
     public function getCategory(){
-        return Course_Category::all();
+        return CourseCategory::all();
     }
 
+
+
+
+
+
     public function removeEnrolled($id){
-        $enrolled_student=Enrolled_Student::find($id);
+        $enrolled_student=EnrolledStudent::find($id);
         $enrolled_student->delete();
         return true;
 
     }
 
+
+
+
+
+
+
+
+
+
     public function enrol($id,$student_id){
 //        dd($student_id);
-        $enrolled=Enrolled_Student::where('student_id','=',$student_id)
+        $enrolled=EnrolledStudent::where('student_id','=',$student_id)
             ->where('course_id','=',$id)
             ->first();
         if($enrolled)
             return false;
-        $enrolled_student=new Enrolled_Student;
+        $enrolled_student=new EnrolledStudent;
         $enrolled_student->student_id=$student_id;
         $enrolled_student->course_id=$id;
         $enrolled_student->save();
@@ -109,21 +152,55 @@ class CourseService extends BaseService
 
 
 
+
+
+
+
+
+
+
+
+
+
     public function getEmployee($id){
-        $enrolled=Enrolled_Student::where('course_id','=',$id)
+        $enrolled_students=EnrolledStudent::where('course_id','=',$id)
             ->select('student_id')
             ->get();
-        $users=Business_Employee::join('businesses','businesses.id','=','business__employees.business_id')
+        $users=BusinessEmployee::join('businesses','businesses.id','=','business_employees.business_id')
             ->where('businesses.owner_id','=',auth()->user()->id)
-            ->join('users','users.id','=','business__employees.user_id')
+            ->join('users','users.id','=','business_employees.user_id')
             ->join('user_infos','users.id','=','user_infos.user_id')
-            ->whereNotIn('users.id',$enrolled)
+            ->whereNotIn('users.id',$enrolled_students)
             ->select('users.id','user_infos.name')
             ->get();
 
-        return $users;
+        $enrolled_users=BusinessEmployee::join('businesses','businesses.id','=','business_employees.business_id')
+            ->where('businesses.owner_id','=',auth()->user()->id)
+            ->join('users','users.id','=','business_employees.user_id')
+            ->whereIn('users.id',$enrolled_students)
+            ->select('users.id')
+            ->get();
+
+
+        $enrolled_users=User::whereIN('id',$enrolled_users)->get();
+
+        return array($users,$enrolled_users) ;
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function enrol_employee(Request $request){
         $employees=$request->employee;
         $id=$request->course_id;
@@ -133,6 +210,15 @@ class CourseService extends BaseService
         }
 
     }
+
+
+
+
+
+
+
+
+
 
     public function delete($id){
         try{

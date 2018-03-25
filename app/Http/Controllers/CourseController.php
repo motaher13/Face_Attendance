@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CourseMaterialRequest;
 use App\Http\Requests\CourseRequest;
-use App\Models\Business_Employee;
+use App\Models\BusinessEmployee;
 use App\Models\Course;
-use App\Models\Enrolled_Student;
+use App\Models\EnrolledStudent;
 use App\Services\CourseMaterialService;
 use App\Services\CourseService;
 use Illuminate\Http\Request;
-use App\Models\Course_Material;
+use App\Models\CourseMaterial;
 use App\Models\TempFile;
+use App\Models\RunningCourse;
+use MaddHatter\LaravelFullcalendar\Facades\Calendar;
 
 
 class CourseController extends Controller
@@ -27,12 +29,41 @@ class CourseController extends Controller
 
 
 
-    public function index()
+    public function basic()
     {
-        $courses=Course::join('course__categories', 'courses.category_id', '=', 'course__categories.id')
-            ->select('courses.*','course__categories.name')
-            ->get();
-        return view('course.index')->with('courses',$courses)->with('user',auth()->user());
+        $courses=Course::where('type','=','basic')->get();
+        return view('course.index')->with('courses',$courses);
+    }
+
+
+
+
+    public function scheduled()
+    {
+        $events = [];
+        $courses = RunningCourse::all();
+        if($courses->count()) {
+            foreach ($courses as $course) {
+                $events[] = Calendar::event(
+                    $course->course->title,
+                    true,
+                    new \DateTime($course->start_date),
+                    new \DateTime($course->end_date.' +1 day'),
+                    null,
+                    // Add color and link on event
+                    [
+                        'color' => '#f05050',
+                        'url' => route('course.details',$course->course_id),
+                    ]
+                );
+            }
+        }
+        $calendar = Calendar::addEvents($events);
+
+        $courses=Course::where('type','=','scheduled')->get();
+
+
+        return view('course.index')->with('courses',$courses)->with('calendar',$calendar);
     }
 
 
@@ -137,20 +168,21 @@ class CourseController extends Controller
 
     public function showEnrolled()
     {
-        $courses=Course::join('enrolled__students', 'courses.id', '=', 'enrolled__students.course_id')
-            ->select('courses.title', 'enrolled__students.result','enrolled__students.id','enrolled__students.seen')
-            ->where('student_id','=',auth()->user()->id)
-            ->get();
-        foreach($courses as $course){
-            $data=$course;
-            if($data->seen==false){
-                $enrolled=Enrolled_Student::find($course->id);
-                $enrolled->seen=true;
-                $enrolled->save();
-            }
-        }
+//        $courses=Course::join('enrolled__students', 'courses.id', '=', 'enrolled__students.course_id')
+//            ->select('courses.title', 'enrolled__students.result','enrolled__students.id','enrolled__students.seen')
+//            ->where('student_id','=',auth()->user()->id)
+//            ->get();
+//        foreach($courses as $course){
+//            $data=$course;
+//            if($data->seen==false){
+//                $enrolled=Enrolled_Student::find($course->id);
+//                $enrolled->seen=true;
+//                $enrolled->save();
+//            }
+//        }
+        $enrolled_student=auth()->user()->enrolled_student;
 
-        return view('course.show_enrolled')->with('courses',$courses)->with('user',auth()->user());
+        return view('course.show_enrolled')->with('enrolled_student',$enrolled_student);
     }
 
 
@@ -207,7 +239,7 @@ class CourseController extends Controller
 
         $status=$this->courseService->delete($id);
         if($status){
-            return redirect()->route('course.index')->with('success','Deletion Success');
+            return redirect()->route('course.basic')->with('success','Deletion Success');
         }else{
 
             return redirect()->back()->with('error','Something went wrong. Try again.');
@@ -219,12 +251,46 @@ class CourseController extends Controller
 
 
 
+
+
     public function details($id)
     {
         $course=Course::find($id);
 
-        return view('course.details')->with('course',$course);
+        if(auth()->user()->hasRole('selfteach') || auth()->user()->hasRole('employee')){
+            $notifications= auth()->user()->enrolled_student;
+            foreach($notifications as $notification){
+                if($notification->course_id==$id){
+                    $notification->seen=true;
+                    $notification->save();
+                }
+
+            }
+        }
+
+
+        $enrolled_student=0;
+
+        if(auth()->user()->hasRole('employee')|| auth()->user()->hasRole('self')){
+            $enrolleds=auth()->user()->enrolled_student;
+            foreach ($enrolleds as $enrolled ){
+                if($enrolled->course_id==$course->id){
+                    $enrolled_student=1;
+                    break;
+                }
+            }
+        }
+
+        if(auth()->user()->hasRole('business')){
+            $employees=$this->courseService->getEmployee($id);
+            return view('course.details')->with('users',$employees[0])->with('enrolled_users',$employees[1])->with('course',$course)->with('course_id',$id)->with('enrolled',$enrolled_student);
+        }
+
+        return view('course.details')->with('course',$course)->with('enrolled',$enrolled_student);
+
     }
+
+
 
 
 
@@ -232,8 +298,9 @@ class CourseController extends Controller
     {
 
         try{
-            $users=$this->courseService->getEmployee($id);
-            return view('course.enrol_employee')->with('users',$users)->with('course_id',$id);
+            $employees=$this->courseService->getEmployee($id);
+
+            return view('course.enrol_employee')->with('users',$employees[0])->with('enrolled_users',$employees[1])->with('course_id',$id);
         }catch (\Exception $e){
             return redirect()->route('course.index')->withInput()->with('error','something went wrong. Try again.');
         }

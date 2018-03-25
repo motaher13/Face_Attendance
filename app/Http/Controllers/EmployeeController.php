@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Business_Employee;
-use App\Models\Enrolled_Student;
+use App\Models\BusinessEmployee;
+use App\Models\EnrolledStudent;
 use App\Models\Course;
+use App\Models\RunningCourse;
 use App\Models\User;
 use Illuminate\Http\Request;
+use MaddHatter\LaravelFullcalendar\Facades\Calendar;
+use App\Models\Event;
+
 
 class EmployeeController extends Controller
 {
@@ -35,13 +39,17 @@ class EmployeeController extends Controller
 
    public function details($id){
         $user=User::find($id);
-       $courses=Course::join('enrolled__students', 'courses.id', '=', 'enrolled__students.course_id')
-           ->join('course__categories', 'courses.category_id', '=', 'course__categories.id')
-           ->join('running__courses', 'courses.id', '=', 'running__courses.course_id')
-           ->select('courses.title','course__categories.name','courses.length', 'enrolled__students.result','enrolled__students.id','enrolled__students.status','running__courses.start_date','running__courses.end_date')
+       $courses=Course::join('enrolled_students', 'courses.id', '=', 'enrolled_students.course_id')
+           ->join('course_categories', 'courses.category_id', '=', 'course_categories.id')
+           ->join('running_courses', 'courses.id', '=', 'running_courses.course_id')
+           ->select('courses.title','courses.type','course_categories.name','courses.length', 'enrolled_students.result','enrolled_students.id','enrolled_students.status','running_courses.start_date','running_courses.end_date')
            ->where('student_id','=',$id)
            ->get();
         return view('employee.details')->with('user',$user)->with('courses',$courses);
+   }
+
+   public function test(){
+
    }
 
 }

@@ -185,6 +185,8 @@ return [
 
         Unisharp\Ckeditor\ServiceProvider::class,
 
+        MaddHatter\LaravelFullcalendar\ServiceProvider::class,
+
     ],
 
     /*
@@ -236,6 +238,9 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Menu' => App\BaseSettings\Menu::class,
+        'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
+
+
     ],
 
 ];
