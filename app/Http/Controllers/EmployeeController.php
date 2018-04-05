@@ -49,6 +49,11 @@ class EmployeeController extends Controller
    }
 
    public function test(){
+       $events = [];
+       $courses = RunningCourse::all();
+
+
+       return view('test')->with('courses',$courses);
 
    }
 

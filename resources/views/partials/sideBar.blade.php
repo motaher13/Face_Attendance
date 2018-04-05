@@ -72,19 +72,19 @@
             @endif
 
 
-            <li class="nav-item {!! Menu::isActiveRoute('course.basic') || Menu::isActiveRoute('course.scheduled')!!}">
+            <li class="nav-item {!! Menu::areActiveRoutes(['course.basic','course.scheduled']) !!}">
                 <a href="#" class="nav-link nav-toggle">
                     <i class="icon-folder"></i>
                     <span class="title">Course List</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item ">
+                    <li class="nav-item {!! Menu::isActiveRoute('course.basic') !!}">
                         <a href="{!! route('course.basic') !!}" class="nav-link ">
                             <span class="title">Static Course</span>
                         </a>
                     </li>
-                    <li class="nav-item {!! Menu::isActiveRoute('user.index') !!}">
+                    <li class="nav-item {!! Menu::isActiveRoute('course.scheduled') !!}">
                         <a href="{!! route('course.scheduled') !!}" class="nav-link ">
                             <span class="title">Scheduled Course</span>
                         </a>

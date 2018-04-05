@@ -21,7 +21,7 @@ class Course extends Model
     }
 
     public function running_course(){
-        return $this->hasMany(RunningCourse::class,'course_id','id');
+        return $this->hasOne(RunningCourse::class,'course_id','id');
     }
 
     public function course_material(){

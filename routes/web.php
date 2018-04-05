@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth']],function (){
     Route::get('course/basic',['as'=>'course.basic','uses'=>'CourseController@basic']);
     Route::get('course/scheduled',['as'=>'course.scheduled','uses'=>'CourseController@scheduled']);
     Route::get('course/details/{id}',['as'=>'course.details','uses'=>'CourseController@details']);
+    Route::get('course/details_modal/{id}',['as'=>'course.details_modal','uses'=>'CourseController@details_modal']);
 
     //Route::get('{id}/courseEnrol',['as'=>'course.enrol','uses'=>'CourseController@enrol']);
     //Route::get('{courseEnrolled',['as'=>'course.enrolled','uses'=>'CourseController@enrol']);
@@ -116,13 +117,14 @@ Route::group(['middleware'=>['role:business']],function (){
 });
 
 Route::get('/test',['as'=>'test','uses'=>'EmployeeController@test']);
+//Route::view('/test','test');
 
-Route::group(function () {
+
     Route::get('/create', 'UploadController@create');
     Route::post('/images-save', 'UploadController@store');
     Route::post('/images-delete', 'UploadController@destroy');
     Route::get('/images-show', 'UploadController@index');
-});
+
 
 
 

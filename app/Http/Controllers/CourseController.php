@@ -40,30 +40,30 @@ class CourseController extends Controller
 
     public function scheduled()
     {
-        $events = [];
-        $courses = RunningCourse::all();
-        if($courses->count()) {
-            foreach ($courses as $course) {
-                $events[] = Calendar::event(
-                    $course->course->title,
-                    true,
-                    new \DateTime($course->start_date),
-                    new \DateTime($course->end_date.' +1 day'),
-                    null,
-                    // Add color and link on event
-                    [
-                        'color' => '#f05050',
-                        'url' => route('course.details',$course->course_id),
-                    ]
-                );
-            }
-        }
-        $calendar = Calendar::addEvents($events);
-
+//        $events = [];
+//        $courses = RunningCourse::all();
+//        if($courses->count()) {
+//            foreach ($courses as $course) {
+//                $events[] = Calendar::event(
+//                    $course->course->title,
+//                    true,
+//                    new \DateTime($course->start_date),
+//                    new \DateTime($course->end_date.' +1 day'),
+//                    null,
+//                    // Add color and link on event
+//                    [
+//                        'color' => '#f05050',
+////                        'url' => route('course.details',$course->course_id),
+//                    ]
+//                );
+//            }
+//        }
+//        $calendar = Calendar::addEvents($events);
+//
         $courses=Course::where('type','=','scheduled')->get();
 
-
-        return view('course.index')->with('courses',$courses)->with('calendar',$calendar);
+//        ->with('calendar',$calendar)
+        return view('course.index')->with('courses',$courses);
     }
 
 
@@ -271,7 +271,7 @@ class CourseController extends Controller
 
         $enrolled_student=0;
 
-        if(auth()->user()->hasRole('employee')|| auth()->user()->hasRole('self')){
+        if(auth()->user()->hasRole('employee')|| auth()->user()->hasRole('selfteach')){
             $enrolleds=auth()->user()->enrolled_student;
             foreach ($enrolleds as $enrolled ){
                 if($enrolled->course_id==$course->id){
@@ -289,6 +289,12 @@ class CourseController extends Controller
         return view('course.details')->with('course',$course)->with('enrolled',$enrolled_student);
 
     }
+
+
+
+
+
+
 
 
 

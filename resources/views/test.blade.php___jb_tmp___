@@ -84,10 +84,10 @@
 
             eventClick: function(event) {
 
-{{--               alert('{{$course->course->short_description}}');--}}
-                $("#details_header").text('{{$course->course->title}}');
-                $("#details_body").html('{{$course->course->short_description}}');
-                $("#details").modal('show');
+               alert('{{$course->course->short_description}}');
+                {{--$("#details_header").text('{{$course->course->title}}');--}}
+                {{--$("#details_body").html('{{$course->course->short_description}}');--}}
+                {{--$("#details").modal('show');--}}
 
             },
         });

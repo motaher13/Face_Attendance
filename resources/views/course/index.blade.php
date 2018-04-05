@@ -11,7 +11,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Calendar</div>
                     <div class="panel-body">
-                        {!! $calendar->calendar() !!}
+                        <div id='calendar'></div>
                     </div>
                 </div>
             </div>
@@ -162,26 +162,48 @@
             </div>
         </div>
     </div>
+
+
+
+
+    {{--details modal--}}
+
+    <div class="modal fade" id="details" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="details_header">abul</h4>
+                </div>
+                <div class="modal-body" id="details_body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 @endsection
 
 @section('styles')
     <link rel="stylesheet" href="{!! asset('assets/global/plugins/datatables/datatables.min.css') !!}">
     <link rel="stylesheet" href="{!! asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
+    <link rel="stylesheet" href="{!! asset('assets/global/plugins/fullcalendar/fullcalendar.min.css') !!}">
 @endsection
 
 @section('scripts')
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
+    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>--}}
+    <script type="text/javascript" src="{!! asset('assets/global/plugins/fullcalendar/moment.min.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('assets/global/plugins/fullcalendar/fullcalendar.min.js') !!}"></script>
     <script type="text/javascript" src="{!! asset('assets/global/plugins/datatables/datatables.min.js') !!}"></script>
     <script type="text/javascript" src="{!! asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}"></script>
     <!-- for Datatable -->
 
 
-    @if(Route::currentRouteName()=="course.scheduled")
-    {!! $calendar->script() !!}
-    @endif
+    {{--@if(Route::currentRouteName()=="course.scheduled")--}}
+    {{--{!! $calendar->script() !!}--}}
+    {{--@endif--}}
 
 
     <script type="text/javascript">
@@ -189,10 +211,55 @@
             $('#dataTable').dataTable({
                 "order": [[ 1, "asc" ]]
             });
+
+
             $(document).on("click", ".deleteBtn", function() {
                 console.log('pppp');
                 var deleteUrl = $(this).attr('deleteUrl');
                 $(".deleteForm").attr("action", deleteUrl);
+            });
+
+
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                editable: true,
+                weekMode: 'liquid',
+                weekends: true,
+
+                eventSources: [
+
+                    // your event source
+                    {
+                        events: [ // put the array in the `events` property
+
+                                @foreach ($courses as $course)
+                            {
+                                title  : '{{$course->title}}',
+                                start  : '{{$course->running_course->start_date}}',
+                                end    : '{{$course->running_course->end_date}}',
+                                id    : '{{$course->id}}',
+                                description: '{!! $course->short_description !!}'
+                            },
+                            @endforeach
+                        ],
+                        color: '#f05050',
+
+                    },
+
+                ],
+
+                eventClick: function(event) {
+
+                    $("#details_header").text(event.title);
+                    $("#details_body").html(event.description);
+                        $("#details").modal('show');
+
+                },
             });
         });
     </script>
