@@ -5,18 +5,23 @@
 
 
     @if(Route::currentRouteName()=="course.scheduled")
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Calendar</div>
-                    <div class="panel-body">
-                        <div id='calendar'></div>
+        <div class="container" >
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2" style="text-align: center">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Calendar</div>
+                        <div class="panel-body">
+                            <div id='calendar'></div>
+                        </div>
                     </div>
+                    <table id="legend" >
+
+                    </table>
                 </div>
             </div>
+
         </div>
-    </div>
+
     @endif
 
     <div class="row">
@@ -47,29 +52,29 @@
                                 </div>
                             </div>
                             @if(auth()->user()->hasRole('tutor'))
-                            <div class="col-md-6">
-                                <div class="btn-group pull-right">
-                                    <a class="btn sbold green" id="sample_editable_1_new" href="{{ route('course.create') }}" >Add New <i class="fa fa-plus"></i></a>
+                                <div class="col-md-6">
+                                    <div class="btn-group pull-right">
+                                        <a class="btn sbold green" id="sample_editable_1_new" href="{{ route('course.create') }}" >Add New <i class="fa fa-plus"></i></a>
 
-                                    <!-- <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
-                                    <i class="fa fa-angle-down"></i>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right">
-                                       <li>
-                                          <a href="javascript:;">
-                                          <i class="fa fa-print"></i> Print </a>
-                                       </li>
-                                       <li>
-                                          <a href="javascript:;">
-                                          <i class="fa fa-file-pdf-o"></i> Save as PDF </a>
-                                       </li>
-                                       <li>
-                                          <a href="javascript:;">
-                                          <i class="fa fa-file-excel-o"></i> Export to Excel </a>
-                                       </li>
-                                    </ul> -->
+                                        <!-- <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                                        <i class="fa fa-angle-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right">
+                                           <li>
+                                              <a href="javascript:;">
+                                              <i class="fa fa-print"></i> Print </a>
+                                           </li>
+                                           <li>
+                                              <a href="javascript:;">
+                                              <i class="fa fa-file-pdf-o"></i> Save as PDF </a>
+                                           </li>
+                                           <li>
+                                              <a href="javascript:;">
+                                              <i class="fa fa-file-excel-o"></i> Export to Excel </a>
+                                           </li>
+                                        </ul> -->
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                         </div>
                     </div>
@@ -86,50 +91,50 @@
                         </thead>
                         <tbody>
                         @if(count($courses))
-                        @foreach($courses as $course)
-                            <tr class="odd gradeX">
-                                <td> {{ $course->id }} </td>
-                                <td> {{ $course->title }} </td>
-                                <td> {{ $course->course_category->name }} </td>
-                                <td> {{ $course->length }}</td>
+                            @foreach($courses as $course)
+                                <tr class="odd gradeX">
+                                    <td> {{ $course->id }} </td>
+                                    <td> {{ $course->title }} </td>
+                                    <td> {{ $course->course_category->name }} </td>
+                                    <td> {{ $course->length }}</td>
 
-                                {{--<td class="center"> {{ auth()->user()->created_at->toFormattedDateString() }} </td>--}}
-                                {{--<td> <a href="{{ route('user.show', auth()->user()->id) }}" class="btn btn-xs btn-success">Details</a> </td>--}}
-                                <td>
-                                    <div class="btn-group">
-                                        <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Actions
-                                            <i class="fa fa-angle-down"></i>
-                                        </button>
-                                        <ul class="dropdown-menu pull-left" role="menu">
-                                            <li>
-                                                <a href="{!! route('course.details', $course->id) !!}">
-                                                    <i class="icon-docs"></i> Details </a>
-                                            </li>
-                                            @if(auth()->user()->hasRole('selfteach'))
-                                            <li>
-                                                <a href="{!! route('course.enrol', $course->id) !!}">
-                                                    <i class="icon-docs"></i> Enrol </a>
-                                            </li>
-                                            @endif
-
-                                            @if(auth()->user()->hasRole('admin'))
-                                            <li>
-                                                <a class="deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route('course.delete', $course->id) }}">
-                                                    <i class="icon-tag"></i> Delete </a>
-                                            </li>
-                                            @endif
-                                            @if(auth()->user()->hasRole('business'))
+                                    {{--<td class="center"> {{ auth()->user()->created_at->toFormattedDateString() }} </td>--}}
+                                    {{--<td> <a href="{{ route('user.show', auth()->user()->id) }}" class="btn btn-xs btn-success">Details</a> </td>--}}
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Actions
+                                                <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu pull-left" role="menu">
                                                 <li>
-                                                    <a href="{!! route('course.enrol_employee', [$course->id] )!!}">
-                                                        <i class="icon-docs"></i> Enrol Employees</a>
+                                                    <a href="{!! route('course.details', $course->id) !!}">
+                                                        <i class="icon-docs"></i> Details </a>
                                                 </li>
-                                            @endif
+                                                @if(auth()->user()->hasRole('selfteach'))
+                                                    <li>
+                                                        <a href="{!! route('course.enrol', $course->id) !!}">
+                                                            <i class="icon-docs"></i> Enrol </a>
+                                                    </li>
+                                                @endif
 
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
+                                                @if(auth()->user()->hasRole('admin'))
+                                                    <li>
+                                                        <a class="deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route('course.delete', $course->id) }}">
+                                                            <i class="icon-tag"></i> Delete </a>
+                                                    </li>
+                                                @endif
+                                                @if(auth()->user()->hasRole('business'))
+                                                    <li>
+                                                        <a href="{!! route('course.enrol_employee', [$course->id] )!!}">
+                                                            <i class="icon-docs"></i> Enrol Employees</a>
+                                                    </li>
+                                                @endif
+
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         @endif
 
 
@@ -191,6 +196,23 @@
     <link rel="stylesheet" href="{!! asset('assets/global/plugins/datatables/datatables.min.css') !!}">
     <link rel="stylesheet" href="{!! asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}">
     <link rel="stylesheet" href="{!! asset('assets/global/plugins/fullcalendar/fullcalendar.min.css') !!}">
+    <style>
+        #legend {
+            margin-left: 25%;
+            width: 50%;
+            margin-bottom: 10px;
+        }
+        #legend table,
+        #legend tr,
+        #legend td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        #legend td{
+            width: 50%;
+        }
+    </style>
 @endsection
 
 @section('scripts')
@@ -209,6 +231,11 @@
 
 
     <script type="text/javascript">
+        @php
+            $background=["0073e6","003399","0099ff","6666ff","0000b3","9966ff","cc00cc","660066","3d5c5c","267326","03300","cc9900","cc3300","990000"];
+            $txt=[];
+        @endphp
+
         $(document).ready(function() {
             $('#dataTable').dataTable({
                 "order": [[ 1, "asc" ]]
@@ -234,10 +261,13 @@
                 weekends: true,
 
                 eventSources: [
-
+                    @php
+                        $i=0;
+                    @endphp
                     // your event source
                     {
                         events: [ // put the array in the `events` property
+
                                 @if(Route::currentRouteName()=="course.scheduled")
                                 @foreach ($courses as $course)
                             {
@@ -245,12 +275,17 @@
                                 start  : '{{$course->running_course->start_date}}',
                                 end    : '{{$course->running_course->end_date}}',
                                 id    : '{{$course->id}}',
-                                description: '{!! $course->short_description !!}'
+                                description: '{!! $course->short_description !!}',
+                                color: '#'+'{{$background[$i%14]}}',
                             },
+                            @php
+                                $txt[$i]=$course->title;
+                                $i++;
+                            @endphp
                             @endforeach
                             @endif
                         ],
-                        color: '#f05050',
+                        // color: '#f05050',
 
                     },
 
@@ -260,10 +295,19 @@
 
                     $("#details_header").text(event.title);
                     $("#details_body").html(event.description);
-                        $("#details").modal('show');
+                    $("#details").modal('show');
 
                 },
             });
+            @for($x=0;$x<$i;$x++)
+                var element='<tr><td bgcolor="{{$background[$x]}}"></td><td>{{$txt[$x]}}</td></tr>';
+                $("#legend").append(element);
+            @endfor
         });
+    </script>
+
+    <script>
+
+
     </script>
 @endsection

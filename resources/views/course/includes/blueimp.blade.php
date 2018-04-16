@@ -2,7 +2,7 @@
     <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 
     <div class="row fileupload-buttonbar">
-        <div class="col-lg-7">
+        <div class="col-lg-7" id="blueimpdiv">
             <!-- The fileinput-button span is used to style the file input field as button -->
             <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>

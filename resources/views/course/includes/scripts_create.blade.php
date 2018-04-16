@@ -37,7 +37,7 @@
 
     }
     function appendText() {
-        var element = '<div class="row" style="margin-bottom: 5px"><div class="col-sm-8"><input class="form-control" placeholder="Enter url" name="url[]" type="text" required></div><div class="col-sm-3"><select name="source[]"  class=" form-control" required><option selected disabled hidden>Source</option><option value="youtube" >Youtube</option><option value="other" >Other</option></select></div></div>'
+        var element = '<div class="row" style="margin-bottom: 5px"><div class="col-sm-8"><input class="form-control" placeholder="Enter url" name="url[]" type="text" required></div><div class="col-sm-3"><select name="source[]"  class=" form-control" required><option selected disabled hidden>Source</option><option value="youtube" >Youtube</option><option value="other" >Other</option></select></div></div>';
 
         $("#urlSubmit").before(element);     // Append new elements
     }
