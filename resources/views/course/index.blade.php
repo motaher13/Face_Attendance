@@ -85,6 +85,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @if(count($courses))
                         @foreach($courses as $course)
                             <tr class="odd gradeX">
                                 <td> {{ $course->id }} </td>
@@ -129,6 +130,7 @@
                                 </td>
                             </tr>
                         @endforeach
+                        @endif
 
 
                         </tbody>
@@ -236,7 +238,7 @@
                     // your event source
                     {
                         events: [ // put the array in the `events` property
-
+                                @if(Route::currentRouteName()=="course.scheduled")
                                 @foreach ($courses as $course)
                             {
                                 title  : '{{$course->title}}',
@@ -246,6 +248,7 @@
                                 description: '{!! $course->short_description !!}'
                             },
                             @endforeach
+                            @endif
                         ],
                         color: '#f05050',
 

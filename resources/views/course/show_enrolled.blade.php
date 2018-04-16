@@ -36,6 +36,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        @if(count($enrolled_student))
                                         @foreach($enrolled_student as $student)
                                             <tr class="odd gradeX" style="background-color: <?php if($student->seen == false){echo 'green';} ?>" >
                                                 <td> {{ $student->course->id }} </td>
@@ -64,7 +65,7 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-
+                                        @endif
 
                                         </tbody>
                                     </table>

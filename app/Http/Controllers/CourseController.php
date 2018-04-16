@@ -73,8 +73,8 @@ class CourseController extends Controller
     public function create()
     {
         $category=$this->courseService->getCategory();
-
-        return view('course.create')->with('categories',$category);
+        $code=rand(10000,99999);
+        return view('course.create')->with('categories',$category)->with('code',$code);
     }
 
 
@@ -95,45 +95,66 @@ class CourseController extends Controller
 
 
 
-    public function addMaterial($id)
+//    public function addMaterial($id)
+//    {
+//        return view('course.addMaterial')->with('course_id',$id);
+//
+//    }
+
+
+
+
+
+//    public function doAddMaterial(Request $request,$id)
+//    {
+//        try{
+//
+//           // $material=$this->courseMaterialService->store($request,$id);
+////            return redirect()->route('dashboard.main');
+//
+//            $photos = [];
+//            foreach ($request->photos as $photo) {
+//
+//                $input= $photo->getClientOriginalName();
+//                $destinationPath = public_path('/upload');
+//                $photo->move($destinationPath, $input);
+//                $product_photo = TempFile::create([
+//                    'link' =>$input
+//                ]);
+//
+//                $photo_object = new \stdClass();
+//                $photo_object->name = str_replace('upload/', '',$photo->getClientOriginalName());
+//                $photo_object->size = 18;//round(Storage::size($filename) / 1024, 2);
+//                $photo_object->fileID = $product_photo->id;
+//                $photos[] = $photo_object;
+//            }
+//
+//            return response()->json(array('files' => $photos), 200);
+//
+//        }catch (\Exception $e){
+//            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
+//        }
+//    }
+
+
+
+
+
+    public function add_url(Request $request)
     {
-        return view('course.addMaterial')->with('course_id',$id);
-
-    }
-
-
-
-
-
-    public function doAddMaterial(Request $request,$id)
-    {
-        try{
-
-           // $material=$this->courseMaterialService->store($request,$id);
-//            return redirect()->route('dashboard.main');
-
-            $photos = [];
-            foreach ($request->photos as $photo) {
-
-                $input= $photo->getClientOriginalName();
-                $destinationPath = public_path('/upload');
-                $photo->move($destinationPath, $input);
-                $product_photo = TempFile::create([
-                    'link' =>$input
-                ]);
-
-                $photo_object = new \stdClass();
-                $photo_object->name = str_replace('upload/', '',$photo->getClientOriginalName());
-                $photo_object->size = 18;//round(Storage::size($filename) / 1024, 2);
-                $photo_object->fileID = $product_photo->id;
-                $photos[] = $photo_object;
-            }
-
-            return response()->json(array('files' => $photos), 200);
-
-        }catch (\Exception $e){
-            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
+        $urls=$request->url;
+        $source=$request->source;
+        for($i=0;$i<sizeof($source  );$i++){
+            $item=TempFile::create();
+            $item->url=$urls[$i];
+            $item->source=$source[$i];
+            $item->code=$request->code;
+            $item->save();
         }
+
+        $response = array('success' => true);
+        return response()->json($response);
+
     }
 
 
@@ -221,11 +242,11 @@ class CourseController extends Controller
         try{
             $enrol=$this->courseService->enrol($id,auth()->user()->id);
             if($enrol)
-                return redirect()->route('course.index')->with('success','Course Enrolled ');
+                return redirect()->back()->with('success','Course Enrolled ');
             else
                 return redirect()->back()->with('error','Course has been enrolled already.');
         }catch (\Exception $e){
-            return redirect()->route('course.index')->withInput()->with('error','something went wrong. Try again.');
+            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
         }
     }
 
@@ -308,7 +329,7 @@ class CourseController extends Controller
 
             return view('course.enrol_employee')->with('users',$employees[0])->with('enrolled_users',$employees[1])->with('course_id',$id);
         }catch (\Exception $e){
-            return redirect()->route('course.index')->withInput()->with('error','something went wrong. Try again.');
+            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
         }
     }
 
@@ -321,9 +342,9 @@ class CourseController extends Controller
 
         try{
             $do=$this->courseService->enrol_employee($request);
-            return redirect()->route('course.index')->with('success','Course Enrolled');
+            return redirect()->back()->with('success','Course Enrolled');
         }catch (\Exception $e){
-            return redirect()->route('course.index')->withInput()->with('error','something went wrong. Try again.');
+            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
         }
     }
 

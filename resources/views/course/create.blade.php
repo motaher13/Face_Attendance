@@ -1,5 +1,12 @@
 @extends("layouts.app")
 
+
+
+@section('csrf')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
+
 @section('content')
     {{--width: 50%;border: 2px solid black;--}}
     <div class="container" style="text-align: center;margin-top: 30px;">
@@ -69,36 +76,44 @@
                 {{--Course Type End--}}
 
                 {{--Material Type--}}
+                {{--<div class="form-group">--}}
+                    {{--<label for="material" class="control-label col-sm-2">Course Material</label>--}}
+                    {{--<div class="col-sm-8">--}}
+                        {{--<select name="material" id="material" class="form-control">--}}
+                            {{--<option selected disabled hidden>Choose here</option>--}}
+                            {{--<option value="1">Url</option>--}}
+                            {{--<option value="2">Video</option>--}}
+                        {{--</select>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+
+
+                {{--<div class="form-group hidden" id="url">--}}
+                    {{--<label for="title" class="control-label col-sm-2 " >URL</label>--}}
+                    {{--<div class="col-sm-8">--}}
+                        {{--<input class="form-control" placeholder="Enter title" name="url" type="text"  id="link">--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+
+                {{--<div class="form-group hidden" id="file">--}}
+                    {{--<label for="title" class="control-label col-sm-2 " >File</label>--}}
+                    {{--<div class="col-sm-8">--}}
+                        {{--<input class="form-control"  type="file"  id="fileupload" name="photos[]" data-url="{{route('material.add',1)}}" multiple>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+
+                {{--<br />--}}
+                {{--<div id="files_list"></div>--}}
+                {{--<p id="loading"></p>--}}
+                {{--<input type="hidden" name="file_ids" id="file_ids" value="" />--}}
+
                 <div class="form-group">
-                    <label for="material" class="control-label col-sm-2">Course Material</label>
+                    <label for="material" class="control-label col-sm-2">Add Material</label>
                     <div class="col-sm-8">
-                        <select name="material" id="material" class="form-control">
-                            <option selected disabled hidden>Choose here</option>
-                            <option value="1">Url</option>
-                            <option value="2">Video</option>
-                        </select>
+                        <a class="btn btn-default" data-toggle="modal" data-target="#materialModal">Add Course Material</a>
                     </div>
                 </div>
 
-
-                <div class="form-group hidden" id="url">
-                    <label for="title" class="control-label col-sm-2 " >URL</label>
-                    <div class="col-sm-8">
-                        <input class="form-control" placeholder="Enter title" name="url" type="text"  id="link">
-                    </div>
-                </div>
-
-                <div class="form-group hidden" id="file">
-                    <label for="title" class="control-label col-sm-2 " >File</label>
-                    <div class="col-sm-8">
-                        <input class="form-control"  type="file"  id="fileupload" name="photos[]" data-url="{{route('material.add',1)}}" multiple>
-                    </div>
-                </div>
-
-                <br />
-                <div id="files_list"></div>
-                <p id="loading"></p>
-                <input type="hidden" name="file_ids" id="file_ids" value="" />
 
                 {{--Material Type End--}}
 
@@ -120,6 +135,7 @@
                     </div>
                 </div>
 
+                <input type="hidden" name="code" value="{{$code}}">
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8">
@@ -146,95 +162,129 @@
         </div>
 
     </div>
+
+
+    {{--materialModal--}}
+    <div class="modal fade" id="materialModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <button type="button" class="close"  data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <div class="tab">
+                        <button class="tablinks active" onclick="openCity(event, 'url')">Add URL</button>
+                        <button class="tablinks" onclick="openCity(event, 'video')">Add Video</button>
+                    </div>
+                </div>
+
+
+                <div class="modal-body">
+
+                    {{--url div--}}
+                    <div id="url" class="tabcontent" style="display: block">
+
+                        <form method="POST" id="urlForm" action="{{route('course.url')}}"accept-charset="UTF-8" class="cmxform form-horizontal tasi-form" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+
+                            <div class="row" style="margin-bottom: 5px">
+
+                                <div class="col-sm-8">
+                                    <input class="form-control" placeholder="Enter url" name="url[]" type="text" required>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <select name="source[]"  class=" form-control" required>
+                                        <option selected disabled hidden>Source</option>
+                                        <option value="youtube" >Youtube</option>
+                                        <option value="other" >Other</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <input type="hidden" name="code" value="{{$code}}">
+
+
+                            <div class="col-sm-offset-2 col-sm-8" id="urlSubmit">
+                                <input class="btn btn-success" type="submit" value="submit">
+                            </div>
+
+                        </form>
+                        <i class="far fa-plus-square" onclick="appendText()" style="font-size:36px"></i>
+
+                        <p id="modalalert"></p>
+                    </div>
+
+                    {{--url div end--}}
+
+                    {{--file div--}}
+
+                    <div id="video" class="tabcontent" >
+                        @include('course.includes.blueimp')
+                    </div>
+
+                    {{--file div end--}}
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
 @stop
 
 @section('scripts')
-
-    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>--}}
-    <script type="text/javascript" src="{!! asset('assets/global/plugins/blueimp/vendor/jquery.ui.widget.js') !!}"></script>
-    <script type="text/javascript" src="{!! asset('assets/global/plugins/blueimp/jquery.iframe-transport.js') !!}"></script>
-    <script type="text/javascript" src="{!! asset('assets/global/plugins/blueimp/jquery.fileupload.js') !!}"></script>
-
-    <script>
-        $(document).ready(function(){
-
-//            $(".js-example-basic-single").select2();
-
-            $("#type").on('change', function() {
-
-                if($(this).val() == "basic"){
-                    $(".hid").addClass("hidden");
-                    $(".hid").val(null);
-
-                }else if($(this).val() == "scheduled"){
-                    $(".hid").removeClass("hidden");
-
-                }else {
-                    $(".hid").addClass("hidden");
-                }
+    @include('course.includes.scripts_create')
 
 
-            });
-
-            $("#material").on('change', function() {
-
-                if($(this).val() == 1){
-                    $("#url").removeClass("hidden");
-                    $("#file").addClass("hidden");
-                    $("#file").val(null);
-
-                }else if($(this).val() == 2){
-                    $("#file").removeClass("hidden");
-                    $("#url").addClass("hidden");
-                    $("#url").val(null);
-                }
-
-            });
-
-            $('#fileupload').fileupload({
-                dataType: 'json',
-                add: function (e, data) {
-                    $('#loading').text('Uploading...');
-                    data.submit();
-                },
-                done: function (e, data) {
-                    $.each(data.result.files, function (index, file) {
-                        $('<p/>').html(file.name + ' (' + file.size + ' KB)').appendTo($('#files_list'));
-                        if ($('#file_ids').val() != '') {
-                            $('#file_ids').val($('#file_ids').val() + ',');
-                        }
-                        $('#file_ids').val($('#file_ids').val() + file.fileID);
-                    });
-                    $('#loading').text('');
-                },
-                error: function (e,data) {
-                    console.log(e);
-                }
-            });
-
-
-
-        });
-
-
-
-    </script>
-
-    <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
-    <script>
-        CKEDITOR.replace( 'short_description',{
-            toolbar : 'Basic',
-                uiColor : '#9AB8F3'
-        } );
-
-        CKEDITOR.replace( 'long_description',{
-            toolbar : 'Basic',
-            uiColor : '#9AB8F3'
-        } );
-    </script>
 
 @endsection
 
 @section('styles')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+
+    {{--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />--}}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/blueimp-gallery/2.27.1/css/blueimp-gallery.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.19.1/css/jquery.fileupload.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.19.1/css/jquery.fileupload-ui.min.css">
+
 @endsection

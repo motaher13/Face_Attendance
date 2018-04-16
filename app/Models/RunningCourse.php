@@ -9,6 +9,7 @@ class RunningCourse extends Model
     protected $guarded = [];
 
 
+
     public function course(){
         return $this->belongsTo(Course::class,'course_id','id');
     }

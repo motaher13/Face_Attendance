@@ -108,6 +108,7 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @if(count($courses))
                             @foreach($courses as $course)
                                 @if($course->status==true)
                                     <tr class="odd gradeX">
@@ -120,6 +121,7 @@
                                 @endif
 
                             @endforeach
+                            @endif
 
 
                             </tbody>
@@ -133,6 +135,7 @@
                             <tr>
                                 <th> Course Name</th>
                                 <th> Course Category</th>
+                                <th> Course type</th>
                                 <th> Length</th>
                                 <th> Start Date</th>
                                 <th> End Date</th>
@@ -141,11 +144,13 @@
                             </thead>
                             <tbody>
 
+                            @if(count($courses))
                             @foreach($courses as $course)
-                                @if($course->type=="time_frame" && strtotime($course->start_date)<=time() && strtotime($course->end_date)>=time())
+                                @if(($course->type=="basic")||($course->type=="scheduled" && strtotime($course->start_date)<=time() && strtotime($course->end_date)>=time()))
                                     <tr class="odd gradeX">
                                         <td> {{ $course->title }} </td>
                                         <td> {{ $course->name }} </td>
+                                        <td> {{ $course->type }} </td>
                                         <td> {{ $course->length }}</td>
                                         <td> {{ $course->start_date }}</td>
                                         <td> {{ $course->end_date }}</td>
@@ -176,7 +181,7 @@
                                     </tr>
                                 @endif
                             @endforeach
-
+                            @endif
 
                             </tbody>
                         </table>
@@ -188,6 +193,7 @@
                             <tr>
                                 <th> Course Name</th>
                                 <th> Course Category</th>
+                                <th> Course type</th>
                                 <th> Length</th>
                                 <th> Start Date</th>
                                 <th> End Date</th>
@@ -195,11 +201,13 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @if(count($courses))
                             @foreach($courses as $course)
-                                @if($course->type=="time_frame" && strtotime($course->start_date)>time() && strtotime($course->end_date)>time())
+                                @if($course->type=="scheduled" && strtotime($course->start_date)>time() && strtotime($course->end_date)>time())
                                     <tr class="odd gradeX">
                                         <td> {{ $course->title }} </td>
                                         <td> {{ $course->name }} </td>
+                                        <td> {{ $course->type }} </td>
                                         <td> {{ $course->length }}</td>
                                         <td> {{ $course->start_date }}</td>
                                         <td> {{ $course->end_date }}</td>
@@ -230,6 +238,7 @@
                                     </tr>
                                 @endif
                             @endforeach
+                            @endif
 
 
                             </tbody>

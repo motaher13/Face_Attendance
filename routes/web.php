@@ -79,15 +79,18 @@ Route::group(['middleware' => ['role:tutor']],function (){
     Route::post('course/create',['as'=>'course.create','uses'=>'CourseController@store']);
 
 
-    Route::get('course/{id}/material_add',['as'=>'material.add','uses'=>'CourseController@addMaterial']);
-    Route::post('course/{id}/material_add',['as'=>'material.add','uses'=>'CourseController@doAddMaterial']);
+//    Route::get('course/{id}/material_add',['as'=>'material.add','uses'=>'CourseController@addMaterial']);
+//    Route::post('course/{id}/material_add',['as'=>'material.add','uses'=>'CourseController@doAddMaterial']);
 
     Route::get('course/category_create',['as'=>'course.category_create','uses'=>'CourseController@categoryCreate']);
     Route::post('course/category_create',['as'=>'course.category_create','uses'=>'CourseController@doCategoryCreate']);
 
     Route::get('course/created',['as'=>'course.created','uses'=>'CourseController@showCreated']);
 
+    Route::post('course/url/',['as'=>'course.url','uses'=>'CourseController@add_url']);
 
+    Route::post('pictures/store/{code}',['as'=>'pictures.store','uses'=>'FileUploadController@store']);
+    Route::resource('pictures', 'FileUploadController', ['only' => ['index', 'destroy']]);
 
 
 });
@@ -116,15 +119,17 @@ Route::group(['middleware'=>['role:business']],function (){
 
 });
 
-Route::get('/test',['as'=>'test','uses'=>'EmployeeController@test']);
+//Route::get('/test',['as'=>'test','uses'=>'EmployeeController@test']);
 //Route::view('/test','test');
+Route::get('/test', function () {
+    return view('test');
+});
 
 
     Route::get('/create', 'UploadController@create');
     Route::post('/images-save', 'UploadController@store');
     Route::post('/images-delete', 'UploadController@destroy');
     Route::get('/images-show', 'UploadController@index');
-
 
 
 

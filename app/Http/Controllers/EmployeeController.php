@@ -15,6 +15,29 @@ use App\Models\Event;
 class EmployeeController extends Controller
 {
 
+    public function material(Request $request)
+    {
+        $urls=$request->urls;
+
+
+        dd($urls);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
    public function index(){
         $employees=auth()->user()->business->business_employee;
@@ -45,16 +68,10 @@ class EmployeeController extends Controller
            ->select('courses.title','courses.type','course_categories.name','courses.length', 'enrolled_students.result','enrolled_students.id','enrolled_students.status','running_courses.start_date','running_courses.end_date')
            ->where('student_id','=',$id)
            ->get();
+//       dd($courses);
         return view('employee.details')->with('user',$user)->with('courses',$courses);
    }
 
-   public function test(){
-       $events = [];
-       $courses = RunningCourse::all();
 
-
-       return view('test')->with('courses',$courses);
-
-   }
 
 }

@@ -41,6 +41,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        @if(count($courses))
                                         @foreach($courses as $course)
                                             <tr class="odd gradeX">
                                                 <td> {{ $course->id }} </td>
@@ -75,6 +76,7 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+                                        @endif
 
                                         </tbody>
                                     </table>

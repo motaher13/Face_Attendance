@@ -187,6 +187,8 @@ return [
 
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
 
+        Pawlox\VideoThumbnail\VideoThumbnailServiceProvider::class,
+
     ],
 
     /*
@@ -238,8 +240,10 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Menu' => App\BaseSettings\Menu::class,
+
         'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
 
+        'VideoThumbnail' => Pawlox\VideoThumbnail\Facade\VideoThumbnail::class
 
     ],
 

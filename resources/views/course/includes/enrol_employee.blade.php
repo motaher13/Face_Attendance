@@ -73,6 +73,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @if(count($enrolled_users))
                                     @foreach($enrolled_users as $user)
                                         <tr class="odd gradeX">
                                             <td>
@@ -96,15 +97,12 @@
                                                             <a href="{!! route('employee.details', $user->id) !!}">
                                                                 <i class="icon-docs"></i> Details </a>
                                                         </li>
-                                                        <li>
-                                                            <a class="deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route('employee.remove',$user->id) }}">
-                                                                <i class="icon-tag"></i> Remove </a>
-                                                        </li>
+
                                                     </ul>
                                                 </div>
                                             </td>
                                     @endforeach
-
+                                    @endif
 
                                     </tbody>
                                 </table>

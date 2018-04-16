@@ -12,6 +12,7 @@ namespace App\Services;
 use App\Models\CourseCategory;
 use App\Models\EnrolledStudent;
 use App\Models\RunningCourse;
+use App\Models\TempFile;
 use App\Models\User;
 use App\Repositories\CourseRepository;
 use Illuminate\Http\Request;
@@ -50,34 +51,46 @@ class CourseService extends BaseService
         $data=$request->only(['category_id','title','short_description','long_description','length','type']);
         $data['tutor_id']=auth()->user()->id;
         $course =  $this->create($data);
-        if($request->type=='scheduled'){
+//        if($request->type=='scheduled'){
             $running_course=RunningCourse::create([
                 'course_id'=>$course->id,
                 'start_date'=>$request->start_date,
                 'end_date'=>$request->end_date
             ]);
-        }
+//        }
 
 
-        if($request->file_ids){
-            $files=CourseMaterial::whereIn('id', explode(",", $request->file_ids))->get();
-            foreach ($files as $file){
-                CourseMaterial::create([
-                    'course_id'=>$course->id,
-                    'link'=>$file->link,
-                    'type'=>'video'
-                ]);
 
-            }
-
-        }
-        else{
+        $materials=TempFile::where('code','=',$request->code)->get();
+        foreach ($materials as $material){
             CourseMaterial::create([
-                'course_id'=>$course->id,
-                'link'=>$request->url,
-                'type'=>'url'
-            ]);
+                    'course_id'=>$course->id,
+                    'link'=>$material->url,
+                    'type'=>$material->source
+                ]);
+            $material->delete();
         }
+
+
+//        if($request->file_ids){
+//            $files=CourseMaterial::whereIn('id', explode(",", $request->file_ids))->get();
+//            foreach ($files as $file){
+//                CourseMaterial::create([
+//                    'course_id'=>$course->id,
+//                    'link'=>$file->link,
+//                    'type'=>'video'
+//                ]);
+//
+//            }
+//
+//        }
+//        else{
+//            CourseMaterial::create([
+//                'course_id'=>$course->id,
+//                'link'=>$request->url,
+//                'type'=>'url'
+//            ]);
+//        }
 
 
 
@@ -145,6 +158,7 @@ class CourseService extends BaseService
         $enrolled_student=new EnrolledStudent;
         $enrolled_student->student_id=$student_id;
         $enrolled_student->course_id=$id;
+        $enrolled_student->status=false;
         $enrolled_student->save();
 
         return $enrolled_student;

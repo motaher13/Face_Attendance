@@ -62,13 +62,13 @@
                 <!-- User Management end-->
 
                 {{--file manager start--}}
-                <li class="nav-item {!! Menu::isActiveRoute('filemanager') !!}">
-                    <a href="{!! route('filemanager') !!}" class="nav-link ">
-                        <i class="icon-folder"></i>
-                        <span class="title">File Manager</span>
+                {{--<li class="nav-item {!! Menu::isActiveRoute('filemanager') !!}">--}}
+                    {{--<a href="{!! route('filemanager') !!}" class="nav-link ">--}}
+                        {{--<i class="icon-folder"></i>--}}
+                        {{--<span class="title">File Manager</span>--}}
 
-                    </a>
-                </li>
+                    {{--</a>--}}
+                {{--</li>--}}
             @endif
 
 
