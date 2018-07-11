@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    {{ Breadcrumbs::render(Route::currentRouteName()) }}
+{{--    {{ Breadcrumbs::render(Route::currentRouteName()) }}--}}
     <!-- END PAGE HEADER -->
     <div class="row">
         <div class="col-md-12 ">
@@ -13,10 +13,10 @@
                     </div>
                     <div class="actions">
                         <div class="btn-group">
-                            <a class="btn btn-sm green" href="{{ route('user.index') }}"> All Users
-
-                            </a>
-
+                            <a class="btn btn-sm green" href="{{ route('student.index') }}"> All students</a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-sm green" href="{{ route('teacher.index') }}"> All teachers</a>
                         </div>
                     </div>
                 </div>

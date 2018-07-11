@@ -57,18 +57,31 @@ class UserRepository extends Repository
         $userInfo->phone=$data['phone'];
         $userInfo->save();
 
-        $education=Education::where('user_id',$user->id)->first();
-        if (is_null($education)) {
-            $education=new Education;
-            $education->user_id=$user->id;
-        }
+    }
 
-        $education->degree_name=$data['degree_name'];
-        $education->institution=$data['institution'];
-        $education->session=$data['session'];
-        $education->save();
+    public function createTeacherInfo(array $data)
+    {
+        $userInfo=new UserInfo;
+        $userInfo->user_id=$data['user_id'];
+        $userInfo->name=$data['name'];
+        $userInfo->phone=$data['phone'];
+        $userInfo->status=$data['status'];
+        $userInfo->save();
 
-        return $user;
+    }
+
+
+    public function createStudentInfo(array $data)
+    {
+        $userInfo=new UserInfo;
+        $userInfo->user_id=$data['user_id'];
+        $userInfo->name=$data['name'];
+        $userInfo->phone=$data['phone'];
+        $userInfo->session=$data['session'];
+        $userInfo->regid=$data['regid'];
+        $userInfo->status=$data['status'];
+        $userInfo->save();
+
     }
 
     public function updateProfileName($fileName)

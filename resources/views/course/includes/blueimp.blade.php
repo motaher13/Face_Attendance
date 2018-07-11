@@ -1,4 +1,4 @@
-<form id="fileupload" action="{{ route('pictures.store',$code) }}" method="post" enctype="multipart/form-data">
+<form id="fileupload" action="{{ route('pictures.store') }}" method="post" enctype="multipart/form-data">
     <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 
     <div class="row fileupload-buttonbar">

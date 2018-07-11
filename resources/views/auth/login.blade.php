@@ -71,7 +71,7 @@
             <input type="submit" name="submit" class="btn green uppercase" value="Login"/>
             <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
 
-            <p style="margin-bottom: 0px;">Don't have an account? <a href="{{route('web.register')}}">Register</a></p>
+            {{--<p style="margin-bottom: 0px;">Don't have an account? <a href="{{route('web.register')}}">Register</a></p>--}}
         </div>
         {{--<div class="create-account">--}}
         {{--<p>--}}

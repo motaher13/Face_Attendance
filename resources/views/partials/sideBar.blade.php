@@ -39,7 +39,7 @@
             {{--{!! Menu::isActiveRoute('user.index') !!}--}}
 
             @if(auth()->user()->hasRole('admin'))
-                <li class="nav-item {!! Menu::areActiveRoutes(['user.index']) !!}">
+                <li class="nav-item {!! Menu::areActiveRoutes(['student.index','teacher.index','user.create']) !!}">
                     <a href="javascript:;" class="nav-link nav-toggle">
                         <i class="icon-shield"></i>
                         {{--<span class="title">{!! $permissions['user_management']!!}</span>--}}
@@ -52,9 +52,14 @@
                         {{--<span class="title">Roles</span>--}}
                         {{--</a>--}}
                         {{--</li>--}}
-                        <li class="nav-item {!! Menu::isActiveRoute('user.index') !!}">
-                            <a href="{!! route('user.index') !!}" class="nav-link ">
-                                <span class="title">Users</span>
+                        <li class="nav-item {!! Menu::isActiveRoute('student.index') !!}">
+                            <a href="{!! route('student.index') !!}" class="nav-link ">
+                                <span class="title">Students</span>
+                            </a>
+                        </li>
+                        <li class="nav-item {!! Menu::isActiveRoute('teacher.index') !!}">
+                            <a href="{!! route('teacher.index') !!}" class="nav-link ">
+                                <span class="title">Teacher</span>
                             </a>
                         </li>
                     </ul>

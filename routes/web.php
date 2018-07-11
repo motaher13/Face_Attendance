@@ -22,8 +22,8 @@ Route::group(['namespace' => 'Auth','middleware' => ['guest']],function (){
     //login
     Route::get('login',['as'=>'login','uses'=>'AuthController@login']);
     Route::post('login',['as'=>'web.do.login','uses'=>'AuthController@doLogin']);
-    Route::get('register',['as'=>'web.register','uses'=>'AuthController@register']);
-    Route::post('register',['as'=>'web.do.register','uses'=>'AuthController@doRegister']);
+//    Route::get('register',['as'=>'web.register','uses'=>'AuthController@register']);
+//    Route::post('register',['as'=>'web.do.register','uses'=>'AuthController@doRegister']);
 
 
 });
@@ -32,11 +32,14 @@ Route::group(['middleware' => ['auth']],function (){
     Route::get('user/{id}/edit',['as' => 'user.edit', 'uses' => 'User\UserController@edit']);
     Route::put('user/{id}',['as' => 'user.update', 'uses' => 'User\UserController@update']);
     Route::get('user/{id}/show',['as'=>'user.show','uses'=>'User\UserController@show']);
-    Route::post('user/store',['as'=>'user.store','uses'=>'User\UserController@store']);
+    Route::post('student/store',['as'=>'student.store','uses'=>'User\UserController@storeStudent']);
+    Route::post('teacher/store',['as'=>'teacher.store','uses'=>'User\UserController@storeTeacher']);
     Route::get('user/{id}/edit',['as'=>'user.edit','uses'=>'User\UserController@edit']);
     Route::delete('user/{id}',['as'=>'user.delete','uses'=>'User\UserController@delete']);
-    Route::get('user/create',['as'=>'user.create','uses'=>'User\UserController@create']);
-    Route::get('users',['as'=>'user.index','uses'=>'User\UserController@index']);
+    Route::get('teacher/create',['as'=>'teacher.create','uses'=>'User\UserController@createTeacher']);
+    Route::get('student/create',['as'=>'student.create','uses'=>'User\UserController@createStudent']);
+    Route::get('students',['as'=>'student.index','uses'=>'User\UserController@studentIndex']);
+    Route::get('teachers',['as'=>'teacher.index','uses'=>'User\UserController@teacherIndex']);
     Route::get('logout',['as' => 'logout','uses' => 'Auth\AuthController@logout']);
     Route::get('dashboard',['as'=>'dashboard.main','uses'=>'Dashboard\MainDashboardController@dashboard']);
     Route::get('password-reset',['as' => 'profile.password.reset','uses' => 'Auth\AuthController@reset']);
@@ -104,8 +107,10 @@ Route::group(['middleware' => ['role:selfteach|business|employee']],function (){
 
 });
 
-Route::group(['middleware'=>['role:admin|tutor']],function (){
-    Route::delete('course/delete/{id}',['as'=>'course.delete','uses'=>'CourseController@delete']);
+Route::group(['middleware'=>['role:admin']],function (){
+    Route::get('picture/store/{regid}',['as'=>'picture.store','uses'=>'FileUploadController@store']);
+    Route::post('picture/store/{regid}',['as'=>'picture.dostore','uses'=>'FileUploadController@doStore']);
+    Route::resource('pictures', 'FileUploadController', ['only' => ['index', 'destroy']]);
 });
 
 
@@ -119,17 +124,13 @@ Route::group(['middleware'=>['role:business']],function (){
 
 });
 
-//Route::get('/test',['as'=>'test','uses'=>'EmployeeController@test']);
+Route::get('/test',['as'=>'test','uses'=>'EmployeeController@test']);
 //Route::view('/test','test');
-Route::get('/test', function () {
-    return view('test');
-});
+//Route::get('/test', function () {
+//    return view('test');
+//});
 
 
-    Route::get('/create', 'UploadController@create');
-    Route::post('/images-save', 'UploadController@store');
-    Route::post('/images-delete', 'UploadController@destroy');
-    Route::get('/images-show', 'UploadController@index');
 
 
 

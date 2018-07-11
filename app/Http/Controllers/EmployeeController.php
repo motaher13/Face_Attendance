@@ -74,4 +74,16 @@ class EmployeeController extends Controller
 
 
 
+
+   public function test(Request $request){
+       return $request->abul;
+   }
+
+    public function check(){
+        if(auth()->user()->hasRole('teacher'))
+            return "asdfa";
+        else
+            return "none";
+    }
+
 }

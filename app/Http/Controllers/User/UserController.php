@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 
@@ -26,11 +27,22 @@ class UserController extends Controller
     /**
      * @return $this
      */
-    public function index()
+    public function studentIndex()
     {
-        $users= $this->userService->all();
-        return view('admin.user.index')->with('users',$users);
+        $students= UserInfo::where('status','student')->get();
+        return view('admin.user.student-index')->with('students',$students);
     }
+
+
+
+    public function teacherIndex()
+    {
+        $teachers= UserInfo::where('status','teacher')->get();
+        return view('admin.user.teacher-index')->with('teachers',$teachers);
+    }
+
+
+
     public function profile()
     {
         return view('auth.profile')->with('user',Auth::user());
@@ -71,21 +83,40 @@ class UserController extends Controller
         
     }
 
-    public function create()
-    {
-        //$roles = $this->roleService->getRolesExceptOne(Settings::$client_role);
 
-        return view('admin.user.create');//->with( 'roles', $roles );
+
+    public function createTeacher()
+    {
+        return view('admin.user.create-teacher');
     }
 
-    public function store(Request $request)
+
+
+    public function createStudent()
+    {
+        return view('admin.user.create-student');
+    }
+
+    public function storeStudent(Request $request)
     {
         $user= $this->userService->storeUserWithRole($request);
         if($user){
-            return redirect()->route('user.index')->with('success','User created successfully.');
+            return redirect()->route('student.index')->with('success','Student created successfully.');
         }
         return redirect()->back()->with('error','Something went wrong. Try again.');
     }
+
+
+    public function storeTeacher(Request $request)
+    {
+        $user= $this->userService->storeUserWithRole($request);
+        if($user){
+            return redirect()->route('teacher.index')->with('success','Teacher created successfully.');
+        }
+        return redirect()->back()->with('error','Something went wrong. Try again.');
+    }
+
+
 
     public function edit($id)
     {
@@ -140,4 +171,7 @@ class UserController extends Controller
         }
         return redirect()->back()->with('error','Something went wrong. Try again.');
     }
+
+
+
 }

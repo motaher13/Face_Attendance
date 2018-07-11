@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    {{ Breadcrumbs::render(Route::currentRouteName()) }}
+{{--    {{ Breadcrumbs::render(Route::currentRouteName()) }}--}}
     <div class="row">
         <div class="col-md-12 ">
             <!-- BEGIN SAMPLE FORM PORTLET-->
@@ -13,7 +13,7 @@
                     </div>
                     <div class="actions">
                         <div class="btn-group">
-                            <a class="btn btn-sm green" href="{{ route('user.index') }}"> All Users</a>
+                            <a class="btn btn-sm green" href="{{ route('student.index') }}"> All </a>
                         </div>
                     </div>
                 </div>
@@ -31,19 +31,40 @@
                                 <tr class="odd gradeX">
                                     <td> Name </td>
                                     <td>
-                                        {{ $user->name }}
+                                        {{ $user->userInfo->name }}
                                     </td>
                                 </tr>
+                                @if($user->userInfo->status=='student')
+                                    <tr class="odd gradeX">
+                                        <td> Registration NO </td>
+                                        <td>
+                                            {{ $user->userInfo->regid }}
+                                        </td>
+                                    </tr>
+                                    <tr class="odd gradeX">
+                                        <td> Session </td>
+                                        <td>
+                                            {{ $user->userInfo->session }}
+                                        </td>
+                                    </tr>
+                                @endif
                                 <tr>
                                     <td> Email </td>
                                     <td>{{ $user->email }} </td>
                                 </tr>
                                 <tr class="odd gradeX">
-                                    <td> Name </td>
+                                    <td> Address </td>
                                     <td>
-                                        {{ $user->name }}
+                                        {{ $user->userInfo->address }}
                                     </td>
                                 </tr>
+                                <tr class="odd gradeX">
+                                    <td> Phone </td>
+                                    <td>
+                                        {{ $user->userInfo->phone }}
+                                    </td>
+                                </tr>
+
 
 
                                 {{--<tr>--}}

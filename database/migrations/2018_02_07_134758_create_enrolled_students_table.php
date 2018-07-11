@@ -20,19 +20,10 @@ class CreateEnrolledStudentsTable extends Migration
             $table->foreign('student_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->date('join_date')->nullable();
-            $table->string('result')->nullable();
-
             $table->integer('course_id')->unsigned()->nullable();
             $table->foreign('course_id')->references('id')->on('courses')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->integer('running_courses')->unsigned()->nullable();
-            $table->foreign('running_courses')->references('id')->on('running_courses')
-                ->onUpdate('cascade')->onDelete('cascade');
-
-            $table->boolean('status')->nullable();
-            $table->boolean('seen')->default(false);
             $table->timestamps();
         });
     }

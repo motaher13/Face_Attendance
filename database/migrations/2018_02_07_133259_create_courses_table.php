@@ -16,20 +16,17 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('category_id')->unsigned()->nullable();
-            $table->foreign('category_id')->references('id')->on('course_categories')
-                ->onUpdate('cascade')->onDelete('cascade');
-
-            $table->integer('tutor_id')->unsigned()->nullable();
-            $table->foreign('tutor_id')->references('id')->on('users')
-                ->onUpdate('cascade')->onDelete('cascade');
-
             $table->string('title')->nullable();
-            $table->text('short_description')->nullable();
-            $table->text('long_description')->nullable();
-            $table->string('length')->nullable();
-            $table->string('type')->nullable();
+            $table->string('course_code')->nullable();
+            $table->string('session')->nullable();
+            $table->string('semester')->nullable();
 
+            $table->integer('teacher_id')->unsigned()->nullable();
+            $table->foreign('teacher_id')->references('id')->on('users')
+                ->onUpdate('cascade')->onDelete('cascade');
+
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
 
             $table->timestamps();
         });

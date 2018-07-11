@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use App\Repositories\userInfoRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\DB;
 use App\BaseSettings\Settings;
@@ -22,7 +23,6 @@ class UserService extends BaseService
      */
     private $userRepository;
     private $fileUploadService;
-
     /**
      * UserService constructor.
      * @param UserRepository $userRepository
@@ -76,17 +76,33 @@ class UserService extends BaseService
     {
         $password=bcrypt($request->get('password'));
         $request->merge(['password'=>$password]);
-        $userData=$request->only(['name', 'email', 'password']);
+        $userData=$request->only(['email', 'password']);
         $user=$this->userRepository->create($userData);
-        //$user->assignRole($request->role);
-//        $userInfoData = [
-//            'user_id' => $user->id,
-//            'name' => $request->name,
-//            'phone' => $request->phone,
-//            'occupation' => $request->occupation,
-//            'about' => $request->about,
-//        ];
-//        $userInfo=$this->userInfoRepository->create($userInfoData);
+        if($request->session!=null){
+            $user->assignRole('student');
+            $userInfoData = [
+                'user_id' => $user->id,
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'session'=>$request->sesion,
+                'regid' => $request->regid,
+                'status'=>'student',
+            ];
+            $userInfo=$this->userRepository->createStudentInfo($userInfoData);
+        }
+
+        else{
+            $user->assignRole('teacher');
+            $userInfoData = [
+                'user_id' => $user->id,
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'status'=>'teacher',
+            ];
+            $userInfo=$this->userRepository->createTeacherInfo($userInfoData);
+        }
+
+
         return $user;
 //            [
 //            'user'=> ,

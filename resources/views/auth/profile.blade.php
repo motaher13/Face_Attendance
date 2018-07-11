@@ -112,37 +112,18 @@
                                                 @endif
                                             </div>
 
+                                            @if($user->userInfo->status=='student')
+                                                <div class="form-group">
+                                                    <label class="control-label">Reg no</label>
+                                                        <input type="text" value="{{$user->userInfo->regid}}" name="degree_name"  class="form-control" disabled />
+                                                </div>
 
-                                            <div class="form-group">
-                                                <label class="control-label">degree</label>
-                                                @if(isset($user->education->degree_name))
-                                                    <input type="text" value="{{$user->education->degree_name}}" name="degree_name" placeholder="+1 646 580 DEMO (6284)" class="form-control" />
-                                                @else
-                                                    <input type="text" placeholder="" name="degree_name" class="form-control" />
-                                                @endif
-                                            </div>
+                                                <div class="form-group">
+                                                    <label class="control-label">Session</label>
+                                                        <input type="text" value="{{$user->userInfo->session}}" name="institution"  class="form-control" disabled/>
+                                                </div>
 
-                                            <div class="form-group">
-                                                <label class="control-label">Institution</label>
-                                                @if(isset($user->education->institution))
-                                                    <input type="text" value="{{$user->education->institution}}" name="institution" placeholder="+1 646 580 DEMO (6284)" class="form-control" />
-                                                @else
-                                                    <input type="text" placeholder="" name="institution" class="form-control" />
-                                                @endif
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="control-label">Session</label>
-                                                @if(isset($user->education->session))
-                                                    <input type="text" value="{{$user->education->session}}" name="session" placeholder="+1 646 580 DEMO (6284)" class="form-control" />
-                                                @else
-                                                    <input type="text" placeholder="" name="session" class="form-control" />
-                                                @endif
-                                            </div>
-
-
-
-
+                                            @endif
                                             {{--<div class="form-group">--}}
                                                 {{--<label class="control-label">Occupation</label>--}}
                                                 {{--@if(isset($user->userInfo->occupation))--}}

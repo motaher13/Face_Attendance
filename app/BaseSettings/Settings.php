@@ -6,10 +6,8 @@ class Settings
     public static $footer_text = 'InfancyIT';
     public static $roles = [
         'admin' => 'admin',
-        'business' => 'business',
-        'employee' => 'employee',
-        'selfteach' =>'selfteach',
-        'tutor' => 'tutor',
+        'teacher' => 'teacher',
+        'student' => 'student',
 
 
     ];

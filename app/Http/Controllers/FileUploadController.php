@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\TempFile;
+use App\Models\User;
 use Croppa;
 use File;
 use FileUpload;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 
 class FileUploadController extends Controller
 {
-    public $folder = '/uploads/'; // add slashes for better url handling
+    public $folder = '/uploads/pictures/'; // add slashes for better url handling
 
     /**
      * Display a listing of the resource.
@@ -38,18 +39,26 @@ class FileUploadController extends Controller
         return response()->json(['files' => $pictures]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request,$code)
+
+    public function store($regid){
+        return view('admin.picture.picture-store')->with('regid',$regid);
+    }
+
+
+
+    public function doStore(Request $request,$regid)
     {
         // create upload path if it does not exist
-        $path = public_path($this->folder);
+        $path=$this->folder.$regid;
+        $path = public_path($path);
         if(!File::exists($path)) {
             File::makeDirectory($path);
+        };
+
+        $thumbpath="uploads/thumbs/".$regid;
+        $thumbpath = public_path($thumbpath);
+        if(!File::exists($thumbpath)) {
+            File::makeDirectory($thumbpath);
         };
 
         // Simple validation (max file size 2MB and only two allowed mime types)
@@ -87,17 +96,16 @@ class FileUploadController extends Controller
 
                 // set some data
                 $filename = $file->getFilename();
-                $url = $this->folder . $filename;
+                $url = $this->folder .$regid."/". $filename;
 
-                // save data
+                 //save data
                 $picture = TempFile::create([
                     'name' => $filename,
-                    'url' => $this->folder . $filename,
-                    'code'=>$code,
+                    'url' => $this->folder .$regid."/". $filename,
                     'source'=>'video'
                 ]);
 
-                // prepare response
+                 //prepare response
                 $data[] = [
                     'size' => $file->size,
                     'name' => $filename,
