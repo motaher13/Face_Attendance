@@ -56,7 +56,7 @@ class UserRepository extends Repository
         $userInfo->name=$data['name'];
         $userInfo->phone=$data['phone'];
         $userInfo->save();
-
+        return $user;
     }
 
     public function createTeacherInfo(array $data)

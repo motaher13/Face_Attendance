@@ -2,8 +2,8 @@
 namespace App\BaseSettings;
 class Settings
 {
-    public static $company_name = 'InfancyIT';
-    public static $footer_text = 'InfancyIT';
+    public static $company_name = 'SUST_CSE';
+    public static $footer_text = 'SUST';
     public static $roles = [
         'admin' => 'admin',
         'teacher' => 'teacher',
@@ -13,7 +13,7 @@ class Settings
     ];
 
     public static $admin_role = 'admin';
-    public static $upload_path = 'uploads/';
+    public static $upload_path = 'uploads/profile_pic/';
 
 
 

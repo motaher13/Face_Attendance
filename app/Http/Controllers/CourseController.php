@@ -7,6 +7,7 @@ use App\Http\Requests\CourseRequest;
 use App\Models\BusinessEmployee;
 use App\Models\Course;
 use App\Models\EnrolledStudent;
+use App\Models\UserInfo;
 use App\Services\CourseMaterialService;
 use App\Services\CourseService;
 use Illuminate\Http\Request;
@@ -29,42 +30,14 @@ class CourseController extends Controller
 
 
 
-    public function basic()
+    public function index()
     {
-        $courses=Course::where('type','=','basic')->get();
+        $courses=Course::all();
         return view('course.index')->with('courses',$courses);
     }
 
 
 
-
-    public function scheduled()
-    {
-//        $events = [];
-//        $courses = RunningCourse::all();
-//        if($courses->count()) {
-//            foreach ($courses as $course) {
-//                $events[] = Calendar::event(
-//                    $course->course->title,
-//                    true,
-//                    new \DateTime($course->start_date),
-//                    new \DateTime($course->end_date.' +1 day'),
-//                    null,
-//                    // Add color and link on event
-//                    [
-//                        'color' => '#f05050',
-////                        'url' => route('course.details',$course->course_id),
-//                    ]
-//                );
-//            }
-//        }
-//        $calendar = Calendar::addEvents($events);
-//
-        $courses=Course::where('type','=','scheduled')->get();
-
-//        ->with('calendar',$calendar)
-        return view('course.index')->with('courses',$courses);
-    }
 
 
 
@@ -72,9 +45,8 @@ class CourseController extends Controller
 
     public function create()
     {
-        $category=$this->courseService->getCategory();
-        $code=rand(10000,99999);
-        return view('course.create')->with('categories',$category)->with('code',$code);
+        $user_infos=UserInfo::where('status','teacher')->get();
+        return view('course.create')->with('user_infos',$user_infos);
     }
 
 
@@ -85,7 +57,7 @@ class CourseController extends Controller
         try{
             $course=$this->courseService->store($request);
 
-            return redirect()->route('dashboard.main');
+            return redirect()->route('course.index');
         }catch (\Exception $e){
             return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
         }
@@ -260,7 +232,7 @@ class CourseController extends Controller
 
         $status=$this->courseService->delete($id);
         if($status){
-            return redirect()->route('course.basic')->with('success','Deletion Success');
+            return redirect()->route('course.index')->with('success','Deletion Success');
         }else{
 
             return redirect()->back()->with('error','Something went wrong. Try again.');

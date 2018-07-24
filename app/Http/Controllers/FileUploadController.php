@@ -135,4 +135,37 @@ class FileUploadController extends Controller
         $picture->delete(); // delete db record
         return response()->json([$picture->url]);
     }
+
+
+
+    public function capture($regid){
+        return view('admin/picture/picture-capture')->with('regid',$regid);
+    }
+
+
+    public function saveWebcam(Request $request,$regid)
+    {
+
+        $path=$this->folder.$regid;
+        $path = public_path($path);
+        if(!File::exists($path)) {
+            File::makeDirectory($path);
+        };
+
+        $path = null;
+        if (!empty($request->namafoto)) {
+            $encoded_data = $request->namafoto;
+            $binary_data = base64_decode($encoded_data);
+
+            // save to server (beware of permissions // set ke 775 atau 777)
+            $namafoto = uniqid() . ".png";
+            $result = file_put_contents('uploads/pictures/'.$regid."/" . $namafoto, $binary_data);
+            if (!$result) die("Could not save image!  Check file permissions.");
+
+            $response = array('success' => true, 'data' => 'success');
+            return response()->json($response);
+        }
+
+        return $path;
+    }
 }

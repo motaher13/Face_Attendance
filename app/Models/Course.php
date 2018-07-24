@@ -8,12 +8,21 @@ class Course extends Model
 {
     protected $guarded = [];
 
+
+    public function attendance(){
+        return $this->hasMany(Attendence::class,'course_id','id');
+    }
+
+    public function routine(){
+        return $this->hasMany(Routine::class,'course_id','id');
+    }
+
     public function course_category(){
         return $this->belongsTo(CourseCategory::class,'category_id','id');
     }
 
     public function user(){
-        return $this->belongsTo(User::class,'tutor_id','id');
+        return $this->belongsTo(User::class,'teacher_id','id');
     }
 
     public function enrolled_student(){

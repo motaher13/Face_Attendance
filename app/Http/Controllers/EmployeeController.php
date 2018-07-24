@@ -75,8 +75,8 @@ class EmployeeController extends Controller
 
 
 
-   public function test(Request $request){
-       return $request->abul;
+   public function test(){
+       return view('test');
    }
 
     public function check(){

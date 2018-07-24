@@ -52,7 +52,7 @@
   <div class="row">
     <div class="col-sm-3 col-md-2 sidebar">
       <h1><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Laravel Log Viewer</h1>
-      <p class="text-muted"><i>by InfancyIT</i></p>
+      <p class="text-muted"><i>by SUST_CSE</i></p>
       <div class="list-group">
         @foreach($files as $file)
           <a href="?l={{ base64_encode($file) }}"

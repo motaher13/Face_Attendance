@@ -18,18 +18,56 @@ Route::get('password/reset', ['as' => 'password.request', 'uses' => 'Auth\ResetP
 Route::post('password/reset', ['as' => '', 'uses' => 'Auth\ResetPasswordController@reset']);
 Route::get('password/reset/{token}', ['as' => 'password.reset', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
 // Guest Routes
+
+
+
 Route::group(['namespace' => 'Auth','middleware' => ['guest']],function (){
     //login
     Route::get('login',['as'=>'login','uses'=>'AuthController@login']);
     Route::post('login',['as'=>'web.do.login','uses'=>'AuthController@doLogin']);
 //    Route::get('register',['as'=>'web.register','uses'=>'AuthController@register']);
 //    Route::post('register',['as'=>'web.do.register','uses'=>'AuthController@doRegister']);
+});
+
+
+
+
+// Admin
+Route::group(['middleware'=>['role:admin']],function (){
+    Route::get('picture/store/{regid}',['as'=>'picture.store','uses'=>'FileUploadController@store']);
+    Route::post('picture/store/{regid}',['as'=>'picture.dostore','uses'=>'FileUploadController@doStore']);
+    Route::resource('pictures', 'FileUploadController', ['only' => ['index', 'destroy']]);
+
+    Route::get('picture/capture/{regid}',['as'=>'picture.capture','uses'=>'FileUploadController@capture']);
+    Route::post('savewebcam/{regid}','FileUploadController@saveWebcam')->name('saveWebcam');
+
+
+    Route::get('course/index',['as'=>'course.index','uses'=>'CourseController@index']);
+    Route::get('course/create',['as'=>'course.create','uses'=>'CourseController@create']);
+    Route::post('course/create',['as'=>'course.create','uses'=>'CourseController@store']);
+    Route::get('course/index',['as'=>'course.index','uses'=>'CourseController@index']);
+    Route::get('course/update/{id}',['as'=>'course.update','uses'=>'CourseController@update']);
+    Route::post('course/update/{id}',['as'=>'course.update','uses'=>'CourseController@update']);
+    Route::delete('course/delete/{id}',['as'=>'course.delete','uses'=>'CourseController@delete']);
+
+
+    Route::get('routine/index',['as'=>'routine.index','uses'=>'RoutineController@index']);
+    Route::get('routine/create',['as'=>'routine.create','uses'=>'RoutineController@create']);
+    Route::post('routine/create',['as'=>'routine.add','uses'=>'RoutineController@add']);
+
+
+    Route::get('attendance',['as'=>'attendance','uses'=>'RoutineController@attendance']);
 
 
 });
+
+
+
+
+
 // Auth Routes
 Route::group(['middleware' => ['auth']],function (){
-    Route::get('user/{id}/edit',['as' => 'user.edit', 'uses' => 'User\UserController@edit']);
+
     Route::put('user/{id}',['as' => 'user.update', 'uses' => 'User\UserController@update']);
     Route::get('user/{id}/show',['as'=>'user.show','uses'=>'User\UserController@show']);
     Route::post('student/store',['as'=>'student.store','uses'=>'User\UserController@storeStudent']);
@@ -71,47 +109,34 @@ Route::group(['middleware' => ['auth']],function (){
 
     //profile
    // Route::get('profile',['as'=>'profile.show','uses'=>'ProfileController@index']);
-
-
-
-
 });
+
+
+
 
 Route::group(['middleware' => ['role:tutor']],function (){
-    Route::get('course/create',['as'=>'course.create','uses'=>'CourseController@create']);
-    Route::post('course/create',['as'=>'course.create','uses'=>'CourseController@store']);
-
-
+//    Route::get('course/create',['as'=>'course.create','uses'=>'CourseController@create']);
+//    Route::post('course/create',['as'=>'course.create','uses'=>'CourseController@store']);
 //    Route::get('course/{id}/material_add',['as'=>'material.add','uses'=>'CourseController@addMaterial']);
 //    Route::post('course/{id}/material_add',['as'=>'material.add','uses'=>'CourseController@doAddMaterial']);
-
     Route::get('course/category_create',['as'=>'course.category_create','uses'=>'CourseController@categoryCreate']);
     Route::post('course/category_create',['as'=>'course.category_create','uses'=>'CourseController@doCategoryCreate']);
-
     Route::get('course/created',['as'=>'course.created','uses'=>'CourseController@showCreated']);
-
     Route::post('course/url/',['as'=>'course.url','uses'=>'CourseController@add_url']);
-
     Route::post('pictures/store/{code}',['as'=>'pictures.store','uses'=>'FileUploadController@store']);
     Route::resource('pictures', 'FileUploadController', ['only' => ['index', 'destroy']]);
-
-
 });
+
+
+
 
 Route::group(['middleware' => ['role:selfteach|business|employee']],function (){
     Route::get('course/enrolled',['as'=>'course.enrolled','uses'=>'CourseController@showEnrolled']);
     Route::delete('course/enrolled_remove/{id}',['as'=>'course.enrolled_remove','uses'=>'CourseController@removeEnrolled']);
     Route::get('course/enrol/{id}',['as'=>'course.enrol','uses'=>'CourseController@enrol']);
-
-
-
 });
 
-Route::group(['middleware'=>['role:admin']],function (){
-    Route::get('picture/store/{regid}',['as'=>'picture.store','uses'=>'FileUploadController@store']);
-    Route::post('picture/store/{regid}',['as'=>'picture.dostore','uses'=>'FileUploadController@doStore']);
-    Route::resource('pictures', 'FileUploadController', ['only' => ['index', 'destroy']]);
-});
+
 
 
 Route::group(['middleware'=>['role:business']],function (){
@@ -120,8 +145,6 @@ Route::group(['middleware'=>['role:business']],function (){
     Route::get('employee/list',['as'=>'employee.list','uses'=>'EmployeeController@index']);
     Route::delete('employee/remove/{id}',['as'=>'employee.remove','uses'=>'EmployeeController@remove']);
     Route::get('employee/details/{id}',['as'=>'employee.details','uses'=>'EmployeeController@details']);
-
-
 });
 
 Route::get('/test',['as'=>'test','uses'=>'EmployeeController@test']);
@@ -130,6 +153,9 @@ Route::get('/test',['as'=>'test','uses'=>'EmployeeController@test']);
 //    return view('test');
 //});
 
+
+//Route::get('/webcam','TestController@getWebcam');
+Route::post('/detectwebcam/{room}','FaceDetectionController@detectWebcam')->name('detectWebcam');
 
 
 

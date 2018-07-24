@@ -80,7 +80,24 @@
                                     {{ $student->session }}
                                 </td>
                                 @if($student->image==0)
-                                    <td> <a href="{{ route('picture.store', $student->regid) }}" class="btn btn-xs btn-success">Upload</a> </td>
+                                    {{--<td> <a href="{{ route('picture.store', $student->regid) }}" class="btn btn-xs btn-success">Upload</a> </td>--}}
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Provide
+                                                <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu pull-left" role="menu">
+                                                <li>
+                                                    <a href="{!! route('picture.capture', $student->regid) !!}">
+                                                        <i class="icon-docs"></i> capture </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('picture.store', $student->regid) }}">
+                                                        <i class="icon-tag"></i> upload </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                     @else
                                     <td>Available</td>
                                 @endif

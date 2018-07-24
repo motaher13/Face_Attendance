@@ -48,52 +48,8 @@ class CourseService extends BaseService
 
     public function store(Request $request){
 
-        $data=$request->only(['category_id','title','short_description','long_description','length','type']);
-        $data['tutor_id']=auth()->user()->id;
+        $data=$request->only(['title','course_code','session','semester','teacher_id','start_date','end_date']);
         $course =  $this->create($data);
-//        if($request->type=='scheduled'){
-            $running_course=RunningCourse::create([
-                'course_id'=>$course->id,
-                'start_date'=>$request->start_date,
-                'end_date'=>$request->end_date
-            ]);
-//        }
-
-
-
-        $materials=TempFile::where('code','=',$request->code)->get();
-        foreach ($materials as $material){
-            CourseMaterial::create([
-                    'course_id'=>$course->id,
-                    'link'=>$material->url,
-                    'type'=>$material->source
-                ]);
-            $material->delete();
-        }
-
-
-//        if($request->file_ids){
-//            $files=CourseMaterial::whereIn('id', explode(",", $request->file_ids))->get();
-//            foreach ($files as $file){
-//                CourseMaterial::create([
-//                    'course_id'=>$course->id,
-//                    'link'=>$file->link,
-//                    'type'=>'video'
-//                ]);
-//
-//            }
-//
-//        }
-//        else{
-//            CourseMaterial::create([
-//                'course_id'=>$course->id,
-//                'link'=>$request->url,
-//                'type'=>'url'
-//            ]);
-//        }
-
-
-
         return $course;
     }
 
