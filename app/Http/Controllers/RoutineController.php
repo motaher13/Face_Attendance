@@ -12,6 +12,7 @@ class RoutineController extends Controller
 {
     public function create(){
         $courses=Course::all();
+
         return view('routine.create')->with('courses',$courses);
     }
 
@@ -29,8 +30,8 @@ class RoutineController extends Controller
 
         for($i=0;$i<sizeof($day);$i++){
             $item=Routine::create();
-            $item->start_time=$start_time[$i];
-            $item->end_time=$end_time[$i];
+            $item->start_time=date( "H:i:s", strtotime( $start_time[$i] ) );
+            $item->end_time=date( "H:i:s", strtotime( $end_time[$i] ) );
             $item->day=$day[$i];
             $item->room=$room[$i];
             $item->course_id=$course_id[$i];

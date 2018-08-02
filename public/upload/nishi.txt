@@ -1,0 +1,5 @@
+1 for N in {1..8}; do /home/motaher/Desktop/openface-master/util/align-dlib.py /media/motaher/Files/face-data-nishi align outerEyesAndNose /home/motaher/Desktop/openface-master/data/nishi-aligned --size 96 & done
+
+2 /home/motaher/Desktop/openface-master/batch-represent/main.lua -outDir /home/motaher/Desktop/openface-master/data/nishi-feature -data /home/motaher/Desktop/openface-master/data/nishi-aligned
+
+3 /home/motaher/Desktop/openface-master/demos/classifier.py train /home/motaher/Desktop/openface-master/data/nishi-feature

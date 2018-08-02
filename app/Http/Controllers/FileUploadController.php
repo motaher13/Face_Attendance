@@ -9,6 +9,7 @@ use Croppa;
 use File;
 use FileUpload;
 use Illuminate\Http\Request;
+use Storage;
 
 class FileUploadController extends Controller
 {
@@ -168,4 +169,23 @@ class FileUploadController extends Controller
 
         return $path;
     }
+
+
+
+    public function testupload(Request $request){
+
+//        $this->validate(request(),[
+//            'image'=>'required|mimes:'
+//        ]);
+        $image=$request->file('file');
+        $input= $image->getClientOriginalName();
+        $destinationPath = public_path('/upload');
+        $image->move($destinationPath, $input);
+        return redirect()->route('routine.create');
+    }
+
+
+
+
+
 }
