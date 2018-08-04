@@ -76,7 +76,7 @@ class UserService extends BaseService
     {
         $password=bcrypt($request->get('password'));
         $request->merge(['password'=>$password]);
-        $userData=$request->only(['email', 'password']);
+        $userData=$request->only(['username','email','password']);
         $user=$this->userRepository->create($userData);
         if($request->session!=null){
             $user->assignRole('student');
@@ -84,7 +84,7 @@ class UserService extends BaseService
                 'user_id' => $user->id,
                 'name' => $request->name,
                 'phone' => $request->phone,
-                'session'=>$request->sesion,
+                'session'=>$request->session,
                 'regid' => $request->regid,
                 'status'=>'student',
             ];

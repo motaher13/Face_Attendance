@@ -21,8 +21,13 @@ class CreateUserInfosTable extends Migration
 
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
+            $table->integer('image')->default(0);
+            $table->string('photo')->nullable();
 
-            $table->string('session')->nullable();
+            $table->string('status')->nullable();
+
+            $table->integer('session')->nullable();
+            $table->string('regid')->nullable();
 
             $table->timestamps();
         });

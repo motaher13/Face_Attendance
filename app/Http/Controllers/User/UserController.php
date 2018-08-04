@@ -167,7 +167,7 @@ class UserController extends Controller
     {
         $status = $this->userService->delete($id);
         if($status){
-            return redirect()->route('user.index')->with('success','Deletion Success');
+            return redirect()->route('home')->with('success','Deletion Success');
         }
         return redirect()->back()->with('error','Something went wrong. Try again.');
     }

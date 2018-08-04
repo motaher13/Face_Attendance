@@ -24,21 +24,28 @@
                         <div class="form-group">
                             <label for="name" class="col-md-2 control-label">Name</label>
                             <div class="col-md-4">
-                                <input type="name" class="form-control" name="name" id="name" value="{{ old('name') }}" placeholder="Name" required>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username" class="col-md-2 control-label">Teacher code</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="username" id="username" placeholder="Name" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="email" class="col-md-2 control-label">Email</label>
                             <div class="col-md-4">
-                                <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}" placeholder="someone@example.com" required>
+                                <input type="email" class="form-control" name="email" id="email"  placeholder="someone@example.com" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="phone" class="col-md-2 control-label">Phone</label>
                             <div class="col-md-4">
-                                <input type="phone" class="form-control" name="phone" id="phone" value="{{ old('phone') }}">
+                                <input type="text" class="form-control" name="phone" id="phone" >
                             </div>
                         </div>
 

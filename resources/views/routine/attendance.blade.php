@@ -74,7 +74,7 @@
                         @if(count($attendances))
                             @foreach($attendances as $attendance)
                                 <tr class="odd gradeX">
-                                    <td> {{ $attendance->course->title }} </td>
+                                    <td> {{ $attendance->course->course_code     }} </td>
                                     <td> {{ $attendance->user->userInfo->name }} </td>
                                     <td> {{ $attendance->course->session }} </td>
                                     <td> {{ $attendance->course->semester }} </td>

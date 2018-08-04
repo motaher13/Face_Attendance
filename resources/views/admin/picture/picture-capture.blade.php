@@ -1,20 +1,62 @@
 @extends('layouts.app')
 
 @section('content')
-    {{--<h1 align="center">--}}
-    {{--Admin Dashboard--}}
-    {{--</h1>--}}
-    <div id="results"></div>
 
 
-    <div id="my_camera"></div>
 
-    <form action="{{route('saveWebcam',$regid)}}" method="post" id="myform" enctype="multipart/form-data">
-        {{ csrf_field() }}
-        <input type="hidden" id="namafoto"  name="namafoto" value="">
-        <input style="display: none;" id="submit" type="submit" value="submit">
-    </form>
-    <button id="mybutton">Click</button>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-dark">
+                        <span class="caption-subject bold uppercase"> Capture Image</span>
+                    </div>
+
+                </div>
+                <div class="portlet-body" style="overflow: hidden">
+
+                    <div class="table-toolbar">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div style="margin-left: 15px;" class="caption font-red-sunglo">
+                                    <span class="caption-subject bold uppercase"> Camera</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="caption font-red-sunglo">
+                                    <span style="margin-left: 43px"; class="caption-subject bold uppercase"> preview</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container" >
+                        <div class="row">
+                            <div class="col-md-4"  ><div id="my_camera"></div></div>
+                            <div class="col-md-4"  ><div id="results"></div></div>
+
+                        </div>
+
+
+                        <form action="{{route('saveWebcam',$regid)}}" method="post" id="myform" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <input type="hidden" id="namafoto"  name="namafoto" value="">
+                            <input style="display: none;" id="submit" type="submit" value="submit">
+                        </form>
+                        <button id="mybutton" class="btn btn-primary">Capture</button>
+                    </div>
+
+
+                </div>
+                {{--{{ auth()->user()s->render() }}--}}
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+
+
+
+
+
 
 
 @endsection
@@ -25,7 +67,7 @@
         h2, h3 { margin-top:0; }
         form { margin-top: 15px; }
         form > input { margin-right: 15px; }
-        #results { float:right; margin:20px; padding:20px; border:1px solid; background:#ccc; }
+        /*#results { float:right; margin:20px; padding:20px; border:1px solid; background:#ccc; }*/
     </style>
 
 @endsection
@@ -60,7 +102,6 @@
 
                 document.getElementById('namafoto').value = raw_image_data;
                 document.getElementById('results').innerHTML =
-                    '<h2>Here is your image:</h2>' +
                     '<img src="'+data_uri+'"/>';
                 // document.getElementById('myform').submit();
 
@@ -99,6 +140,9 @@
                     var distance = now-countDownDate;
                     if (distance <25000) {
                         $("#submit").click();
+                    }
+                    if(distance>=25000 && distance<25500){
+                        alert('Image Capture Done');
                     }
                 }, 250);
             });

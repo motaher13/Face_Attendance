@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Routine;
 use App\Models\TempFile;
 use App\Models\User;
+use App\Models\UserInfo;
 use App\Services\CourseService;
 use Croppa;
 use File;
@@ -160,6 +161,9 @@ class FileUploadController extends Controller
 
     public function saveWebcam(Request $request,$regid)
     {
+        $user=UserInfo::where('regid',$regid)->first();
+        $user->image=1;
+        $user->save();
 
         $path=$this->folder.$regid;
         $path = public_path($path);

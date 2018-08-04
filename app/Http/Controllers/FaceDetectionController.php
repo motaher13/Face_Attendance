@@ -33,12 +33,13 @@ class FaceDetectionController extends Controller
             $reg=explode("_",$output);
             $reg=(int)$reg[sizeof($reg)-1];
 //            $reg=2014331013;
-            $attendance=Attendence::create();
+
             $user_info=UserInfo::where('regid',$reg)->first();
             $routine=Routine::where('room','=',$room)->first();
-            $attendance->user_id=$user_info->user->id;
-            $attendance->course_id=$routine->course_id;
-            $attendance->save();
+            $attendance=Attendence::create(['user_id'=>$user_info->user->id,'course_id'=>$routine->course_id]);
+//            $attendance->user_id=;
+//            $attendance->course_id=;
+//            $attendance->save();
 
             $response = array('success' => true, 'data' => $output);
             return response()->json($response);

@@ -18,7 +18,7 @@ class CreateCoursesTable extends Migration
 
             $table->string('title')->nullable();
             $table->string('course_code')->nullable();
-            $table->string('session')->nullable();
+            $table->integer('session')->nullable();
             $table->string('semester')->nullable();
 
             $table->integer('teacher_id')->unsigned()->nullable();
