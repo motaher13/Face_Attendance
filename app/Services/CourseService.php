@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use App\Models\Course;
 use App\Models\CourseCategory;
 use App\Models\EnrolledStudent;
 use App\Models\RunningCourse;
@@ -46,10 +47,12 @@ class CourseService extends BaseService
 
 
 
-    public function store(Request $request){
-
-        $data=$request->only(['title','course_code','session','semester','teacher_id','start_date','end_date']);
-        $course =  $this->create($data);
+    public function store($data){
+        $course=Course::where('course_code',$data['course_code'])
+                ->where('session',$data['session'])->first();
+//        dd(gettype($course));
+        if($course==null)
+            $course =  $this->create($data);
         return $course;
     }
 

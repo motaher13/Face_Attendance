@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Routine;
 use App\Models\TempFile;
 use App\Models\User;
+use App\Services\CourseService;
 use Croppa;
 use File;
 use FileUpload;
@@ -13,13 +15,25 @@ use Storage;
 
 class FileUploadController extends Controller
 {
-    public $folder = '/uploads/pictures/'; // add slashes for better url handling
+    public $folder = '/uploads/pictures/';
+    /**
+     * @var CourseService
+     */
+    private $courseService; // add slashes for better url handling
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    public function __construct(CourseService $courseService)
+    {
+        $this->courseService = $courseService;
+    }
+
+
     public function index()
     {
         // get all pictures
@@ -174,14 +188,51 @@ class FileUploadController extends Controller
 
     public function testupload(Request $request){
 
+//        try{
+//
+//        }catch (\Exception $e){
+//            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
+//        }
+
 //        $this->validate(request(),[
-//            'image'=>'required|mimes:'
+//            'file'=>'required|mimes:jpg'
 //        ]);
-        $image=$request->file('file');
-        $input= $image->getClientOriginalName();
-        $destinationPath = public_path('/upload');
-        $image->move($destinationPath, $input);
-        return redirect()->route('routine.create');
+        $file=$request->file('file');
+//        $input= $file->getClientOriginalName();
+//        $destinationPath = public_path('/upload');
+//        $file->move($destinationPath, $input);
+
+
+        $file = fopen($file,"r");
+        $i=0;
+        while(! feof($file))
+        {
+            $s=fgetcsv($file);
+            if($i==0){
+                $i=1;
+                continue;
+            }
+
+
+            $teacher=User::where('username',$s[3])->first();
+//            dd($s[3]);
+            $data=['title'=>null,'course_code'=>$s[0],'session'=>$s[1],'semester'=>$s[2],'teacher_id'=>$teacher->id,'start_date'=>null,'end_date'=>null];
+            $course=$this->courseService->store($data);
+
+            $item=Routine::create();
+            $item->start_time=date( "H:i:s", strtotime( $s[4] ) );
+            $item->end_time=date( "H:i:s", strtotime( $s[5] ) );
+            $item->day=$s[7];
+            $item->room=$s[6];
+            $item->course_id=$course->id;
+            $item->save();
+
+
+        }
+
+
+        fclose($file);
+        return redirect()->route('routine.create')->with('success','Routine Created Successfully');
     }
 
 

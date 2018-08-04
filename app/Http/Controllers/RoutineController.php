@@ -49,4 +49,6 @@ class RoutineController extends Controller
 //        return $attendances;
         return view('routine.attendance')->with('attendances',$attendances);
     }
+
+
 }

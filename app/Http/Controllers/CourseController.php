@@ -52,10 +52,11 @@ class CourseController extends Controller
 
 
 
-    public function store(CourseRequest $request)
+    public function store(Request $request)
     {
         try{
-            $course=$this->courseService->store($request);
+            $data=$request->only(['title','course_code','session','semester','teacher_id','start_date','end_date']);
+            $course=$this->courseService->store($data);
 
             return redirect()->route('course.index');
         }catch (\Exception $e){
@@ -133,63 +134,63 @@ class CourseController extends Controller
 
 
 
-    public function categoryCreate()
-    {
-        return view('course.category_create');
-    }
-
-
-
-
-
-    public function doCategoryCreate(Request $request)
-    {
-        try{
-            $this->validate(request(),[
-                'name'=>'required',
-            ]);
-            $category=$this->courseService->categoryStore($request);
-            return redirect()->route('dashboard.main');
-        }catch (\Exception $e){
-            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
-        }
-    }
-
-
-
-
-
-    public function showEnrolled()
-    {
-//        $courses=Course::join('enrolled__students', 'courses.id', '=', 'enrolled__students.course_id')
-//            ->select('courses.title', 'enrolled__students.result','enrolled__students.id','enrolled__students.seen')
-//            ->where('student_id','=',auth()->user()->id)
-//            ->get();
-//        foreach($courses as $course){
-//            $data=$course;
-//            if($data->seen==false){
-//                $enrolled=Enrolled_Student::find($course->id);
-//                $enrolled->seen=true;
-//                $enrolled->save();
-//            }
+//    public function categoryCreate()
+//    {
+//        return view('course.category_create');
+//    }
+//
+//
+//
+//
+//
+//    public function doCategoryCreate(Request $request)
+//    {
+//        try{
+//            $this->validate(request(),[
+//                'name'=>'required',
+//            ]);
+//            $category=$this->courseService->categoryStore($request);
+//            return redirect()->route('dashboard.main');
+//        }catch (\Exception $e){
+//            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
 //        }
-        $enrolled_student=auth()->user()->enrolled_student;
-
-        return view('course.show_enrolled')->with('enrolled_student',$enrolled_student);
-    }
-
-
-
-
-
-    public function removeEnrolled($id)
-    {
-        $do=$this->courseService->removeEnrolled($id);
-        if($do)
-            return redirect()->back();
-        else
-            return redirect()->back()->with('error','something went wrong. Try again.');
-    }
+//    }
+//
+//
+//
+//
+//
+//    public function showEnrolled()
+//    {
+////        $courses=Course::join('enrolled__students', 'courses.id', '=', 'enrolled__students.course_id')
+////            ->select('courses.title', 'enrolled__students.result','enrolled__students.id','enrolled__students.seen')
+////            ->where('student_id','=',auth()->user()->id)
+////            ->get();
+////        foreach($courses as $course){
+////            $data=$course;
+////            if($data->seen==false){
+////                $enrolled=Enrolled_Student::find($course->id);
+////                $enrolled->seen=true;
+////                $enrolled->save();
+////            }
+////        }
+//        $enrolled_student=auth()->user()->enrolled_student;
+//
+//        return view('course.show_enrolled')->with('enrolled_student',$enrolled_student);
+//    }
+//
+//
+//
+//
+//
+//    public function removeEnrolled($id)
+//    {
+//        $do=$this->courseService->removeEnrolled($id);
+//        if($do)
+//            return redirect()->back();
+//        else
+//            return redirect()->back()->with('error','something went wrong. Try again.');
+//    }
 
 
 
@@ -209,18 +210,18 @@ class CourseController extends Controller
 
 
 
-    public function enrol($id)
-    {
-        try{
-            $enrol=$this->courseService->enrol($id,auth()->user()->id);
-            if($enrol)
-                return redirect()->back()->with('success','Course Enrolled ');
-            else
-                return redirect()->back()->with('error','Course has been enrolled already.');
-        }catch (\Exception $e){
-            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
-        }
-    }
+//    public function enrol($id)
+//    {
+//        try{
+//            $enrol=$this->courseService->enrol($id,auth()->user()->id);
+//            if($enrol)
+//                return redirect()->back()->with('success','Course Enrolled ');
+//            else
+//                return redirect()->back()->with('error','Course has been enrolled already.');
+//        }catch (\Exception $e){
+//            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
+//        }
+//    }
 
 
 
