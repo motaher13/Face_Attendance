@@ -72,8 +72,8 @@
                     </a>
                 </li>
 
-                <li class="nav-item {!! Menu::isActiveRoute('attendance') !!}">
-                    <a href="{!! route('attendance') !!}" class="nav-link ">
+                <li class="nav-item {!! Menu::isActiveRoute('attendance.index') !!}">
+                    <a href="{!! route('attendance.index','id') !!}" class="nav-link ">
                         <i class="icon-home"></i>
                         <span class="title">Attendance</span>
                     </a>

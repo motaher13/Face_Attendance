@@ -83,7 +83,7 @@
 
                     @if(auth()->user()->hasRole('admin'))
                             <div class="btn-group pull-right">
-                                <a style="margin-right: 10px;" class="btn sbold red deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route('routine.delete',10000000) }}" >Delete All <i class="fa fa-remove"></i></a>
+                                <a style="margin-right: 10px;" class="btn sbold red deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route('routine.delete',-10000000) }}" >Delete All <i class="fa fa-remove"></i></a>
                                 <a class="btn sbold green" id="sample_editable_1_new" href="{{ route('routine.create') }}" >Add New <i class="fa fa-plus"></i></a>
 
                                 <!-- <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools

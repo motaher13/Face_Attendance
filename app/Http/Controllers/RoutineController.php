@@ -134,7 +134,7 @@ class RoutineController extends Controller
 
 
     public function delete($id){
-        if($id==10000000)
+        if($id==-10000000)
         {
             if(Routine::truncate()){
                 return redirect()->route('routine.index')->with('success','Deletion Success');
@@ -159,12 +159,59 @@ class RoutineController extends Controller
 
 
 
-    public function attendance(){
-        $attendances = $user_info = Attendence::groupBy(['course_id','user_id'])
-            ->select('course_id','user_id', DB::raw('count(*) as total'))
-            ->get();
-//        return $attendances;
-        return view('routine.attendance')->with('attendances',$attendances);
+    public function attendanceIndex($id){
+        if($id=='id'){
+            $attendances=[];
+        }
+        else{
+            $attendances = Attendence::join('user_infos','attendences.user_id','=','user_infos.user_id')
+                ->where('course_id',$id)
+                ->groupBy('attendences.user_id','user_infos.regid')
+                ->select('attendences.user_id','user_infos.regid', DB::raw('count(*) as total'))
+                ->get();
+        }
+        $course_id=Routine::distinct()->pluck('course_id');
+        $courses=Course::whereIn('id',$course_id)->get();
+        return view('routine.attendance')->with('attendances',$attendances)->with('courses',$courses)->with('thiscourse_id',$id);
+    }
+
+
+
+
+
+
+
+
+//    public function attendanceIndexUpdate(Request $request){
+//
+//        $attendances = Attendence::join('user_infos','attendences.user_id','=','user_infos.user_id')
+//            ->where('course_id',$request->course_id)
+//            ->groupBy('attendences.user_id','user_infos.regid')
+//            ->select('attendences.user_id','user_infos.regid', DB::raw('count(*) as total'))
+//            ->get();
+//
+////            ->get();
+//
+//        $response = array('success' => true, 'data' => $attendances);
+//        return response()->json($response);
+//    }
+
+
+
+
+    public function attendanceIncrease($user_id,$course_id){
+        $new=Attendence::create();
+        $new->course_id=$course_id;
+        $new->user_id=$user_id;
+        $new->save();
+        return redirect()->route('attendance.index',$course_id)->with('success','Attendance Updated');
+    }
+
+
+    public function attendanceDecrease($user_id,$course_id){
+        $attendance=Attendence::where('user_id',$user_id)->where('course_id',$course_id)->first();
+        $attendance->delete();
+        return redirect()->route('attendance.index',$course_id)->with('success','Attendance Updated');
     }
 
 

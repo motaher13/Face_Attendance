@@ -65,8 +65,11 @@ Route::group(['middleware'=>['role:admin']],function (){
     Route::post('routine/csvUpload','FileUploadController@csvUpload')->name('routine.csvUpload');
 
 
-    Route::get('attendance',['as'=>'attendance','uses'=>'RoutineController@attendance']);
+    Route::get('attendance/index/{id}',['as'=>'attendance.index','uses'=>'RoutineController@attendanceIndex']);
+//    Route::post('attendance/indexUpdate',['as'=>'attendance.indexUpdate','uses'=>'RoutineController@attendanceIndexUpdate']);
 
+    Route::get('attendance/increase/{user_id}/{course_id}',['as'=>'attendance.increase','uses'=>'RoutineController@attendanceIncrease']);
+    Route::get('attendance/decrease/{user_id}/{course_id}',['as'=>'attendance.decrease','uses'=>'RoutineController@attendanceDecrease']);
 
 });
 
