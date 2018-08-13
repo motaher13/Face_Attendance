@@ -17,9 +17,58 @@ class RoutineController extends Controller
     }
 
 
+
+
+
+
+
     public function index(){
-        
+        $sessions=Routine::join('courses','courses.id','=','routines.course_id')
+            ->distinct()->pluck('session');
+
+        if(count($sessions)){
+            $routines=Routine::join('courses','courses.id','=','routines.course_id')
+                ->where('session','=',min((array)$sessions))
+                ->select('routines.id','routines.day','courses.course_code','courses.title','routines.start_time','routines.end_time')
+                ->get();
+            $routines=$routines->where('day','=','Sunday');
+        }
+
+        else{
+            $routines=[];
+        }
+
+        return view('routine.index')->with('sessions',$sessions)->with('routines',$routines);
     }
+
+
+
+
+
+
+
+
+
+    public function indexUpdate(Request $request){
+
+        $routines=Routine::join('courses','courses.id','=','routines.course_id')
+            ->where('session','=',$request->batch_session)
+            ->where('day','=',$request->day)
+            ->select('routines.id','routines.day','courses.course_code','courses.title','routines.start_time','routines.end_time')
+            ->get();
+//        $routines=$routines->where('day','=',$request->day);
+
+        $routines=json_encode($routines);
+        $response = array('success' => true, 'data' => $routines);
+        return response()->json($response);
+
+    }
+
+
+
+
+
+
 
     public function add(Request $request){
         $course_id=$request->course_id;
@@ -41,6 +90,74 @@ class RoutineController extends Controller
         }
         return redirect()->route('routine.add');
     }
+
+
+
+
+
+    public function update($id){
+        $routine=Routine::find($id);
+//        dd($id,$routine->id);
+        $courses=Course::all();
+        return view('routine.update')->with('routine',$routine)->with('courses',$courses);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function doUpdate(Request $request,$id){
+        $item=Routine::find($id);
+        $item->start_time=date( "H:i:s", strtotime( $request->start_time ) );
+        $item->end_time=date( "H:i:s", strtotime( $request->end_time ) );
+        $item->day=$request->day;
+        $item->room=$request->room;
+        $item->course_id=$request->course_id;
+        $item->save();
+    }
+
+
+
+
+
+
+
+
+
+    public function delete($id){
+        if($id==10000000)
+        {
+            if(Routine::truncate()){
+                return redirect()->route('routine.index')->with('success','Deletion Success');
+            }else{
+                return redirect()->back()->with('error','Something went wrong. Try again.');
+            }
+        }
+        $routine=Routine::find($id);
+
+        if($routine->delete()){
+            return redirect()->route('routine.index')->with('success','Deletion Success');
+        }else{
+            return redirect()->back()->with('error','Something went wrong. Try again.');
+        }
+
+    }
+
+
+
+
+
+
+
 
     public function attendance(){
         $attendances = $user_info = Attendence::groupBy(['course_id','user_id'])

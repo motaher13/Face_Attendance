@@ -38,7 +38,7 @@
             {{--{!! Menu::isActiveRoute('role.index') !!}--}}
             {{--{!! Menu::isActiveRoute('user.index') !!}--}}
 
-            @if(auth()->user()->hasRole('admin'))
+{{--            @if(auth()->user()->hasRole('admin'))--}}
                 <li class="nav-item {!! Menu::areActiveRoutes(['student.index','teacher.index','user.create']) !!}">
                     <a href="javascript:;" class="nav-link nav-toggle">
                         <i class="icon-shield"></i>
@@ -65,10 +65,10 @@
                     </ul>
                 </li>
 
-                <li class="nav-item {!! Menu::isActiveRoute('routine.create') !!}">
-                    <a href="{!! route('routine.create') !!}" class="nav-link ">
+                <li class="nav-item {!! Menu::isActiveRoute('routine.index') !!}">
+                    <a href="{!! route('routine.index') !!}" class="nav-link ">
                         <i class="icon-home"></i>
-                        <span class="title">Add Routine</span>
+                        <span class="title">Routine</span>
                     </a>
                 </li>
 
@@ -104,7 +104,7 @@
 
                     {{--</a>--}}
                 {{--</li>--}}
-            @endif
+            {{--@endif--}}
 
 
             {{--<li class="nav-item {!! Menu::areActiveRoutes(['course.basic','course.scheduled']) !!}">--}}

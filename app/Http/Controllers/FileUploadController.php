@@ -190,7 +190,7 @@ class FileUploadController extends Controller
 
 
 
-    public function testupload(Request $request){
+    public function csvUpload(Request $request){
 
 //        try{
 //
@@ -240,6 +240,12 @@ class FileUploadController extends Controller
     }
 
 
+
+    public function test(){
+        $batch=Routine::join('courses','courses.id','=','routines.course_id')
+            ->distinct()->pluck('session');
+        return $batch[0];
+    }
 
 
 

@@ -63,7 +63,7 @@
                                     <select name="course_id[]" id="course_id"  class=" form-control">
                                         <option selected disabled hidden>Course</option>
                                         @foreach($courses as $course)
-                                            <option value={{$course->id}} >{{$course->title}}</option>
+                                            <option value={{$course->id}} >{{$course->course_code}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -140,7 +140,7 @@
 
                     <div class="container">
                         <div class="col-md-4">
-                            <form method="post" action="/testupload" enctype="multipart/form-data">
+                            <form method="post" action="{{route('routine.csvUpload')}}" enctype="multipart/form-data">
                                 {{csrf_field()}}
                                 <div class="upload-btn-wrapper">
                                     <button class="btnp">Select a File</button>

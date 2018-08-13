@@ -66,6 +66,31 @@ class CourseController extends Controller
 
 
 
+    public function delete($id)
+    {
+
+        $status=$this->courseService->delete($id);
+        if($status){
+            return redirect()->route('course.index')->with('success','Deletion Success');
+        }else{
+
+            return redirect()->back()->with('error','Something went wrong. Try again.');
+        }
+
+    }
+
+
+
+
+    public function test(Request $request){
+        $skip = 5;
+        $limit = 10 - $skip;
+        $courses=Course::skip($skip)->take($limit)->get();
+//        return $courses;
+        $courses=json_encode($courses);
+        $response = array('success' => true, 'data' => $courses);
+        return response()->json($response);
+    }
 
 
 //    public function addMaterial($id)
@@ -113,22 +138,22 @@ class CourseController extends Controller
 
 
 
-    public function add_url(Request $request)
-    {
-        $urls=$request->url;
-        $source=$request->source;
-        for($i=0;$i<sizeof($source  );$i++){
-            $item=TempFile::create();
-            $item->url=$urls[$i];
-            $item->source=$source[$i];
-            $item->code=$request->code;
-            $item->save();
-        }
-
-        $response = array('success' => true);
-        return response()->json($response);
-
-    }
+//    public function add_url(Request $request)
+//    {
+//        $urls=$request->url;
+//        $source=$request->source;
+//        for($i=0;$i<sizeof($source  );$i++){
+//            $item=TempFile::create();
+//            $item->url=$urls[$i];
+//            $item->source=$source[$i];
+//            $item->code=$request->code;
+//            $item->save();
+//        }
+//
+//        $response = array('success' => true);
+//        return response()->json($response);
+//
+//    }
 
 
 
@@ -197,15 +222,15 @@ class CourseController extends Controller
 
 
 
-    public function showCreated()
-    {
-        $courses=Course::where('tutor_id','=',auth()->user()->id)
-            ->get();
-
-        return view('course.show_created')->with('courses',$courses)->with('user',auth()->user());
-    }
-
-
+//    public function showCreated()
+//    {
+//        $courses=Course::where('tutor_id','=',auth()->user()->id)
+//            ->get();
+//
+//        return view('course.show_created')->with('courses',$courses)->with('user',auth()->user());
+//    }
+//
+//
 
 
 
@@ -228,98 +253,83 @@ class CourseController extends Controller
 
 
 
-    public function delete($id)
-    {
-
-        $status=$this->courseService->delete($id);
-        if($status){
-            return redirect()->route('course.index')->with('success','Deletion Success');
-        }else{
-
-            return redirect()->back()->with('error','Something went wrong. Try again.');
-        }
-
-    }
 
 
 
 
-
-
-
-    public function details($id)
-    {
-        $course=Course::find($id);
-
-        if(auth()->user()->hasRole('selfteach') || auth()->user()->hasRole('employee')){
-            $notifications= auth()->user()->enrolled_student;
-            foreach($notifications as $notification){
-                if($notification->course_id==$id){
-                    $notification->seen=true;
-                    $notification->save();
-                }
-
-            }
-        }
-
-
-        $enrolled_student=0;
-
-        if(auth()->user()->hasRole('employee')|| auth()->user()->hasRole('selfteach')){
-            $enrolleds=auth()->user()->enrolled_student;
-            foreach ($enrolleds as $enrolled ){
-                if($enrolled->course_id==$course->id){
-                    $enrolled_student=1;
-                    break;
-                }
-            }
-        }
-
-        if(auth()->user()->hasRole('business')){
-            $employees=$this->courseService->getEmployee($id);
-            return view('course.details')->with('users',$employees[0])->with('enrolled_users',$employees[1])->with('course',$course)->with('course_id',$id)->with('enrolled',$enrolled_student);
-        }
-
-        return view('course.details')->with('course',$course)->with('enrolled',$enrolled_student);
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-    public function enrolEmployee($id)
-    {
-
-        try{
-            $employees=$this->courseService->getEmployee($id);
-
-            return view('course.enrol_employee')->with('users',$employees[0])->with('enrolled_users',$employees[1])->with('course_id',$id);
-        }catch (\Exception $e){
-            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
-        }
-    }
-
-
-
-
-
-    public function doEnrolEmployee(Request $request)
-    {
-
-        try{
-            $do=$this->courseService->enrol_employee($request);
-            return redirect()->back()->with('success','Course Enrolled');
-        }catch (\Exception $e){
-            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
-        }
-    }
+//    public function details($id)
+//    {
+//        $course=Course::find($id);
+//
+//        if(auth()->user()->hasRole('selfteach') || auth()->user()->hasRole('employee')){
+//            $notifications= auth()->user()->enrolled_student;
+//            foreach($notifications as $notification){
+//                if($notification->course_id==$id){
+//                    $notification->seen=true;
+//                    $notification->save();
+//                }
+//
+//            }
+//        }
+//
+//
+//        $enrolled_student=0;
+//
+//        if(auth()->user()->hasRole('employee')|| auth()->user()->hasRole('selfteach')){
+//            $enrolleds=auth()->user()->enrolled_student;
+//            foreach ($enrolleds as $enrolled ){
+//                if($enrolled->course_id==$course->id){
+//                    $enrolled_student=1;
+//                    break;
+//                }
+//            }
+//        }
+//
+//        if(auth()->user()->hasRole('business')){
+//            $employees=$this->courseService->getEmployee($id);
+//            return view('course.details')->with('users',$employees[0])->with('enrolled_users',$employees[1])->with('course',$course)->with('course_id',$id)->with('enrolled',$enrolled_student);
+//        }
+//
+//        return view('course.details')->with('course',$course)->with('enrolled',$enrolled_student);
+//
+//    }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    public function enrolEmployee($id)
+//    {
+//
+//        try{
+//            $employees=$this->courseService->getEmployee($id);
+//
+//            return view('course.enrol_employee')->with('users',$employees[0])->with('enrolled_users',$employees[1])->with('course_id',$id);
+//        }catch (\Exception $e){
+//            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
+//        }
+//    }
+//
+//
+//
+//
+//
+//    public function doEnrolEmployee(Request $request)
+//    {
+//
+//        try{
+//            $do=$this->courseService->enrol_employee($request);
+//            return redirect()->back()->with('success','Course Enrolled');
+//        }catch (\Exception $e){
+//            return redirect()->back()->withInput()->with('error','something went wrong. Try again.');
+//        }
+//    }
 
 
 

@@ -115,6 +115,12 @@
             </div>
             <!-- END EXAMPLE TABLE PORTLET-->
         </div>
+        {{--<form id="myform" method="Post" action="/testroute" >--}}
+            {{--{{csrf_field()}}--}}
+            {{--<input type="text" name="test" value="tt">--}}
+            {{--<input type="submit" class="btn btn-success" value="submit">--}}
+
+        {{--</form>--}}
     </div>
 
     <!-- Modal -->
@@ -221,8 +227,36 @@
         });
     </script>
 
-    <script>
+    {{--<script>--}}
+        {{--$(function(){--}}
+            {{--$('#myform').on('submit', function(e){--}}
+                {{--e.preventDefault();--}}
+                {{--$.ajax({--}}
+                    {{--url: $('#myform').attr('action'),--}}
+                    {{--type: "POST",--}}
+                    {{--data: $('#myform').serialize(),--}}
+                    {{--dataType : 'json',--}}
+                    {{--success: function(data){--}}
+                        {{--var abul=JSON.parse(data['data']);--}}
+                        {{--var i=0;--}}
+                        {{--var j=abul.length;--}}
+                        {{--var k='<div class="btn-group"> <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Actions <i class="fa fa-angle-down"></i> </button> <ul class="dropdown-menu pull-left" role="menu"> @if(auth()->user()->hasRole("admin")) <li> <a href="{{ route("course.update",$course->id) }}"> <i class="icon-tag"></i> Update </a> </li> <li> <a class="deleteBtn" href="#" data-toggle="modal" data-target="#deleteConfirm" deleteUrl="{{ route("course.delete", $course->id) }}"> <i class="icon-tag"></i> Delete </a> </li> @endif </ul> </div>';--}}
+                        {{--var mydata=[];--}}
+                        {{--for(i=0;i<j;i++){--}}
+                           {{--var row=[abul[i].course_code,abul[i].course_code,abul[i].course_code,abul[i].course_code,abul[i].course_code,k];--}}
+                            {{--mydata.push(row);--}}
+                        {{--}--}}
 
+                        {{--$('#dataTable').dataTable().fnClearTable();--}}
+                        {{--$('#dataTable').dataTable().fnAddData(mydata);--}}
 
-    </script>
+                    {{--},--}}
+                    {{--error: function(data) {--}}
+                        {{--alert("fail");--}}
+
+                    {{--}--}}
+                {{--});--}}
+            {{--});--}}
+        {{--});--}}
+    {{--</script>--}}
 @endsection

@@ -55,8 +55,14 @@ Route::group(['middleware'=>['role:admin']],function (){
 
 
     Route::get('routine/index',['as'=>'routine.index','uses'=>'RoutineController@index']);
+    Route::post('routine/indexUpdate',['as'=>'routine.indexUpdate','uses'=>'RoutineController@indexUpdate']);
     Route::get('routine/create',['as'=>'routine.create','uses'=>'RoutineController@create']);
     Route::post('routine/create',['as'=>'routine.add','uses'=>'RoutineController@add']);
+    Route::get('routine/update/{id}',['as'=>'routine.update','uses'=>'RoutineController@update']);
+    Route::post('routine/update/{id}',['as'=>'routine.update','uses'=>'RoutineController@doUpdate']);
+    Route::delete('routine/delete/{id}',['as'=>'routine.delete','uses'=>'RoutineController@delete']);
+
+    Route::post('routine/csvUpload','FileUploadController@csvUpload')->name('routine.csvUpload');
 
 
     Route::get('attendance',['as'=>'attendance','uses'=>'RoutineController@attendance']);
@@ -118,7 +124,8 @@ Route::group(['middleware' => ['auth']],function (){
 
 
 
-Route::get('/test',['as'=>'test','uses'=>'EmployeeController@test']);
+Route::get('/test',['as'=>'test','uses'=>'FileUploadController@test']);
+Route::post('/testroute','CourseController@test');
 //Route::view('/test','test');
 //Route::get('/test', function () {
 //    return view('test');
@@ -127,7 +134,6 @@ Route::get('/test',['as'=>'test','uses'=>'EmployeeController@test']);
 
 //Route::get('/webcam','TestController@getWebcam');
 Route::post('/detectwebcam/{room}','FaceDetectionController@detectWebcam')->name('detectWebcam');
-Route::post('/testupload','FileUploadController@testupload');
 
 
 
