@@ -127,11 +127,11 @@ Route::group(['middleware' => ['auth']],function (){
 
 
 
-Route::get('/test',['as'=>'test','uses'=>'FileUploadController@test']);
-Route::post('/testroute','CourseController@test');
+//Route::get('/test',['as'=>'test','uses'=>'FileUploadController@test']);
+Route::get('/test/{id}','CourseController@test');
 //Route::view('/test','test');
-//Route::get('/test', function () {
-//    return view('test');
+//Route::get('/test/{id}', function ($id) {
+//    return json_encode($id);
 //});
 
 

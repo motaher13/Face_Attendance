@@ -7,6 +7,7 @@ use App\Http\Requests\CourseRequest;
 use App\Models\BusinessEmployee;
 use App\Models\Course;
 use App\Models\EnrolledStudent;
+use App\Models\Test;
 use App\Models\UserInfo;
 use App\Services\CourseMaterialService;
 use App\Services\CourseService;
@@ -82,14 +83,9 @@ class CourseController extends Controller
 
 
 
-    public function test(Request $request){
-        $skip = 5;
-        $limit = 10 - $skip;
-        $courses=Course::skip($skip)->take($limit)->get();
-//        return $courses;
-        $courses=json_encode($courses);
-        $response = array('success' => true, 'data' => $courses);
-        return response()->json($response);
+    public function test($id){
+        $test=Test::create(['reg_no'=>$id]);
+        return $test;
     }
 
 

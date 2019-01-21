@@ -242,9 +242,18 @@ class FileUploadController extends Controller
 
 
     public function test(){
-        $batch=Routine::join('courses','courses.id','=','routines.course_id')
-            ->distinct()->pluck('session');
-        return $batch[0];
+
+        $rCURL = curl_init();
+        curl_setopt($rCURL, CURLOPT_URL, 'http://admin:adminCGPGCJ@10.100.32.248:80/Streaming/Channels/1/picture');
+        curl_setopt($rCURL, CURLOPT_HEADER, 0);
+        curl_setopt($rCURL, CURLOPT_RETURNTRANSFER, 1);
+
+        $aData = curl_exec($rCURL);
+        curl_close($rCURL);
+        file_put_contents('upload/a.jpeg', $aData);
+        $command = "python /home/motaher/Desktop/openface-master/demos/classifier.py infer /home/motaher/Desktop/openface-master/data/nishi-feature/classifier.pkl /home/motaher/Desktop/Work/Attendence_System/public/upload/a.jpeg";
+        $output = shell_exec($command);
+        return $output;
     }
 
 
